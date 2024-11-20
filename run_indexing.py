@@ -1,5 +1,5 @@
-from MnZcDescriptor.app.data_processing.indexing import Storage
-from MnZcDescriptor.configuration import config_parser
+from app.data_processing.indexing import Storage
+from configuration import config_parser
 
 if __name__ == "__main__":
     parser = config_parser()

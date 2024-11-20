@@ -10,7 +10,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from tqdm import tqdm
 
-from MnZcDescriptor.app.utils.data_utils import get_response_schema, problem_family
+from app.utils.data_utils import get_response_schema, problem_family
 
 
 class Storage:

@@ -3,7 +3,7 @@ import time
 import gradio as gr
 from llama_parse import LlamaParse
 
-from MnZcDescriptor.app.inference.inference import Inference
+from app.inference.inference import Inference
 
 
 # inspired by https://www.gradio.app/guides/creating-a-custom-chatbot-with-blocks

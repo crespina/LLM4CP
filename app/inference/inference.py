@@ -1,8 +1,9 @@
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.llms.groq import Groq
 from llama_index.postprocessor.cohere_rerank import CohereRerank
-from MnZcDescriptor.app.data_processing.data_loaders import load_index
 from llama_index.core import PromptTemplate
+
+from app.data_processing.data_loaders import load_index
 
 
 class Inference:

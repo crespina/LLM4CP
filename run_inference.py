@@ -1,9 +1,11 @@
 import os
 import warnings
 
+from llama_index.core.response.pprint_utils import pprint_response
+
 from app.inference.inference import Inference
 from configuration import config_parser
-from llama_index.core.response.pprint_utils import pprint_response
+
 
 if __name__ == "__main__":
     warnings.simplefilter(action='ignore', category=FutureWarning)
