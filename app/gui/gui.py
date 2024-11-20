@@ -52,8 +52,6 @@ class GUI:
             with open(self.args.like_dislike_json_path, "w") as outfile:
                 json.dump(dump, outfile)
 
-        print(x.index, x.value, x.liked)
-
     def add_message(self, message):
         if message["files"] is not None and message["text"] != '':
             for x in message["files"]:
