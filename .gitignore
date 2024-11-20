@@ -1,7 +1,11 @@
 ### Github's boilerplate .gitignore ###
 
 # Secret keys
-/MnZcDescriptor/app/assets/.api_keys/keys.txt
+app/assets/.api_keys/keys.txt
+
+# Outputs
+
+data/_output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
