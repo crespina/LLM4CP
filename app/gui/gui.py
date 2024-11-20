@@ -63,7 +63,7 @@ class GUI:
 
         return query, parsed_document
 
-    def print_like_dislike(self, x: gr.LikeData, req: gr.Request):
+    def like_dislike(self, x: gr.LikeData, req: gr.Request):
 
         if not os.path.exists(self.args.like_dislike_csv_path):
             with open(self.args.like_dislike_csv_path, "w", newline="") as file:
@@ -196,6 +196,6 @@ class GUI:
             bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
             bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
 
-            chatbot.like(self.print_like_dislike, None, None, like_user_message=True)
+            chatbot.like(self.like_dislike, None, None, like_user_message=True)
 
         demo.launch(share=False)
