@@ -33,11 +33,14 @@ def config_parser():
     parser.add_argument('--like_dislike_json_path', type=str,
                         default="./data/output/like_dislike.json",
                         help='.json like/dislike path')
+    parser.add_argument("--like_dislike_csv_path", type=str,
+                        default="./data/output/like_dislike.csv",
+                        help=".csv like/dislike path")
 
     # API Keys
     parser.add_argument('--llama_parse_key', type=str, help='Your LlamaParse token key (llx-<...>)')
     parser.add_argument('--openai_api_key', type=str, help='Your OPENAI API token key (sk-<...>)')
     parser.add_argument('--groq_api_key', type=str, help='Your Groq API token key gsk_<...>)')
     parser.add_argument('--cohere_api_key', type=str, help='Your Cohere API token key <...>)')
-    
+
     return parser

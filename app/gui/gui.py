@@ -3,7 +3,8 @@ import time
 
 import gradio as gr
 from llama_parse import LlamaParse
-import json
+import os
+import csv
 
 from app.inference.inference import Inference
 
@@ -39,18 +40,68 @@ class GUI:
         path = parts[3].strip()
         return message, path
 
-    def print_like_dislike(self, x: gr.LikeData):
+    @staticmethod
+    def process_string(original):
+        parsed_document = None
+        query = None
+
+        if "||parsed_doc||" in original and "message||" in original:
+            # Extract `query` between "message||" and the next "||"
+            query_start = original.index("message||") + len("message||")
+            query_end = original.index("||", query_start)
+            query = original[query_start:query_end]
+
+            # Extract `parsed_document` after "||parsed_doc||"
+            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
+            parsed_document = original[parsed_doc_start:]
+
+        elif "||parsed_doc||" in original:
+            # Extract `parsed_document` after "||parsed_doc||"
+            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
+            parsed_document = original[parsed_doc_start:]
+
+        else : 
+            query = original
+
+        # Return results
+        return query, parsed_document
+
+    def print_like_dislike(self, x: gr.LikeData, req: gr.Request):
+
+        if not os.path.exists(self.args.like_dislike_csv_path):
+            with open(self.args.like_dislike_csv_path, "w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(["ip", "liked", "time", "query", "parsed_doc", "answer"])  #header row
+
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
-            dump = {}
+            dump = []
 
-            dump["liked"] = x.liked #True means a like, False a dislike
-            dump["time"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            dump["answer"] = x.value[0]
-            dump["query"] = self.history[int(x.index[0])-1]["content"]
-            dump["ip"] = 0
+            if req : 
+                dump.append(req.client.host) #ip
 
-            with open(self.args.like_dislike_json_path, "w") as outfile:
-                json.dump(dump, outfile)
+            dump.append(x.liked) #liked
+            dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) #time
+
+            # for the query:
+            # if it contains ||parsed_doc|| it means that a pdf was uploaded
+            # 3 cases :
+            # just message : ||parsed_doc|| absent => just fill query, parsed_doc is empty
+            # just pdf : ||parsed_doc|| is there but there is no message|| => just fill parsed_doc
+            # both : ||parsed_doc|| and  message|| are there => fill both
+
+            query, parsed_doc = self.process_string(self.history[int(x.index[0]) - 1]["content"])
+
+            dump.append(query)  # query
+            if (parsed_doc):
+                dump.append(parsed_doc.replace("\n", " "))  # parsed_doc
+            else :
+                dump.append(parsed_doc)
+
+            dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
+
+            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerow(dump)
 
     def add_message(self, message):
         if message["files"] is not None and message["text"] != '':
@@ -83,7 +134,9 @@ class GUI:
                 if parsed_doc == None:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
-                query = (
+                else : 
+                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
+                    query = (
                         "here is the user's question"
                         + "\n"
                         + message
@@ -91,7 +144,7 @@ class GUI:
                         + "and here is the document"
                         + "\n"
                         + parsed_doc
-                )
+                    )
 
             else:
                 parsed_doc = self.parse_file(query)
@@ -99,7 +152,9 @@ class GUI:
                 if parsed_doc == None:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
-                query = parsed_doc
+                else : 
+                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
+                    query = parsed_doc
 
         # Output
 
