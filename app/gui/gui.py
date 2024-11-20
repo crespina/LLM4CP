@@ -2,6 +2,7 @@ import time
 
 import gradio as gr
 from llama_parse import LlamaParse
+import json
 
 from app.inference.inference import Inference
 
@@ -30,10 +31,6 @@ class GUI:
             print("An error has occured during the parsing")
             return None
 
-    """
-    Made the following two methods static, as they don't need to access any instance variables.
-    """
-
     @staticmethod
     def split_message(input_str):
         parts = input_str.split("||")
@@ -41,9 +38,12 @@ class GUI:
         path = parts[3].strip()
         return message, path
 
-    @staticmethod
-    def print_like_dislike(x: gr.LikeData):
-        # TODO : do something with the like/dislike infos
+    def print_like_dislike(self, x: gr.LikeData):
+        dump = {}
+
+        with open(self.args.like_dislike_json_path, "w") as outfile:
+            json.dump(dictionary, outfile)
+
         print(x.index, x.value, x.liked)
 
     def add_message(self, message):
@@ -69,13 +69,14 @@ class GUI:
 
         if query.endswith(".pdf"):
 
-            parsed_doc = self.parse_file(path)
-
-            if parsed_doc == None:
-                error_message = "There has been an error while parsing the document, please try again in a few minutes."
-
             if query.startswith("message||"):
+
                 message, path = self.split_message(query)
+                parsed_doc = self.parse_file(path)
+
+                if parsed_doc == None:
+                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
+
                 query = (
                         "here is the user's question"
                         + "\n"
@@ -87,6 +88,11 @@ class GUI:
                 )
 
             else:
+                parsed_doc = self.parse_file(query)
+
+                if parsed_doc == None:
+                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
+
                 query = parsed_doc
 
         # Output
