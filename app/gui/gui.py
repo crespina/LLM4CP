@@ -46,24 +46,21 @@ class GUI:
         query = None
 
         if "||parsed_doc||" in original and "message||" in original:
-            # Extract `query` between "message||" and the next "||"
+
             query_start = original.index("message||") + len("message||")
             query_end = original.index("||", query_start)
             query = original[query_start:query_end]
 
-            # Extract `parsed_document` after "||parsed_doc||"
             parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
             parsed_document = original[parsed_doc_start:]
 
         elif "||parsed_doc||" in original:
-            # Extract `parsed_document` after "||parsed_doc||"
             parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
             parsed_document = original[parsed_doc_start:]
 
         else : 
             query = original
 
-        # Return results
         return query, parsed_document
 
     def print_like_dislike(self, x: gr.LikeData, req: gr.Request):
@@ -82,20 +79,13 @@ class GUI:
             dump.append(x.liked) #liked
             dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) #time
 
-            # for the query:
-            # if it contains ||parsed_doc|| it means that a pdf was uploaded
-            # 3 cases :
-            # just message : ||parsed_doc|| absent => just fill query, parsed_doc is empty
-            # just pdf : ||parsed_doc|| is there but there is no message|| => just fill parsed_doc
-            # both : ||parsed_doc|| and  message|| are there => fill both
-
             query, parsed_doc = self.process_string(self.history[int(x.index[0]) - 1]["content"])
 
             dump.append(query)  # query
             if (parsed_doc):
                 dump.append(parsed_doc.replace("\n", " "))  # parsed_doc
             else :
-                dump.append(parsed_doc)
+                dump.append(parsed_doc) # parsed_doc = None
 
             dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
 
@@ -116,9 +106,6 @@ class GUI:
         return self.history, gr.MultimodalTextbox(value=None, interactive=False)
 
     def bot(self, question):
-        """
-        Removed the `chatbot` parameter from the method signature, as it is not used.
-        """
 
         # Input
         query = self.history[-1]["content"]
