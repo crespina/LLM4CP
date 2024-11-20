@@ -18,13 +18,17 @@ class GUI:
 
     def parse_file(self, path):
         # FIXME: Didn't work, need to look into it.
-        documents = self.parser.load_data(path)
-        print("finished parsing")
-        parsed_doc = ""
-        for doc in documents:
-            parsed_doc += doc.text
-            parsed_doc += "\n"
-        return parsed_doc
+        try :
+            documents = self.parser.load_data(path)
+            print("finished parsing")
+            parsed_doc = ""
+            for doc in documents:
+                parsed_doc += doc.text
+                parsed_doc += "\n"
+            return parsed_doc
+        except :
+            print("An error has occured during the parsing")
+            return None
 
     """
     Made the following two methods static, as they don't need to access any instance variables.
@@ -41,7 +45,6 @@ class GUI:
     def print_like_dislike(x: gr.LikeData):
         # TODO : do something with the like/dislike infos
         print(x.index, x.value, x.liked)
-    
 
     def add_message(self, message):
         if message["files"] is not None and message["text"] != '':
@@ -62,8 +65,14 @@ class GUI:
 
         # Input
         query = self.history[-1]["content"]
+        error_message = None
 
         if query.endswith(".pdf"):
+
+            parsed_doc = self.parse_file(path)
+
+            if parsed_doc == None:
+                error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
             if query.startswith("message||"):
                 message, path = self.split_message(query)
@@ -74,34 +83,44 @@ class GUI:
                         + "\n"
                         + "and here is the document"
                         + "\n"
-                        + self.parse_file(path)
+                        + parsed_doc
                 )
 
             else:
-                query = self.parse_file(query)
-
+                query = parsed_doc
 
         # Output
-        response = self.agent.query_llm(question=query)
 
-        answer = "The problem you are facing is probably : " + "\n"
+        if not error_message :
 
-        for source_node in response.source_nodes:
-            score = source_node.score
-            name = source_node.metadata["model_name"]
-            # name = source_node.metadata["problem_family"]
-            # TODO : also print the source code as an option
-            source_code = source_node.metadata["source_code"]
+            response = self.agent.query_llm(question=query)
 
-            answer += str(name) + " with a score of " + str(score) + "\n"
+            answer = "The problem you are facing is probably : " + "\n"
 
-        # Print Output
-        self.history.append({"role": "assistant", "content": ""})
+            for source_node in response.source_nodes:
+                score = source_node.score
+                name = source_node.metadata["model_name"]
+                # name = source_node.metadata["problem_family"]
+                # TODO : also print the source code as an option
+                source_code = source_node.metadata["source_code"]
 
-        for character in answer:
-            self.history[-1]["content"] += character
-            time.sleep(0.02)
-            yield self.history
+                answer += str(name) + " with a score of " + str(score) + "\n"
+
+            # Print Output
+            self.history.append({"role": "assistant", "content": ""})
+
+            for character in answer:
+                self.history[-1]["content"] += character
+                time.sleep(0.02)
+                yield self.history
+
+        else : 
+            self.history.append({"role": "assistant", "content": ""})
+
+            for character in error_message:
+                self.history[-1]["content"] += character
+                time.sleep(0.02)
+                yield self.history
 
     def run(self):
 
