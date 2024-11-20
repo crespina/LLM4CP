@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 
 import gradio as gr
@@ -39,10 +40,17 @@ class GUI:
         return message, path
 
     def print_like_dislike(self, x: gr.LikeData):
-        dump = {}
+        if x.index[0] % 2 == 1:  # if index odd, it's an ai response
+            dump = {}
 
-        with open(self.args.like_dislike_json_path, "w") as outfile:
-            json.dump(dictionary, outfile)
+            dump["liked"] = x.liked #True means a like, False a dislike
+            dump["time"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            dump["answer"] = x.value[0]
+            dump["query"] = self.history[int(x.index[0])-1]["content"]
+            dump["ip"] = 0
+
+            with open(self.args.like_dislike_json_path, "w") as outfile:
+                json.dump(dump, outfile)
 
         print(x.index, x.value, x.liked)
 

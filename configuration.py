@@ -30,6 +30,9 @@ def config_parser():
     parser.add_argument('--storage_dir', type=str,
                         default='./data/vector_dbs/test_db',
                         help='Vector DB directory path.')
+    parser.add_argument('--like_dislike_json_path', type=str,
+                        default="./data/output/like_dislike.json",
+                        help='.json like/dislike path')
 
     # API Keys
     parser.add_argument('--llama_parse_key', type=str, help='Your LlamaParse token key (llx-<...>)')
