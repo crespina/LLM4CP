@@ -1,7 +1,8 @@
 import os
-
 from langchain.output_parsers import ResponseSchema
 from tqdm import tqdm
+import csv
+import json
 
 families = {
     "assign": ["assign", "assign_dual", "assign_inverse"],
@@ -122,3 +123,14 @@ def problem_family(problem_name):
                 problem_name = problem_name.replace(problem, family_name)
 
     return problem_name
+
+def transform_csv_into_json(csv_path, json_path):
+    data = []
+    with open(csv_path, "r") as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            data.append(row)
+
+    # Write the data to a JSON file
+    with open(json_path, "w") as json_file:
+        json.dump(data, json_file)
