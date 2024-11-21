@@ -19,10 +19,11 @@ class GUI:
         self.args = args
         self.agent = Inference(args=self.args)
         self.parser = LlamaParse(result_type="markdown", api_key=self.args.llama_parse_key)
-        self.history = []
+        self.history = [] # TODO: remove this, just print answers and questions
+
+        # TODO: when uploading the PDF, do not print out the path of it, just its content.
 
     def parse_file(self, path):
-        # FIXME: Didn't work, need to look into it.
         try :
             documents = self.parser.load_data(path)
             print("finished parsing")
@@ -66,9 +67,16 @@ class GUI:
         return query, parsed_document
 
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
+        _template_path = "./data/output" # TODO : change this into args.output_path
+        if not os.path.exists(_template_path):
+            os.makedirs(_template_path)
 
         if not os.path.exists(self.args.like_dislike_csv_path):
-            with open(self.args.like_dislike_csv_path, "w", newline="") as file:
+            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
+                # TODO: make it into a DB
+                # [ip*, timestamp, liked, query*, parsed_doc, answer]
+                # * primary keys
+                # if entry is duplicate, update with the newest one based on timestamp.
                 writer = csv.writer(file)
                 writer.writerow(["ip", "liked", "time", "query", "parsed_doc", "answer"])  #header row
 
@@ -157,23 +165,24 @@ class GUI:
                 score = source_node.score
                 name = source_node.metadata["model_name"]
                 # name = source_node.metadata["problem_family"]
-                # TODO : also print the source code as an option
                 source_code = source_node.metadata["source_code"]
                 codes[name] = source_code
 
-                answer += str(name) + " with a score of " + str("{:.3f}".format(score)) + "\n"
+                answer += f"{name} ({score:.3f})\n"
 
             # Print Output
             self.history.append({"role": "assistant", "content": ""})
 
+            # TODO: Stop streaming the answer, just print it all at once
             for character in answer:
                 self.history[-1]["content"] += character
                 time.sleep(0.02)
                 yield self.history
 
-        else : 
+        else :
             self.history.append({"role": "assistant", "content": ""})
 
+            # TODO: Stop streaming the answer, just print it all at once
             for character in error_message:
                 self.history[-1]["content"] += character
                 time.sleep(0.02)
@@ -239,4 +248,4 @@ class GUI:
                         button.render()
                     explanation.render()
 
-        app.launch(share=False)
+        app.launch(share=False, inbrowser=True)
