@@ -10,6 +10,8 @@ from app.inference.inference import Inference
 
 
 # inspired by https://www.gradio.app/guides/creating-a-custom-chatbot-with-blocks
+global codes
+codes = {}
 
 class GUI:
 
@@ -157,6 +159,7 @@ class GUI:
                 # name = source_node.metadata["problem_family"]
                 # TODO : also print the source code as an option
                 source_code = source_node.metadata["source_code"]
+                codes[name] = source_code
 
                 answer += str(name) + " with a score of " + str("{:.3f}".format(score)) + "\n"
 
@@ -176,25 +179,24 @@ class GUI:
                 time.sleep(0.02)
                 yield self.history
 
-    def update_df(self, chat_history):
+    def update_buttons(self, chat_history):
         bot_response = chat_history[-1]["content"]  
 
-        data = []
+        buttons_label = []
 
         for model in bot_response.splitlines()[1:]:
-            data.append([model])
+            buttons_label.append(model)
 
-        return gr.update(value=data)
+        return buttons_label
+    
+    def show_code(self, selected_val):
+        return codes[selected_val.split()[0]]
 
     def run(self):
 
-        placeholder = [[""], [""], [""], [""], [""]]
-        dataframe = gr.Dataframe(
-            headers=["Model names and associated score"],
-            value=placeholder,  
-            row_count=5,  
-            col_count=1
-        )
+        buttons = [gr.Button("", visible=False) for _ in range(5)]
+
+        explanation = gr.Markdown("Click on a value in the Dataframe to see more details here.")
 
         with gr.Blocks() as app:
 
@@ -217,11 +219,24 @@ class GUI:
 
                     bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
                     bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
-                    bot_msg.then(self.update_df, chatbot, dataframe)
+
+                    # Dynamically update button labels
+                    def update_buttons_ui(chat_history):
+                        labels = self.update_buttons(chat_history)
+                        updates = [gr.update(value=label, visible=True) for label in labels]
+                        return updates
+
+                    bot_msg.then(update_buttons_ui, chatbot, buttons)
+
+                    # Link each button to its explanation
+                    for button in buttons:
+                        button.click(self.show_code, inputs=button, outputs=explanation)
 
                     chatbot.like(self.like_dislike, None, None, like_user_message=True)
 
                 with gr.Column(scale=1):
-                    dataframe.render()
+                    for button in buttons:
+                        button.render()
+                    explanation.render()
 
         app.launch(share=False)
