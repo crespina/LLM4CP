@@ -158,7 +158,7 @@ class GUI:
                 # TODO : also print the source code as an option
                 source_code = source_node.metadata["source_code"]
 
-                answer += str(name) + " with a score of " + str(score) + "\n"
+                answer += str(name) + " with a score of " + str("{:.3f}".format(score)) + "\n"
 
             # Print Output
             self.history.append({"role": "assistant", "content": ""})
@@ -176,26 +176,52 @@ class GUI:
                 time.sleep(0.02)
                 yield self.history
 
+    def update_df(self, chat_history):
+        bot_response = chat_history[-1]["content"]  
+
+        data = []
+
+        for model in bot_response.splitlines()[1:]:
+            data.append([model])
+
+        return gr.update(value=data)
+
     def run(self):
 
-        with gr.Blocks() as demo:
-            chatbot = gr.Chatbot(elem_id="chatbot", bubble_full_width=False, type="messages")
+        placeholder = [[""], [""], [""], [""], [""]]
+        dataframe = gr.Dataframe(
+            headers=["Model names and associated score"],
+            value=placeholder,  
+            row_count=5,  
+            col_count=1
+        )
 
-            chat_input = gr.MultimodalTextbox(
-                interactive=True,
-                file_count="multiple",
-                placeholder="Enter message or upload file...",
-                show_label=False,
-                file_types=[".pdf"],
-            )
+        with gr.Blocks() as app:
 
-            chat_msg = chat_input.submit(
-                self.add_message, [chat_input], [chatbot, chat_input]
-            )
+            with gr.Row():
 
-            bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
-            bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
+                with gr.Column(scale=2):
+                    chatbot = gr.Chatbot(elem_id="chatbot", bubble_full_width=False, type="messages")
 
-            chatbot.like(self.like_dislike, None, None, like_user_message=True)
+                    chat_input = gr.MultimodalTextbox(
+                        interactive=True,
+                        file_count="multiple",
+                        placeholder="Enter message or upload file...",
+                        show_label=False,
+                        file_types=[".pdf"],
+                    )
 
-        demo.launch(share=False)
+                    chat_msg = chat_input.submit(
+                        self.add_message, [chat_input], [chatbot, chat_input]
+                    )
+
+                    bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
+                    bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
+                    bot_msg.then(self.update_df, chatbot, dataframe)
+
+                    chatbot.like(self.like_dislike, None, None, like_user_message=True)
+
+                with gr.Column(scale=1):
+                    dataframe.render()
+
+        app.launch(share=False)
