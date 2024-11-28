@@ -41,36 +41,6 @@ class GUI:
             print("An error has occured during the parsing")
             return None
 
-    @staticmethod
-    def split_message(input_str):
-        parts = input_str.split("||")
-        message = parts[1].strip()
-        path = parts[3].strip()
-        return message, path
-
-    @staticmethod
-    def process_string(original):
-        parsed_document = None
-        query = None
-
-        if "||parsed_doc||" in original and "message||" in original:
-
-            query_start = original.index("message||") + len("message||")
-            query_end = original.index("||", query_start)
-            query = original[query_start:query_end]
-
-            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
-            parsed_document = original[parsed_doc_start:]
-
-        elif "||parsed_doc||" in original:
-            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
-            parsed_document = original[parsed_doc_start:]
-
-        else:
-            query = original
-
-        return query, parsed_document
-
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
         _template_path = "./data/output"  # TODO : change this into args.output_path
         if not os.path.exists(_template_path):
@@ -82,9 +52,9 @@ class GUI:
                 # [ip*, timestamp, liked, query*, parsed_doc, answer]
                 # * primary keys
                 # if entry is duplicate, update with the newest one based on timestamp.
-                writer = csv.writer(file)
+                writer = csv.writer(file, delimiter=';')
                 writer.writerow(
-                    ["ip", "liked", "time", "query", "parsed_doc", "answer"]
+                    ["ip", "liked", "timestamp", "query", "answer"]
                 )  # header row
 
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
@@ -94,22 +64,15 @@ class GUI:
                 dump.append(req.client.host)  # ip
 
             dump.append(x.liked)  # liked
-            dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))  # time
+            dump.append(datetime.now().timestamp())  # time
 
-            query, parsed_doc = self.process_string(
-                self.histories[req.session_hash][int(x.index[0]) - 1]["content"]
-            )
-
+            query = self.histories[req.session_hash][int(x.index[0]) - 1]["content"].replace("\n", " ").replace(";", ",")
             dump.append(query)  # query
-            if parsed_doc:
-                dump.append(parsed_doc.replace("\n", " "))  # parsed_doc
-            else:
-                dump.append(parsed_doc)  # parsed_doc = None
 
             dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
 
             with open(self.args.like_dislike_csv_path, "a", newline="") as file:
-                writer = csv.writer(file)
+                writer = csv.writer(file, delimiter=';')
                 writer.writerow(dump)
 
     def add_message(self, message, request: gr.Request):
@@ -118,26 +81,47 @@ class GUI:
 
         if message["files"] is not None and message["text"] != "":
             for x in message["files"]:
+                parsed_doc = self.parse_file(x)
+
+                if not parsed_doc :
+                    self.histories[request.session_hash].append(
+                        {
+                            "role": "assistant",
+                            "content": "An error has occured during the parsing",
+                        }
+                    )
+
+                content = (message["text"] + "\n" + parsed_doc)
                 if inbool :
                     self.histories[request.session_hash].append(
                         {
                             "role": "user",
-                            "content": "message||" + message["text"] + "||path||" + x,
+                            "content": content,
                         }
                     )
                 else : 
                     self.histories[request.session_hash] = [{
                             "role": "user",
-                            "content": "message||" + message["text"] + "||path||" + x,
+                            "content": content,
                         }]
 
                 return self.histories[request.session_hash], gr.MultimodalTextbox(value=None, interactive=False)
 
         for x in message["files"]:
+            parsed_doc = self.parse_file(x)
+
+            if not parsed_doc :
+                    self.histories[request.session_hash].append(
+                        {
+                            "role": "assistant",
+                            "content": "An error has occured during the parsing",
+                        }
+                    )
+
             if inbool :
-                self.histories[request.session_hash].append({"role": "user", "content": x})
+                self.histories[request.session_hash].append({"role": "user", "content": parsed_doc})
             else : 
-                self.histories[request.session_hash] = [{"role": "user", "content": x}]
+                self.histories[request.session_hash] = [{"role": "user", "content": parsed_doc}]
 
         if message["text"] != "":
             if inbool :
@@ -153,81 +137,30 @@ class GUI:
 
     def bot(self, question, request : gr.Request):
 
+        if self.histories[request.session_hash][-1]["role"] == "assistant":
+            return
+
         # Input
         query = self.histories[request.session_hash][-1]["content"]
-        error_message = None
-
-        if query.endswith(".pdf"):
-
-            if query.startswith("message||"):
-
-                message, path = self.split_message(query)
-                parsed_doc = self.parse_file(path)
-
-                if parsed_doc == None:
-                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
-
-                else:
-                    self.histories[request.session_hash][-1]["content"] = query + "||parsed_doc||" + parsed_doc
-                    query = (
-                        "here is the user's question"
-                        + "\n"
-                        + message
-                        + "\n"
-                        + "and here is the document"
-                        + "\n"
-                        + parsed_doc
-                    )
-
-            else:
-                parsed_doc = self.parse_file(query)
-
-                if parsed_doc == None:
-                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
-
-                else:
-                    self.histories[request.session_hash][-1]["content"] = query + "||parsed_doc||" + parsed_doc
-                    query = parsed_doc
+        
 
         # Output
+        response = self.agent.query_llm(question=query)
 
-        if not error_message:
+        answer = "The problem you are facing is probably : " + "\n"
 
-            response = self.agent.query_llm(question=query)
+        for source_node in response.source_nodes:
+            score = source_node.score
+            name = source_node.metadata["model_name"]
+            # name = source_node.metadata["problem_family"]
+            source_code = source_node.metadata["source_code"]
+            codes[name] = source_code
 
-            answer = "The problem you are facing is probably : " + "\n"
+            answer += f"{name} ({score:.3f})\n"
 
-            for source_node in response.source_nodes:
-                score = source_node.score
-                name = source_node.metadata["model_name"]
-                # name = source_node.metadata["problem_family"]
-                source_code = source_node.metadata["source_code"]
-                codes[name] = source_code
-
-                answer += f"{name} ({score:.3f})\n"
-
-            # Print Output
-            self.histories[request.session_hash].append({"role": "assistant", "content": answer})
-            return self.histories[request.session_hash]
-
-            """
-            # TODO: Stop streaming the answer, just print it all at once
-            for character in answer:
-                self.history[-1]["content"] += character
-                time.sleep(0.02)
-                yield self.history
-            """
-
-        else:
-            self.histories[request.session_hash].append({"role": "assistant", "content": error_message})
-            return self.histories[request.session_hash]
-            """
-            # TODO: Stop streaming the answer, just print it all at once
-            for character in error_message:
-                self.history[-1]["content"] += character
-                time.sleep(0.02)
-                yield self.history
-            """
+        # Print Output
+        self.histories[request.session_hash].append({"role": "assistant", "content": answer})
+        return self.histories[request.session_hash]
 
     def update_buttons(self, request : gr.Request):
         if request.session_hash not in self.histories:
@@ -274,7 +207,7 @@ class GUI:
                     )
 
                     bot_msg = chat_msg.then(
-                        self.bot, chatbot, chatbot, api_name="bot_response"
+                        self.bot, [chatbot], chatbot, api_name="bot_response"
                     )
                     bot_msg.then(
                         lambda: gr.MultimodalTextbox(interactive=True),
