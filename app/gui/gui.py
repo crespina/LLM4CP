@@ -1,6 +1,7 @@
 from datetime import datetime
 import time
 
+import openai
 import gradio as gr
 from llama_parse import LlamaParse
 import os
@@ -22,7 +23,9 @@ class GUI:
         self.parser = LlamaParse(
             result_type="markdown", api_key=self.args.llama_parse_key
         )
-
+        self.histories = {} # {session_hash : [{message1},{message2}]}
+        self.client = openai.OpenAI(api_key=self.args.openai_api_key)
+        self.threads = {}
         # TODO: when uploading the PDF, do not print out the path of it, just its content.
 
     def parse_file(self, path):
@@ -69,7 +72,7 @@ class GUI:
         return query, parsed_document
 
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
-        _template_path = self.args.output_path
+        _template_path = "./data/output"  # TODO : change this into args.output_path
         if not os.path.exists(_template_path):
             os.makedirs(_template_path)
 
@@ -94,7 +97,7 @@ class GUI:
             dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))  # time
 
             query, parsed_doc = self.process_string(
-                self.history[int(x.index[0]) - 1]["content"]
+                self.histories[req.session_hash][int(x.index[0]) - 1]["content"]
             )
 
             dump.append(query)  # query
@@ -109,66 +112,49 @@ class GUI:
                 writer = csv.writer(file)
                 writer.writerow(dump)
 
-    def add_message(self, message, state: list[dict], chatbot:list[dict]):
-        """
-        Adds a user message into the chatbot history and updates the state of the interface
+    def add_message(self, message, request: gr.Request):
 
-        in :
-            - self
-            - message [{'files','text'}] : the user's message to be added
-            - state [gr.State] : current state of the interface
-
-        out :
-            - chat_input [gr.MultimodalTextbox] : cleared input section of the chatbot
-            - state [gr.State()] : the updated state of the interface
-        """
+        inbool = request.session_hash in self.histories 
 
         if message["files"] is not None and message["text"] != "":
             for x in message["files"]:
-                formatted_message = {
-                    "role": "user",
-                    "content": "message||" + message["text"] + "||path||" + x,
-                }
-                state.append(formatted_message)
-                chatbot.append(state[-1])
-                return (
-                    gr.MultimodalTextbox(value=None, interactive=False),
-                    state,
-                    chatbot
-                )
+                if inbool :
+                    self.histories[request.session_hash].append(
+                        {
+                            "role": "user",
+                            "content": "message||" + message["text"] + "||path||" + x,
+                        }
+                    )
+                else : 
+                    self.histories[request.session_hash] = [{
+                            "role": "user",
+                            "content": "message||" + message["text"] + "||path||" + x,
+                        }]
+
+                return self.histories[request.session_hash], gr.MultimodalTextbox(value=None, interactive=False)
 
         for x in message["files"]:
-            formatted_message = {"role": "user", "content": x}
-            state.append(formatted_message)
-            chatbot.append(state[-1])
+            if inbool :
+                self.histories[request.session_hash].append({"role": "user", "content": x})
+            else : 
+                self.histories[request.session_hash] = [{"role": "user", "content": x}]
 
         if message["text"] != "":
-            formatted_message = {"role": "user", "content": message["text"]}
-            state.append(formatted_message)
-            chatbot.append(state[-1])
+            if inbool :
+                self.histories[request.session_hash].append(
+                    {"role": "user", "content": message["text"]}
+                )
+            else :
+                self.histories[request.session_hash] = [
+                    {"role": "user", "content": message["text"]}
+                ]
 
-        return (
-            gr.MultimodalTextbox(value=None, interactive=False),
-            state,
-            chatbot
-        )
+        return self.histories[request.session_hash], gr.MultimodalTextbox(value=None, interactive=False)
 
-    def bot(self, chatbot_history:list[dict], state:list[dict]):
-        """
-        Generate an answer and adds it into the chatbot history and updates the state of the interface
-
-        in :
-            - self
-            - chatbot_history [list[{'role', 'content'}]] : all the messages previously exchanged with the chatbot
-            - state [gr.State] : current state of the interface
-
-        out :
-            - chatbot_history [list[{'role', 'content'}]] : history updated (answer generated included)
-            - state [gr.State] : updated state of the interface
-        """
+    def bot(self, question, request : gr.Request):
 
         # Input
-        query = state[-1]["content"]
+        query = self.histories[request.session_hash][-1]["content"]
         error_message = None
 
         if query.endswith(".pdf"):
@@ -182,12 +168,7 @@ class GUI:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
                 else:
-                    chatbot_history[-1]["content"] = (
-                        query + "||parsed_doc||" + parsed_doc
-                    )
-                    state[-1]["content"] = (
-                        query + "||parsed_doc||" + parsed_doc
-                    )
+                    self.histories[request.session_hash][-1]["content"] = query + "||parsed_doc||" + parsed_doc
                     query = (
                         "here is the user's question"
                         + "\n"
@@ -205,12 +186,7 @@ class GUI:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
                 else:
-                    chatbot_history[-1]["content"] = (
-                        query + "||parsed_doc||" + parsed_doc
-                    )
-                    state[-1]["content"] = (
-                        query + "||parsed_doc||" + parsed_doc
-                    )
+                    self.histories[request.session_hash][-1]["content"] = query + "||parsed_doc||" + parsed_doc
                     query = parsed_doc
 
         # Output
@@ -231,24 +207,32 @@ class GUI:
                 answer += f"{name} ({score:.3f})\n"
 
             # Print Output
-            state.append({"role": "assistant", "content": answer})
-            chatbot_history.append(state[-1])
+            self.histories[request.session_hash].append({"role": "assistant", "content": answer})
+            return self.histories[request.session_hash]
 
-            return chatbot_history, state
+            """
+            # TODO: Stop streaming the answer, just print it all at once
+            for character in answer:
+                self.history[-1]["content"] += character
+                time.sleep(0.02)
+                yield self.history
+            """
 
         else:
-            chatbot_history.append({"role": "assistant", "content": ""})
-            state.append({"role": "assistant", "content": error_message})
-
+            self.histories[request.session_hash].append({"role": "assistant", "content": error_message})
+            return self.histories[request.session_hash]
+            """
             # TODO: Stop streaming the answer, just print it all at once
             for character in error_message:
-                chatbot_history[-1]["content"] += character
+                self.history[-1]["content"] += character
                 time.sleep(0.02)
-                yield chatbot_history
+                yield self.history
+            """
 
-    def update_buttons(self, state):
-
-        bot_response = state[-1]["content"]
+    def update_buttons(self, request : gr.Request):
+        if request.session_hash not in self.histories:
+            return ["","","","",""]
+        bot_response = self.histories[request.session_hash][-1]["content"]
 
         buttons_label = []
 
@@ -273,12 +257,9 @@ class GUI:
             with gr.Row():
 
                 with gr.Column(scale=2):
-
                     chatbot = gr.Chatbot(
                         elem_id="chatbot", bubble_full_width=False, type="messages"
                     )
-
-                    state = gr.State(value=[])
 
                     chat_input = gr.MultimodalTextbox(
                         interactive=True,
@@ -289,34 +270,27 @@ class GUI:
                     )
 
                     chat_msg = chat_input.submit(
-                        self.add_message,
-                        [chat_input, state, chatbot],
-                        [chat_input, state, chatbot],
+                        self.add_message, [chat_input], [chatbot, chat_input]
                     )
 
                     bot_msg = chat_msg.then(
-                        self.bot, [chatbot, state], [chatbot, state]
+                        self.bot, chatbot, chatbot, api_name="bot_response"
                     )
-
-                    print(chatbot)
-
                     bot_msg.then(
                         lambda: gr.MultimodalTextbox(interactive=True),
                         None,
                         [chat_input],
                     )
 
-                    print(chatbot)
-
                     # Dynamically update button labels
-                    def update_buttons_ui(state):
-                        labels = self.update_buttons(state)
+                    def update_buttons_ui(request : gr.Request):
+                        labels = self.update_buttons(request)
                         updates = [
                             gr.update(value=label, visible=True) for label in labels
                         ]
                         return updates
 
-                    bot_msg.then(update_buttons_ui, state, buttons)
+                    bot_msg.then(update_buttons_ui, None, buttons)
 
                     # Link each button to its explanation
                     for button in buttons:
@@ -329,4 +303,4 @@ class GUI:
                         button.render()
                     explanation.render()
 
-        app.launch(share=False, inbrowser=True)
+        app.launch(share=True, inbrowser=True)
