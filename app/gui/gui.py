@@ -14,6 +14,9 @@ from app.inference.inference import Inference
 global codes
 codes = {}
 
+global last_response
+last_response = {}
+
 
 class GUI:
 
@@ -26,7 +29,6 @@ class GUI:
         self.histories = {} # {session_hash : [{message1},{message2}]}
         self.client = openai.OpenAI(api_key=self.args.openai_api_key)
         self.threads = {}
-        # TODO: when uploading the PDF, do not print out the path of it, just its content.
 
     def parse_file(self, path):
         try:
@@ -42,7 +44,7 @@ class GUI:
             return None
 
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
-        _template_path = "./data/output"  # TODO : change this into args.output_path
+        _template_path = self.args.output_path 
         if not os.path.exists(_template_path):
             os.makedirs(_template_path)
 
@@ -69,7 +71,8 @@ class GUI:
             query = self.histories[req.session_hash][int(x.index[0]) - 1]["content"].replace("\n", " ").replace(";", ",")
             dump.append(query)  # query
 
-            dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
+            dump.append(x.value[0].replace("\n", " ").replace(";", ","))  # answer
+            # TODO : retrieve the ranking idk how
 
             with open(self.args.like_dislike_csv_path, "a", newline="") as file:
                 writer = csv.writer(file, delimiter=';')
@@ -111,7 +114,7 @@ class GUI:
             parsed_doc = self.parse_file(x)
 
             if not parsed_doc :
-                    self.histories[request.session_hash].append(
+                self.histories[request.session_hash].append(
                         {
                             "role": "assistant",
                             "content": "An error has occured during the parsing",
@@ -142,35 +145,32 @@ class GUI:
 
         # Input
         query = self.histories[request.session_hash][-1]["content"]
-        
 
         # Output
         response = self.agent.query_llm(question=query)
 
-        answer = "The problem you are facing is probably : " + "\n"
+        answer = response.response
 
         for source_node in response.source_nodes:
-            score = source_node.score
             name = source_node.metadata["model_name"]
-            # name = source_node.metadata["problem_family"]
             source_code = source_node.metadata["source_code"]
             codes[name] = source_code
 
-            answer += f"{name} ({score:.3f})\n"
-
         # Print Output
+        last_response["last"] = response
         self.histories[request.session_hash].append({"role": "assistant", "content": answer})
         return self.histories[request.session_hash]
 
     def update_buttons(self, request : gr.Request):
         if request.session_hash not in self.histories:
             return ["","","","",""]
-        bot_response = self.histories[request.session_hash][-1]["content"]
 
         buttons_label = []
 
-        for model in bot_response.splitlines()[1:]:
-            buttons_label.append(model)
+        for source_node in last_response["last"].source_nodes:
+            score = source_node.score
+            name = source_node.metadata["model_name"]
+            buttons_label.append(f"{name} ({score:.3f})\n")
 
         return buttons_label
 
@@ -207,7 +207,7 @@ class GUI:
                     )
 
                     bot_msg = chat_msg.then(
-                        self.bot, [chatbot], chatbot, api_name="bot_response"
+                        self.bot, [chatbot], [chatbot], api_name="bot_response"
                     )
                     bot_msg.then(
                         lambda: gr.MultimodalTextbox(interactive=True),
