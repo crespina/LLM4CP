@@ -36,6 +36,9 @@ def config_parser():
     parser.add_argument("--like_dislike_csv_path", type=str,
                         default="./data/output/like_dislike.csv",
                         help=".csv like/dislike path")
+    parser.add_argument("--output_path", type=str,
+                        default="./data/output",
+                        help="output path")
 
     # API Keys
     parser.add_argument('--llama_parse_key', type=str, help='Your LlamaParse token key (llx-<...>)')

@@ -13,18 +13,20 @@ from app.inference.inference import Inference
 global codes
 codes = {}
 
+
 class GUI:
 
     def __init__(self, args) -> None:
         self.args = args
         self.agent = Inference(args=self.args)
-        self.parser = LlamaParse(result_type="markdown", api_key=self.args.llama_parse_key)
-        self.history = [] # TODO: remove this, just print answers and questions
+        self.parser = LlamaParse(
+            result_type="markdown", api_key=self.args.llama_parse_key
+        )
 
         # TODO: when uploading the PDF, do not print out the path of it, just its content.
 
     def parse_file(self, path):
-        try :
+        try:
             documents = self.parser.load_data(path)
             print("finished parsing")
             parsed_doc = ""
@@ -32,7 +34,7 @@ class GUI:
                 parsed_doc += doc.text
                 parsed_doc += "\n"
             return parsed_doc
-        except :
+        except:
             print("An error has occured during the parsing")
             return None
 
@@ -61,13 +63,13 @@ class GUI:
             parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
             parsed_document = original[parsed_doc_start:]
 
-        else : 
+        else:
             query = original
 
         return query, parsed_document
 
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
-        _template_path = "./data/output" # TODO : change this into args.output_path
+        _template_path = self.args.output_path
         if not os.path.exists(_template_path):
             os.makedirs(_template_path)
 
@@ -78,24 +80,28 @@ class GUI:
                 # * primary keys
                 # if entry is duplicate, update with the newest one based on timestamp.
                 writer = csv.writer(file)
-                writer.writerow(["ip", "liked", "time", "query", "parsed_doc", "answer"])  #header row
+                writer.writerow(
+                    ["ip", "liked", "time", "query", "parsed_doc", "answer"]
+                )  # header row
 
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
             dump = []
 
-            if req : 
-                dump.append(req.client.host) #ip
+            if req:
+                dump.append(req.client.host)  # ip
 
-            dump.append(x.liked) #liked
-            dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) #time
+            dump.append(x.liked)  # liked
+            dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))  # time
 
-            query, parsed_doc = self.process_string(self.history[int(x.index[0]) - 1]["content"])
+            query, parsed_doc = self.process_string(
+                self.history[int(x.index[0]) - 1]["content"]
+            )
 
             dump.append(query)  # query
-            if (parsed_doc):
+            if parsed_doc:
                 dump.append(parsed_doc.replace("\n", " "))  # parsed_doc
-            else :
-                dump.append(parsed_doc) # parsed_doc = None
+            else:
+                dump.append(parsed_doc)  # parsed_doc = None
 
             dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
 
@@ -103,22 +109,66 @@ class GUI:
                 writer = csv.writer(file)
                 writer.writerow(dump)
 
-    def add_message(self, message):
-        if message["files"] is not None and message["text"] != '':
+    def add_message(self, message, state: list[dict], chatbot:list[dict]):
+        """
+        Adds a user message into the chatbot history and updates the state of the interface
+
+        in :
+            - self
+            - message [{'files','text'}] : the user's message to be added
+            - state [gr.State] : current state of the interface
+
+        out :
+            - chat_input [gr.MultimodalTextbox] : cleared input section of the chatbot
+            - state [gr.State()] : the updated state of the interface
+        """
+
+        if message["files"] is not None and message["text"] != "":
             for x in message["files"]:
-                self.history.append({"role": "user", "content": "message||" + message["text"] + "||path||" + x})
-                return self.history, gr.MultimodalTextbox(value=None, interactive=False)
+                formatted_message = {
+                    "role": "user",
+                    "content": "message||" + message["text"] + "||path||" + x,
+                }
+                state.append(formatted_message)
+                chatbot.append(state[-1])
+                return (
+                    gr.MultimodalTextbox(value=None, interactive=False),
+                    state,
+                    chatbot
+                )
 
         for x in message["files"]:
-            self.history.append({"role": "user", "content": x})
-        if message["text"] != '':
-            self.history.append({"role": "user", "content": message["text"]})
-        return self.history, gr.MultimodalTextbox(value=None, interactive=False)
+            formatted_message = {"role": "user", "content": x}
+            state.append(formatted_message)
+            chatbot.append(state[-1])
 
-    def bot(self, question):
+        if message["text"] != "":
+            formatted_message = {"role": "user", "content": message["text"]}
+            state.append(formatted_message)
+            chatbot.append(state[-1])
+
+        return (
+            gr.MultimodalTextbox(value=None, interactive=False),
+            state,
+            chatbot
+        )
+
+    def bot(self, chatbot_history:list[dict], state:list[dict]):
+        """
+        Generate an answer and adds it into the chatbot history and updates the state of the interface
+
+        in :
+            - self
+            - chatbot_history [list[{'role', 'content'}]] : all the messages previously exchanged with the chatbot
+            - state [gr.State] : current state of the interface
+
+        out :
+            - chatbot_history [list[{'role', 'content'}]] : history updated (answer generated included)
+            - state [gr.State] : updated state of the interface
+        """
 
         # Input
-        query = self.history[-1]["content"]
+        query = state[-1]["content"]
         error_message = None
 
         if query.endswith(".pdf"):
@@ -131,8 +181,13 @@ class GUI:
                 if parsed_doc == None:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
-                else : 
-                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
+                else:
+                    chatbot_history[-1]["content"] = (
+                        query + "||parsed_doc||" + parsed_doc
+                    )
+                    state[-1]["content"] = (
+                        query + "||parsed_doc||" + parsed_doc
+                    )
                     query = (
                         "here is the user's question"
                         + "\n"
@@ -149,13 +204,18 @@ class GUI:
                 if parsed_doc == None:
                     error_message = "There has been an error while parsing the document, please try again in a few minutes."
 
-                else : 
-                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
+                else:
+                    chatbot_history[-1]["content"] = (
+                        query + "||parsed_doc||" + parsed_doc
+                    )
+                    state[-1]["content"] = (
+                        query + "||parsed_doc||" + parsed_doc
+                    )
                     query = parsed_doc
 
         # Output
 
-        if not error_message :
+        if not error_message:
 
             response = self.agent.query_llm(question=query)
 
@@ -171,25 +231,24 @@ class GUI:
                 answer += f"{name} ({score:.3f})\n"
 
             # Print Output
-            self.history.append({"role": "assistant", "content": ""})
+            state.append({"role": "assistant", "content": answer})
+            chatbot_history.append(state[-1])
 
-            # TODO: Stop streaming the answer, just print it all at once
-            for character in answer:
-                self.history[-1]["content"] += character
-                time.sleep(0.02)
-                yield self.history
+            return chatbot_history, state
 
-        else :
-            self.history.append({"role": "assistant", "content": ""})
+        else:
+            chatbot_history.append({"role": "assistant", "content": ""})
+            state.append({"role": "assistant", "content": error_message})
 
             # TODO: Stop streaming the answer, just print it all at once
             for character in error_message:
-                self.history[-1]["content"] += character
+                chatbot_history[-1]["content"] += character
                 time.sleep(0.02)
-                yield self.history
+                yield chatbot_history
 
-    def update_buttons(self, chat_history):
-        bot_response = chat_history[-1]["content"]  
+    def update_buttons(self, state):
+
+        bot_response = state[-1]["content"]
 
         buttons_label = []
 
@@ -197,7 +256,7 @@ class GUI:
             buttons_label.append(model)
 
         return buttons_label
-    
+
     def show_code(self, selected_val):
         return codes[selected_val.split()[0]]
 
@@ -205,14 +264,21 @@ class GUI:
 
         buttons = [gr.Button("", visible=False) for _ in range(5)]
 
-        explanation = gr.Markdown("Click on a value in the Dataframe to see more details here.")
+        explanation = gr.Markdown(
+            "Click on a value in the Dataframe to see more details here."
+        )
 
         with gr.Blocks() as app:
 
             with gr.Row():
 
                 with gr.Column(scale=2):
-                    chatbot = gr.Chatbot(elem_id="chatbot", bubble_full_width=False, type="messages")
+
+                    chatbot = gr.Chatbot(
+                        elem_id="chatbot", bubble_full_width=False, type="messages"
+                    )
+
+                    state = gr.State(value=[])
 
                     chat_input = gr.MultimodalTextbox(
                         interactive=True,
@@ -223,19 +289,34 @@ class GUI:
                     )
 
                     chat_msg = chat_input.submit(
-                        self.add_message, [chat_input], [chatbot, chat_input]
+                        self.add_message,
+                        [chat_input, state, chatbot],
+                        [chat_input, state, chatbot],
                     )
 
-                    bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
-                    bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
+                    bot_msg = chat_msg.then(
+                        self.bot, [chatbot, state], [chatbot, state]
+                    )
+
+                    print(chatbot)
+
+                    bot_msg.then(
+                        lambda: gr.MultimodalTextbox(interactive=True),
+                        None,
+                        [chat_input],
+                    )
+
+                    print(chatbot)
 
                     # Dynamically update button labels
-                    def update_buttons_ui(chat_history):
-                        labels = self.update_buttons(chat_history)
-                        updates = [gr.update(value=label, visible=True) for label in labels]
+                    def update_buttons_ui(state):
+                        labels = self.update_buttons(state)
+                        updates = [
+                            gr.update(value=label, visible=True) for label in labels
+                        ]
                         return updates
 
-                    bot_msg.then(update_buttons_ui, chatbot, buttons)
+                    bot_msg.then(update_buttons_ui, state, buttons)
 
                     # Link each button to its explanation
                     for button in buttons:
