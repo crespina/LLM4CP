@@ -8,8 +8,12 @@ from app.data_processing.data_loaders import load_index
 
 class Inference:
     def __init__(self, args):
-        self.model = Groq(model="llama-3.2-90b-text-preview", api_key=args.groq_api_key,
-                          model_kwargs={"seed": 42}, temperature=0.1)
+        self.model = Groq(
+            model="llama-3.1-70b-versatile",
+            api_key=args.groq_api_key,
+            model_kwargs={"seed": 19851900},
+            temperature=0.1,
+        )
 
         self.index = load_index(args)
         self.embedding_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
@@ -28,9 +32,13 @@ class Inference:
         )
 
     def query_llm(self, question):
-        query_engine = self.index.as_query_engine(llm=self.model,
+        try : 
+            query_engine = self.index.as_query_engine(llm=self.model,
                                                   similarity_top_k=5,
                                                   node_postprocessors=[self.reranker])
-        user_query = self.prompt.format(question=question)
-        response = query_engine.query(user_query)
-        return response
+            user_query = self.prompt.format(question=question)
+            response = query_engine.query(user_query)
+            return response
+        except Exception as e :
+            return e
+

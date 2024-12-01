@@ -1,30 +1,36 @@
 from datetime import datetime
-import time
-
 import gradio as gr
 from llama_parse import LlamaParse
 import os
 import csv
+import psycopg2
 
 from app.inference.inference import Inference
 
 
 # inspired by https://www.gradio.app/guides/creating-a-custom-chatbot-with-blocks
-global codes
-codes = {}
+
 
 class GUI:
 
     def __init__(self, args) -> None:
         self.args = args
         self.agent = Inference(args=self.args)
-        self.parser = LlamaParse(result_type="markdown", api_key=self.args.llama_parse_key)
-        self.history = [] # TODO: remove this, just print answers and questions
+        self.parser = LlamaParse(
+            result_type="markdown", api_key=self.args.llama_parse_key
+        )
 
-        # TODO: when uploading the PDF, do not print out the path of it, just its content.
+        self.conn = psycopg2.connect(
+            database = self.args.db_name,
+            user = self.args.db_user,
+            host = self.args.db_host,
+            password = self.args.db_password,
+            port = self.args.db_port,
+        )
+        self.cur = self.conn.cursor()
 
     def parse_file(self, path):
-        try :
+        try:
             documents = self.parser.load_data(path)
             print("finished parsing")
             parsed_doc = ""
@@ -32,187 +38,226 @@ class GUI:
                 parsed_doc += doc.text
                 parsed_doc += "\n"
             return parsed_doc
-        except :
+        except:
             print("An error has occured during the parsing")
             return None
 
-    @staticmethod
-    def split_message(input_str):
-        parts = input_str.split("||")
-        message = parts[1].strip()
-        path = parts[3].strip()
-        return message, path
+    def insert(self, table_name:str, columns:list, values:list):
+        try:
+            columns_str = ", ".join(columns)
+            placeholders = ", ".join(["%s"] * len(values))
+            query = f"INSERT INTO {table_name} ({columns_str}) VALUES ({placeholders})"
+            self.cur.execute(query, values)
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error inserting into table {table_name}: {e}")
+            self.conn.rollback()
 
-    @staticmethod
-    def process_string(original):
-        parsed_document = None
-        query = None
+    def update(self, query, session_hash, values):
+        columns = ["session_hash", "answer", "ranking1", "ranking2", "ranking3", "ranking4", "ranking5"]
 
-        if "||parsed_doc||" in original and "message||" in original:
+        try:
+            retrieve_id_sql = "SELECT message_id FROM chat_history WHERE query LIKE %s AND session_hash = %s;"
+            query_splitted = query.split(".")[0] + '%'
+            self.cur.execute(retrieve_id_sql, (query_splitted, session_hash,))
+            id = self.cur.fetchone()
 
-            query_start = original.index("message||") + len("message||")
-            query_end = original.index("||", query_start)
-            query = original[query_start:query_end]
+            set_clause = ", ".join([f"{column} = %s" for column in columns])
+            query = f"""
+            UPDATE chat_history
+            SET {set_clause}
+            WHERE message_id = %s;
+            """
+            values.append(id)
 
-            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
-            parsed_document = original[parsed_doc_start:]
+            self.cur.execute(query, values)
+            self.conn.commit()
 
-        elif "||parsed_doc||" in original:
-            parsed_doc_start = original.index("||parsed_doc||") + len("||parsed_doc||")
-            parsed_document = original[parsed_doc_start:]
+        except Exception as e:
+            print(f"Error updating the chat history")
+            return None
 
-        else : 
-            query = original
+    def retrieve_history(self, session_hash):
 
-        return query, parsed_document
+        history = []
+        try:
+            query = """
+            SELECT * 
+            FROM chat_history
+            WHERE session_hash = %s
+            ORDER BY timestamp;
+            """
+
+            self.cur.execute(query, (session_hash,))
+
+            rows = self.cur.fetchall()
+            for row in rows : 
+                history.append({"role": "user", "content": row[2]}) #add the query
+                if (row[3]):
+                    history.append({"role": "assistant", "content": row[3]}) #add the answer
+            return history
+
+        except Exception as e:
+            print(f"Error retrieving rows for session_hash {session_hash}: {e}")
+            return []
+
+    def retrieve_ranking(self, answer, req:gr.Request):
+        try:
+            query = """
+            SELECT ranking1, ranking2, ranking3, ranking4, ranking5
+            FROM chat_history
+            WHERE session_hash = %s AND answer LIKE E%s
+            """
+
+            self.cur.execute(query, (req.session_hash, answer,))
+
+            row = self.cur.fetchone()
+            return row
+
+        except Exception as e:
+            print(f"Error retrieving ranking {e}")
+            return []
+
+    def retrieve_query(self, answer, req:gr.Request):
+
+        try:
+            query = """
+            SELECT query
+            FROM chat_history
+            WHERE session_hash = %s AND answer LIKE E%s
+            """
+
+            self.cur.execute(query, (req.session_hash, answer,))
+
+            row = self.cur.fetchone()
+            return row[0]
+
+        except Exception as e:
+            print(f"Error retrieving ranking {e}")
+            return []
 
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
-        _template_path = "./data/output" # TODO : change this into args.output_path
-        if not os.path.exists(_template_path):
-            os.makedirs(_template_path)
-
-        if not os.path.exists(self.args.like_dislike_csv_path):
-            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
-                # TODO: make it into a DB
-                # [ip*, timestamp, liked, query*, parsed_doc, answer]
-                # * primary keys
-                # if entry is duplicate, update with the newest one based on timestamp.
-                writer = csv.writer(file)
-                writer.writerow(["ip", "liked", "time", "query", "parsed_doc", "answer"])  #header row
 
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
-            dump = []
+            answer = x.value[0]
+            sesh = req.session_hash  
+            try:
+                query = f"""
+                UPDATE chat_history
+                SET liked = %s
+                WHERE answer LIKE E%s AND session_hash = %s;
+                """
 
-            if req : 
-                dump.append(req.client.host) #ip
+                self.cur.execute(query, (x.liked, answer, sesh,))
+                self.conn.commit()
 
-            dump.append(x.liked) #liked
-            dump.append(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) #time
+            except Exception as e:
+                print(f"Error updating the chat history")
+                return None
 
-            query, parsed_doc = self.process_string(self.history[int(x.index[0]) - 1]["content"])
+    def add_message(self, message, request: gr.Request):
+        table_name = "chat_history"
+        columns = ["ip", "session_hash", "query", "error", "timestamp"]
+        ip = request.client.host
+        session_hash = request.session_hash
 
-            dump.append(query)  # query
-            if (parsed_doc):
-                dump.append(parsed_doc.replace("\n", " "))  # parsed_doc
-            else :
-                dump.append(parsed_doc) # parsed_doc = None
-
-            dump.append("|".join(x.value[0].splitlines()[1:-1]))  # answer
-
-            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
-                writer = csv.writer(file)
-                writer.writerow(dump)
-
-    def add_message(self, message):
-        if message["files"] is not None and message["text"] != '':
+        if message["files"] is not None and message["text"] != "":
             for x in message["files"]:
-                self.history.append({"role": "user", "content": "message||" + message["text"] + "||path||" + x})
-                return self.history, gr.MultimodalTextbox(value=None, interactive=False)
+                parsed_doc = self.parse_file(x)
+
+                if not parsed_doc :
+                    self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, "Unknown document : An error has occured during the parsing of your document, please try again.", True, datetime.now()])
+
+                    history = self.retrieve_history(session_hash)
+                    return history, gr.MultimodalTextbox(value=None, interactive=False)
+
+                query = (message["text"] + "\n" + parsed_doc)
+                self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, query, False, datetime.now()])
+
+                history = self.retrieve_history(session_hash)
+                return history, gr.MultimodalTextbox(value=None, interactive=False)
 
         for x in message["files"]:
-            self.history.append({"role": "user", "content": x})
-        if message["text"] != '':
-            self.history.append({"role": "user", "content": message["text"]})
-        return self.history, gr.MultimodalTextbox(value=None, interactive=False)
+            parsed_doc = self.parse_file(x)
 
-    def bot(self, question):
+            if not parsed_doc :
+                self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, "Unknown document : An error has occured during the parsing of your document, please try again.", True, datetime.now()])
+                history = self.retrieve_history(session_hash)
+                return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-        # Input
-        query = self.history[-1]["content"]
-        error_message = None
+            self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, parsed_doc, False, datetime.now()])
+            history = self.retrieve_history(session_hash)
+            return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-        if query.endswith(".pdf"):
+        if message["text"] != "":
+            self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, message["text"], False, datetime.now()])
+            history = self.retrieve_history(session_hash)
+            return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-            if query.startswith("message||"):
+        else : 
+            print("error")
+            return
 
-                message, path = self.split_message(query)
-                parsed_doc = self.parse_file(path)
+    def bot(self, question, request : gr.Request):
 
-                if parsed_doc == None:
-                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
+        values = [request.session_hash]
 
-                else : 
-                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
-                    query = (
-                        "here is the user's question"
-                        + "\n"
-                        + message
-                        + "\n"
-                        + "and here is the document"
-                        + "\n"
-                        + parsed_doc
-                    )
-
-            else:
-                parsed_doc = self.parse_file(query)
-
-                if parsed_doc == None:
-                    error_message = "There has been an error while parsing the document, please try again in a few minutes."
-
-                else : 
-                    self.history[-1]["content"] = query + "||parsed_doc||" + parsed_doc
-                    query = parsed_doc
+        query = question[-1]["content"]
 
         # Output
+        response = self.agent.query_llm(question=query)
+        values.append(response.response)
 
-        if not error_message :
+        for source_node in response.source_nodes:
+            name = source_node.metadata["model_name"]
+            score = source_node.score
+            values.append(f"{name} ({score:.3f})\n")
 
-            response = self.agent.query_llm(question=query)
+        # Print Output
+        self.update(query, request.session_hash, values)
+        question.append({"role":"assistant", "content":response.response})
 
-            answer = "The problem you are facing is probably : " + "\n"
+        return question
 
-            for source_node in response.source_nodes:
-                score = source_node.score
-                name = source_node.metadata["model_name"]
-                # name = source_node.metadata["problem_family"]
-                source_code = source_node.metadata["source_code"]
-                codes[name] = source_code
+    def update_buttons(self, chat_history, req:gr.Request):
+        if not chat_history :
+            return ["","","","",""]
 
-                answer += f"{name} ({score:.3f})\n"
+        ranking = self.retrieve_ranking(chat_history[-1]["content"], req)
 
-            # Print Output
-            self.history.append({"role": "assistant", "content": ""})
+        return ranking
 
-            # TODO: Stop streaming the answer, just print it all at once
-            for character in answer:
-                self.history[-1]["content"] += character
-                time.sleep(0.02)
-                yield self.history
-
-        else :
-            self.history.append({"role": "assistant", "content": ""})
-
-            # TODO: Stop streaming the answer, just print it all at once
-            for character in error_message:
-                self.history[-1]["content"] += character
-                time.sleep(0.02)
-                yield self.history
-
-    def update_buttons(self, chat_history):
-        bot_response = chat_history[-1]["content"]  
-
-        buttons_label = []
-
-        for model in bot_response.splitlines()[1:]:
-            buttons_label.append(model)
-
-        return buttons_label
-    
     def show_code(self, selected_val):
-        return codes[selected_val.split()[0]]
+        try : 
+            query = """
+                SELECT model_code
+                FROM source_codes
+                WHERE model_name LIKE E%s 
+                """
+            self.cur.execute(query, (selected_val.split()[0],))
+
+            row = self.cur.fetchone()
+            return row[0]
+        except Exception as e:
+            print(f"Error retrieving code {e}")
+            return []
 
     def run(self):
 
         buttons = [gr.Button("", visible=False) for _ in range(5)]
 
-        explanation = gr.Markdown("Click on a value in the Dataframe to see more details here.")
+        explanation = gr.Markdown(
+            "Click on a value in the Dataframe to see more details here."
+        )
 
         with gr.Blocks() as app:
 
             with gr.Row():
 
                 with gr.Column(scale=2):
-                    chatbot = gr.Chatbot(elem_id="chatbot", bubble_full_width=False, type="messages")
+                    chatbot = gr.Chatbot(
+                        elem_id="chatbot", bubble_full_width=False, type="messages"
+                    )
 
                     chat_input = gr.MultimodalTextbox(
                         interactive=True,
@@ -226,13 +271,21 @@ class GUI:
                         self.add_message, [chat_input], [chatbot, chat_input]
                     )
 
-                    bot_msg = chat_msg.then(self.bot, chatbot, chatbot, api_name="bot_response")
-                    bot_msg.then(lambda: gr.MultimodalTextbox(interactive=True), None, [chat_input])
+                    bot_msg = chat_msg.then(
+                        self.bot, [chatbot], [chatbot], api_name="bot_response"
+                    )
+                    bot_msg.then(
+                        lambda: gr.MultimodalTextbox(interactive=True),
+                        None,
+                        [chat_input],
+                    )
 
                     # Dynamically update button labels
-                    def update_buttons_ui(chat_history):
-                        labels = self.update_buttons(chat_history)
-                        updates = [gr.update(value=label, visible=True) for label in labels]
+                    def update_buttons_ui(chat_history, req:gr.Request):
+                        labels = self.update_buttons(chat_history, req)
+                        updates = [
+                            gr.update(value=label, visible=True) for label in labels
+                        ]
                         return updates
 
                     bot_msg.then(update_buttons_ui, chatbot, buttons)
@@ -248,4 +301,4 @@ class GUI:
                         button.render()
                     explanation.render()
 
-        app.launch(share=False, inbrowser=True)
+        app.launch(share=True, inbrowser=True)
