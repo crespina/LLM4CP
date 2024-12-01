@@ -9,11 +9,6 @@ from app.inference.inference import Inference
 
 
 # inspired by https://www.gradio.app/guides/creating-a-custom-chatbot-with-blocks
-global codes
-codes = {}
-
-global last_response
-last_response = {}
 
 
 class GUI:
@@ -24,7 +19,6 @@ class GUI:
         self.parser = LlamaParse(
             result_type="markdown", api_key=self.args.llama_parse_key
         )
-        self.histories = {} # {session_hash : [{message1},{message2}]}
 
         self.conn = psycopg2.connect(
             database = self.args.db_name,
@@ -34,31 +28,6 @@ class GUI:
             port = self.args.db_port,
         )
         self.cur = self.conn.cursor()
-
-        self.cur.execute(
-            """CREATE TABLE IF NOT EXISTS feedback(
-            feedback_id SERIAL PRIMARY KEY,
-            ip VARCHAR(15) NOT NULL,
-            liked BOOLEAN NOT NULL,
-            time TEXT NOT NULL,
-            query TEXT NOT NULL,
-            answer TEXT NOT NULL,
-            ranking TEXT NOT NULL);
-            """
-        )
-
-        self.cur.execute(
-            """CREATE TABLE IF NOT EXISTS chat_history(
-            message_id SERIAL PRIMARY KEY,
-            session_hash TEXT NOT NULL,
-            query TEXT NOT NULL,
-            answer TEXT NOT NULL,
-            ranking TEXT NOT NULL,
-            error BOOLEAN NOT NULL);
-            """
-        )
-
-        self.conn.commit()
 
     def parse_file(self, path):
         try:
@@ -74,7 +43,6 @@ class GUI:
             return None
 
     def insert(self, table_name:str, columns:list, values:list):
-        # TODO : retrieve the ranking
         try:
             columns_str = ", ".join(columns)
             placeholders = ", ".join(["%s"] * len(values))
@@ -85,123 +53,194 @@ class GUI:
             print(f"Error inserting into table {table_name}: {e}")
             self.conn.rollback()
 
+    def update(self, query, session_hash, values):
+        columns = ["session_hash", "answer", "ranking1", "ranking2", "ranking3", "ranking4", "ranking5"]
+
+        try:
+            retrieve_id_sql = "SELECT message_id FROM chat_history WHERE query LIKE %s AND session_hash = %s;"
+            query_splitted = query.split(".")[0] + '%'
+            self.cur.execute(retrieve_id_sql, (query_splitted, session_hash,))
+            id = self.cur.fetchone()
+
+            set_clause = ", ".join([f"{column} = %s" for column in columns])
+            query = f"""
+            UPDATE chat_history
+            SET {set_clause}
+            WHERE message_id = %s;
+            """
+            values.append(id)
+
+            self.cur.execute(query, values)
+            self.conn.commit()
+
+        except Exception as e:
+            print(f"Error updating the chat history")
+            return None
+
+    def retrieve_history(self, session_hash):
+
+        history = []
+        try:
+            query = """
+            SELECT * 
+            FROM chat_history
+            WHERE session_hash = %s
+            ORDER BY timestamp;
+            """
+
+            self.cur.execute(query, (session_hash,))
+
+            rows = self.cur.fetchall()
+            for row in rows : 
+                history.append({"role": "user", "content": row[2]}) #add the query
+                if (row[3]):
+                    history.append({"role": "assistant", "content": row[3]}) #add the answer
+            return history
+
+        except Exception as e:
+            print(f"Error retrieving rows for session_hash {session_hash}: {e}")
+            return []
+
+    def retrieve_ranking(self, answer, req:gr.Request):
+        try:
+            query = """
+            SELECT ranking1, ranking2, ranking3, ranking4, ranking5
+            FROM chat_history
+            WHERE session_hash = %s AND answer LIKE E%s
+            """
+
+            self.cur.execute(query, (req.session_hash, answer,))
+
+            row = self.cur.fetchone()
+            return row
+
+        except Exception as e:
+            print(f"Error retrieving ranking {e}")
+            return []
+
+    def retrieve_query(self, answer, req:gr.Request):
+
+        try:
+            query = """
+            SELECT query
+            FROM chat_history
+            WHERE session_hash = %s AND answer LIKE E%s
+            """
+
+            self.cur.execute(query, (req.session_hash, answer,))
+
+            row = self.cur.fetchone()
+            return row[0]
+
+        except Exception as e:
+            print(f"Error retrieving ranking {e}")
+            return []
+
     def like_dislike(self, x: gr.LikeData, req: gr.Request):
 
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
-            dump = []
+            answer = x.value[0]
+            sesh = req.session_hash  
+            try:
+                query = f"""
+                UPDATE chat_history
+                SET liked = %s
+                WHERE answer LIKE E%s AND session_hash = %s;
+                """
 
-            if req:
-                dump.append(req.client.host)  # ip
+                self.cur.execute(query, (x.liked, answer, sesh,))
+                self.conn.commit()
 
-            dump.append(x.liked)  # liked
-            dump.append(datetime.now().timestamp())  # time
-
-            query = self.histories[req.session_hash][int(x.index[0]) - 1]["content"].replace("\n", " ").replace(";", ",")
-            dump.append(query)  # query
-
-            dump.append(x.value[0].replace("\n", " ").replace(";", ","))  # answer
-            dump.append("ranking placeholder")
-
-            self.insert("feedback", ["ip", "liked", "time", "query", "answer", "ranking"], dump)
+            except Exception as e:
+                print(f"Error updating the chat history")
+                return None
 
     def add_message(self, message, request: gr.Request):
-
-        inbool = request.session_hash in self.histories 
+        table_name = "chat_history"
+        columns = ["ip", "session_hash", "query", "error", "timestamp"]
+        ip = request.client.host
+        session_hash = request.session_hash
 
         if message["files"] is not None and message["text"] != "":
             for x in message["files"]:
                 parsed_doc = self.parse_file(x)
 
                 if not parsed_doc :
-                    self.histories[request.session_hash].append(
-                        {
-                            "role": "assistant",
-                            "content": "An error has occured during the parsing",
-                        }
-                    )
+                    self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, "Unknown document : An error has occured during the parsing of your document, please try again.", True, datetime.now()])
 
-                content = (message["text"] + "\n" + parsed_doc)
-                if inbool :
-                    self.histories[request.session_hash].append(
-                        {
-                            "role": "user",
-                            "content": content,
-                        }
-                    )
-                else : 
-                    self.histories[request.session_hash] = [{
-                            "role": "user",
-                            "content": content,
-                        }]
+                    history = self.retrieve_history(session_hash)
+                    return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-                return self.histories[request.session_hash], gr.MultimodalTextbox(value=None, interactive=False)
+                query = (message["text"] + "\n" + parsed_doc)
+                self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, query, False, datetime.now()])
+
+                history = self.retrieve_history(session_hash)
+                return history, gr.MultimodalTextbox(value=None, interactive=False)
 
         for x in message["files"]:
             parsed_doc = self.parse_file(x)
 
             if not parsed_doc :
-                self.histories[request.session_hash].append(
-                        {
-                            "role": "assistant",
-                            "content": "An error has occured during the parsing",
-                        }
-                    )
+                self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, "Unknown document : An error has occured during the parsing of your document, please try again.", True, datetime.now()])
+                history = self.retrieve_history(session_hash)
+                return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-            if inbool :
-                self.histories[request.session_hash].append({"role": "user", "content": parsed_doc})
-            else : 
-                self.histories[request.session_hash] = [{"role": "user", "content": parsed_doc}]
+            self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, parsed_doc, False, datetime.now()])
+            history = self.retrieve_history(session_hash)
+            return history, gr.MultimodalTextbox(value=None, interactive=False)
 
         if message["text"] != "":
-            if inbool :
-                self.histories[request.session_hash].append(
-                    {"role": "user", "content": message["text"]}
-                )
-            else :
-                self.histories[request.session_hash] = [
-                    {"role": "user", "content": message["text"]}
-                ]
+            self.insert(table_name=table_name, columns=columns, values=[ip, session_hash, message["text"], False, datetime.now()])
+            history = self.retrieve_history(session_hash)
+            return history, gr.MultimodalTextbox(value=None, interactive=False)
 
-        return self.histories[request.session_hash], gr.MultimodalTextbox(value=None, interactive=False)
+        else : 
+            print("error")
+            return
 
     def bot(self, question, request : gr.Request):
 
-        if self.histories[request.session_hash][-1]["role"] == "assistant":
-            return
+        values = [request.session_hash]
 
-        # Input
-        query = self.histories[request.session_hash][-1]["content"]
+        query = question[-1]["content"]
 
         # Output
         response = self.agent.query_llm(question=query)
-
-        answer = response.response
+        values.append(response.response)
 
         for source_node in response.source_nodes:
             name = source_node.metadata["model_name"]
-            source_code = source_node.metadata["source_code"]
-            codes[name] = source_code
+            score = source_node.score
+            values.append(f"{name} ({score:.3f})\n")
 
         # Print Output
-        last_response["last"] = response
-        self.histories[request.session_hash].append({"role": "assistant", "content": answer})
-        return self.histories[request.session_hash]
+        self.update(query, request.session_hash, values)
+        question.append({"role":"assistant", "content":response.response})
 
-    def update_buttons(self, request : gr.Request):
-        if request.session_hash not in self.histories:
+        return question
+
+    def update_buttons(self, chat_history, req:gr.Request):
+        if not chat_history :
             return ["","","","",""]
 
-        buttons_label = []
+        ranking = self.retrieve_ranking(chat_history[-1]["content"], req)
 
-        for source_node in last_response["last"].source_nodes:
-            score = source_node.score
-            name = source_node.metadata["model_name"]
-            buttons_label.append(f"{name} ({score:.3f})\n")
-
-        return buttons_label
+        return ranking
 
     def show_code(self, selected_val):
-        return codes[selected_val.split()[0]]
+        try : 
+            query = """
+                SELECT model_code
+                FROM source_codes
+                WHERE model_name LIKE E%s 
+                """
+            self.cur.execute(query, (selected_val.split()[0],))
+
+            row = self.cur.fetchone()
+            return row[0]
+        except Exception as e:
+            print(f"Error retrieving code {e}")
+            return []
 
     def run(self):
 
@@ -242,14 +281,14 @@ class GUI:
                     )
 
                     # Dynamically update button labels
-                    def update_buttons_ui(request : gr.Request):
-                        labels = self.update_buttons(request)
+                    def update_buttons_ui(chat_history, req:gr.Request):
+                        labels = self.update_buttons(chat_history, req)
                         updates = [
                             gr.update(value=label, visible=True) for label in labels
                         ]
                         return updates
 
-                    bot_msg.then(update_buttons_ui, None, buttons)
+                    bot_msg.then(update_buttons_ui, chatbot, buttons)
 
                     # Link each button to its explanation
                     for button in buttons:
