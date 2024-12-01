@@ -46,4 +46,11 @@ def config_parser():
     parser.add_argument('--groq_api_key', type=str, help='Your Groq API token key gsk_<...>)')
     parser.add_argument('--cohere_api_key', type=str, help='Your Cohere API token key <...>)')
 
+    # Database
+    parser.add_argument("--db_name", type=str, default="llm4cp", help="Name of the database")
+    parser.add_argument("--db_user", type=str, default="postgres", help="User owning the database")
+    parser.add_argument("--db_host", type=str, default="localhost", help="Where the database is hosted")
+    parser.add_argument('--db_password', type=str, help='Your database password <...>)')
+    parser.add_argument("--db_port", type=int, default=5432, help="The port used by the database")
+
     return parser

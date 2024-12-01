@@ -1,11 +1,9 @@
 from datetime import datetime
-import time
-
-import openai
 import gradio as gr
 from llama_parse import LlamaParse
 import os
 import csv
+import psycopg2
 
 from app.inference.inference import Inference
 
@@ -27,8 +25,40 @@ class GUI:
             result_type="markdown", api_key=self.args.llama_parse_key
         )
         self.histories = {} # {session_hash : [{message1},{message2}]}
-        self.client = openai.OpenAI(api_key=self.args.openai_api_key)
-        self.threads = {}
+
+        self.conn = psycopg2.connect(
+            database = self.args.db_name,
+            user = self.args.db_user,
+            host = self.args.db_host,
+            password = self.args.db_password,
+            port = self.args.db_port,
+        )
+        self.cur = self.conn.cursor()
+
+        self.cur.execute(
+            """CREATE TABLE IF NOT EXISTS feedback(
+            feedback_id SERIAL PRIMARY KEY,
+            ip VARCHAR(15) NOT NULL,
+            liked BOOLEAN NOT NULL,
+            time TEXT NOT NULL,
+            query TEXT NOT NULL,
+            answer TEXT NOT NULL,
+            ranking TEXT NOT NULL);
+            """
+        )
+
+        self.cur.execute(
+            """CREATE TABLE IF NOT EXISTS chat_history(
+            message_id SERIAL PRIMARY KEY,
+            session_hash TEXT NOT NULL,
+            query TEXT NOT NULL,
+            answer TEXT NOT NULL,
+            ranking TEXT NOT NULL,
+            error BOOLEAN NOT NULL);
+            """
+        )
+
+        self.conn.commit()
 
     def parse_file(self, path):
         try:
@@ -43,21 +73,19 @@ class GUI:
             print("An error has occured during the parsing")
             return None
 
-    def like_dislike(self, x: gr.LikeData, req: gr.Request):
-        _template_path = self.args.output_path 
-        if not os.path.exists(_template_path):
-            os.makedirs(_template_path)
+    def insert(self, table_name:str, columns:list, values:list):
+        # TODO : retrieve the ranking
+        try:
+            columns_str = ", ".join(columns)
+            placeholders = ", ".join(["%s"] * len(values))
+            query = f"INSERT INTO {table_name} ({columns_str}) VALUES ({placeholders})"
+            self.cur.execute(query, values)
+            self.conn.commit()
+        except Exception as e:
+            print(f"Error inserting into table {table_name}: {e}")
+            self.conn.rollback()
 
-        if not os.path.exists(self.args.like_dislike_csv_path):
-            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
-                # TODO: make it into a DB
-                # [ip*, timestamp, liked, query*, parsed_doc, answer]
-                # * primary keys
-                # if entry is duplicate, update with the newest one based on timestamp.
-                writer = csv.writer(file, delimiter=';')
-                writer.writerow(
-                    ["ip", "liked", "timestamp", "query", "answer"]
-                )  # header row
+    def like_dislike(self, x: gr.LikeData, req: gr.Request):
 
         if x.index[0] % 2 == 1:  # if index odd, it's an ai response
             dump = []
@@ -72,11 +100,9 @@ class GUI:
             dump.append(query)  # query
 
             dump.append(x.value[0].replace("\n", " ").replace(";", ","))  # answer
-            # TODO : retrieve the ranking idk how
+            dump.append("ranking placeholder")
 
-            with open(self.args.like_dislike_csv_path, "a", newline="") as file:
-                writer = csv.writer(file, delimiter=';')
-                writer.writerow(dump)
+            self.insert("feedback", ["ip", "liked", "time", "query", "answer", "ranking"], dump)
 
     def add_message(self, message, request: gr.Request):
 
