@@ -68,12 +68,12 @@ class Storage:
         question5 : The fifth question/scenario should be very long and specific.
         """
 
-        self.descriptor_model = Groq(model="llama-3.2-90b-text-preview", api_key=args.groq_api_key,
+        self.descriptor_model = Groq(model="llama3-70b-8192", api_key=args.groq_api_key,
                                      model_kwargs={"seed": 42}, temperature=0.1, output_parser=self.output_parser)
-        self.qa_model = Groq(model="llama-3.1-70b-versatile", api_key=args.groq_api_key,
+        self.qa_model = Groq(model="llama3-70b-8192", api_key=args.groq_api_key,
                              model_kwargs={"seed": 42}, temperature=0.1)
 
-        self.embeddings_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        self.embeddings_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
 
         self.documents = []
         self.index = None
@@ -82,7 +82,7 @@ class Storage:
         for filename in tqdm(os.listdir(self.args.txt_path), desc="Generating descriptions"):
             file_path = os.path.join(self.args.txt_path, filename)
             if os.path.isfile(file_path):
-                with open(file_path, "r") as file:
+                with open(file_path, "r", encoding="utf-8") as file:
                     file_content = file.read()
 
                     prompt = self.description_template.format(source_code=file_content)
