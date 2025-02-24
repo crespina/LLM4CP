@@ -9,6 +9,7 @@ from app.inference.inference import Inference
 
 
 # inspired by https://www.gradio.app/guides/creating-a-custom-chatbot-with-blocks
+# http://127.0.0.1:5050/browser/ the link for pgAdmin
 
 
 class GUI:

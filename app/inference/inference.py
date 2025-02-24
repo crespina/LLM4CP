@@ -9,14 +9,14 @@ from app.data_processing.data_loaders import load_index
 class Inference:
     def __init__(self, args):
         self.model = Groq(
-            model="llama-3.1-70b-versatile",
+            model="deepseek-r1-distill-llama-70b",
             api_key=args.groq_api_key,
             model_kwargs={"seed": 19851900},
             temperature=0.1,
         )
 
         self.index = load_index(args)
-        self.embedding_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")
+        self.embedding_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
         self.reranker = CohereRerank(api_key=args.cohere_api_key, top_n=5)
 
         self.prompt = PromptTemplate(
@@ -34,11 +34,10 @@ class Inference:
     def query_llm(self, question):
         try : 
             query_engine = self.index.as_query_engine(llm=self.model,
-                                                  similarity_top_k=5,
+                                                  similarity_top_k=10,
                                                   node_postprocessors=[self.reranker])
             user_query = self.prompt.format(question=question)
             response = query_engine.query(user_query)
             return response
         except Exception as e :
             return e
-
