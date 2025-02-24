@@ -1,7 +1,8 @@
 %% schurs numbers
 %%
-%% determine if n balls labelled 1..n 
+%% determine if n balls labelled 1..n
 %% can be placed in c boxes with no box containing a triple {x,y,z} where x+y=z
+ 
 
 int: n; %% number of balls
 int: c; %% number of boxes

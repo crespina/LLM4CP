@@ -1,22 +1,12 @@
-% The balanced academic curriculum problem: see
-% http://www.dcs.st-and.ac.uk/~ianm/CSPLib/prob/prob030/spec.html
+% The balanced academic curriculum problem:
 %
 % A curriculum is a set of courses with prerequisites.
-%
 % Each course must be assigned within a set number of periods.
-%
 % A course cannot be scheduled before its prerequisites.
-%
 % Each course confers a number of academic credits (it's "load").
-%
-% Students have lower and upper bounds on the number of credits
-% they can study for in a given period.
-%
-% Students have lower and upper bounds on the number of courses
-% they can study for in a given period.
-%
-% The goal is to assign a period to every course satisfying these
-% criteria, minimising the load for all periods.
+% Students have lower and upper bounds on the number of credits they can study for in a given period.
+% Students have lower and upper bounds on the number of courses they can study for in a given period.
+% The goal is to assign a period to every course satisfying these criteria, minimising the load for all periods.
 
 include "globals.mzn";
 

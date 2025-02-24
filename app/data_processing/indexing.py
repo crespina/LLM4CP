@@ -28,10 +28,10 @@ class Storage:
 
         self.description_template = PromptTemplate(
             "You are an expert in high-level constraint modelling and solving discrete optimization problems. \n"
-            "In particular, you know Minizinc. You are provided with a Minizinc model that represents a classical "
+            "In particular, you know Minizinc. You are provided with one or several Minizinc models that represents a single classical "
             "problem in constraint programming. Your task is to identify what is the problem modelled and give a "
             "complete description of the problem to the user. \n"
-            "This is the source code of the model:\n"
+            "This is the source code of the model(s):\n"
             "--------------\n"
             "{source_code}"
             "--------------\n"

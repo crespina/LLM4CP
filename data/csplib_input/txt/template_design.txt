@@ -1,12 +1,4 @@
-%-----------------------------------------------------------------------------%
 % Template design
-% Problem 002 in CSPLib
-%-----------------------------------------------------------------------------%
-% Based on "ILP and Constraint Programming Approaches to a Template
-% Design Problem", Les Proll and Barbara Smith, School of Computing
-% Research Report 97.16, University of Leeds, May 1997.
-%-----------------------------------------------------------------------------%
-
 include "globals.mzn";
 
 int: S;   		% Number of slots per template.

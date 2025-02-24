@@ -1,18 +1,7 @@
-% RUNS ON mzn_mer_fd
-% RUNS ON mzn_mer_lp
-% RUNS ON zinc_fdic_mznlib
-% RUNS ON minizinc_cpx
-% RUNS ON minizinc_fd
-%-----------------------------------------------------------------------------
 % Warehouse allocation
-% (Problem 034 in CSPLib)
+
 % vim: ft=zinc ts=2 sw=2 et tw=0
-%
-% Guido Tack, tack@gecode.org
-% 2007-02-22
-%
-% Ported from the Gecode example
-%-----------------------------------------------------------------------------
+
 % A company needs to construct warehouses to supply stores with goods.  Each
 % warehouse possibly to be constructed has a certain capacity defining how many
 % stores it can supply.  Constructing a warehouse incurs a fixed cost.  Costs

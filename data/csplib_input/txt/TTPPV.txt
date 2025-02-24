@@ -1,12 +1,8 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Traveling Tournament Problem with Predefined Venues
 %
 % Compact single round robin schedule minimizing total travel distance
 % The venue of each game has already been decided
 % Specialized for CIRC instances (circular distances)
-%
-% Author: Gilles Pesant
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 include "globals.mzn";
 

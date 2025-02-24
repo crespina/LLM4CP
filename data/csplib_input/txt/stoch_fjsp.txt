@@ -1,28 +1,13 @@
-%-----------------------------------------------------------------------------%
-% Copyright (C) 2013 National ICT Australia and Monahsh University 2017
-% Licenced under CC-BY-4.0 : http://creativecommons.org/licenses/by/4.0/
-%-----------------------------------------------------------------------------%
-%
-% Author(s): 
-%   Original model, Flexible Job Shop Scheduling: 
-%   Andreas Schutt <andreas.schutt@nicta.com.au>
-%   Changes, Stochastic Assignment and Scheduling Problem: 
-%   David Hemmi <david.hemmi@monash.edu>
-%
-%-----------------------------------------------------------------------------%
-% Stochastic General Assignment Problem  
-% First stage: 
-%    assign task to machines  
-% Second stage: 
-%    based on observed processign times, schedule taks on respective machines 
-% Objective: 
-%    minimise expected makespan 
-%-----------------------------------------------------------------------------%
-% Including files
+% Stochastic General Assignment Problem 
+% First stage:
+%    assign task to machines 
+% Second stage:
+%    based on observed processign times, schedule taks on respective machines
+% Objective:
+%    minimise expected makespan
 
 include "globals.mzn";
 
-%-----------------------------------------------------------------------------%
 % Parameters
 
 int: no_mach;   % Number of machines

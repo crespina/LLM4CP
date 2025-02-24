@@ -1,25 +1,7 @@
 %% Design of Collateralised Debt Obligations Squared (CDO^2) Transactions
-%%
-%% Problem described in:
-%%   Pierre Flener, Justin Pearson, Luis G. Reyna, Olof Sivertsson:
-%%   Design of Financial CDO Squared Transactions Using Constraint Programming.
-%%   Constraints 12(2):179-205, 2007
-%%   http://dx.doi.org/10.1007/s10601-006-9014-4
-%%   
-%% Also solved with:
-%%   LS with VNS: http://dx.doi.org/10.1016/j.endm.2014.11.017
-%%   CBLS with set variables: http://dx.doi.org/10.1007/11564751_7
-%%
-%% Authors: Pierre Flener and Jean-Noel Monette
-%% License: CC-BY-4.0
-%% 
-%% Model loosely based on Ralph Becket's BIBD model at
-%%   https://github.com/MiniZinc/minizinc-benchmarks/blob/master/bibd/bibd.mzn
-
 % An OPD (v, b, r) problem is to find a binary matrix of v rows
 % and b columns such that each row sums to r, and
 % the dot product beween any pair of distinct rows is minimal.
-
 
 %Requires MiniZinc >= 2.0.2 for the symmetry_breaking_constraint predicate
 

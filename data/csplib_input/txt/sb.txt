@@ -1,10 +1,7 @@
-% new zinc file SolitaireBattleships.mzn
-% At attempt to build a solution entirely within the IDE
-% By Peter Stuckey August 2009
 % Solitaire Battleships is a puzzle where
 % we are given a partially filled in board and the number
 % of ships in each row and column and have to fill it with ships
-
+ 
 % "Improved" version does not introduce reified set_in
 
 int: width;   % height of board (usually 10)

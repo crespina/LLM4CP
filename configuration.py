@@ -28,7 +28,7 @@ def config_parser():
                         default="./data/csplib_input/txt",
                         help='.txt directory input path.')
     parser.add_argument('--storage_dir', type=str,
-                        default='./data/vector_dbs/csplib_db',
+                        default='./data/vector_dbs/csplib_concat_models',
                         help='Vector DB directory path.')
     parser.add_argument('--like_dislike_json_path', type=str,
                         default="./data/output/like_dislike.json",

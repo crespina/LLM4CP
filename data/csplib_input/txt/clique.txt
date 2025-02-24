@@ -1,12 +1,5 @@
-% Maximum Clique Problem (CSPLib 074)
-% Very naive model. This is not a good way of solving it, but it is easy to
-% understand.
-%
-% Ciaran McCreesh, c.mccreesh.1@research.gla.ac.uk
-% 2015-09-05
+% Maximum Clique Problem
 
-% --- instance, specified as an adjacency matrix, which must be symmetric, using ---
-% --- 0s and 1s rather than true and false because it looks prettier             ---
 int: n = 5;
 array[1..n, 1..n] of int: adj =
     [| 0, 1, 0, 1, 0

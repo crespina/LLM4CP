@@ -1,8 +1,4 @@
-% prob008.mzn: Vessel Loading
-% Problem details available at
-% http://www.csplib.org/Problems/prob008/
-
-% Author: Frej Knutar Lewander
+% Vessel Loading
 
 int: deck_width; % width of deck
 int: deck_length; % height of deck
