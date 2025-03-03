@@ -1,0 +1,13 @@
+Here is the answer in the requested format:
+
+{
+"name": "All-Interval Series Problem",
+"description": "The All-Interval Series Problem is a classic problem in constraint programming that involves finding a series of pitch classes such that each pitch class occurs exactly once and the musical intervals between neighboring notes cover the full set of intervals from the minor second (1 semitone) to the major seventh (11 semitones).",
+"variables": "x = (x_1, ..., x_n) where x_i ∈ {0, ..., n-1}, diffs = (diffs_1, ..., diffs_{n-1}) where diffs_i ∈ {1, ..., n-1}",
+"variables explanation": "x represents the series of pitch classes, and diffs represents the differences between neighboring notes in the series.",
+"constraints": "all_different(x) ∧ all_different(diffs) ∧ ∀k ∈ {1, ..., n-1} : diffs_k = |x_{k+1} - x_k| ∧ x_1 < x_{n-1} ∧ diffs_1 < diffs_2",
+"constraints explanation": "The constraints ensure that each pitch class occurs exactly once, each difference between neighboring notes occurs exactly once, and the differences are calculated correctly. The last two constraints are symmetry-breaking constraints.",
+"objective": "satisfy"
+}
+
+Note that the objective of the problem is to find a feasible solution that satisfies all the constraints, rather than minimizing or maximizing a specific value.

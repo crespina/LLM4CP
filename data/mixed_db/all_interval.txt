@@ -1,0 +1,269 @@
+Model 1 : 
+
+
+%
+% All interval problem in MiniZinc
+%
+% """
+% Given the twelve standard pitch-classes (c, c%, d, ...), represented by
+% numbers 0,1,...,11, find a series in which each pitch-class occurs exactly
+% once and in which the musical intervals between neighbouring notes cover
+% the full set of intervals from the minor second (1 semitone) to the major
+% seventh (11 semitones). That is, for each of the intervals, there is a
+% pair of neigbhouring pitch-classes in the series, between which this
+% interval appears. The problem of finding such a series can be easily
+% formulated as an instance of a more general arithmetic problem on Z_n,
+% the set of integer residues modulo n. Given n in N, find a vector
+% s = (s_1, ..., s_n), such that (i) s is a permutation of
+% Z_n = {0,1,...,n-1}; and (ii) the interval vector
+% v = (|s_2-s_1|, |s_3-s_2|, ... |s_n-s_{n-1}|) is a permutation of
+% Z_n-{0} = {1,2,...,n-1}. A vector v satisfying these conditions is
+% called an all-interval series of size n; the problem of finding such
+% a series is the all-interval series problem of size n. We may also be
+% interested in finding all possible series of a given size.
+
+include "globals.mzn";
+
+int: n = 12;
+% array[1..n] of var 1..n: x;
+array[1..n] of var 1..n: x;
+array[1..n-1] of var 1..n-1: diffs;
+int: sum_distinct = ((n+1)*n) div 2;
+
+% max_regret seems to be quite good....
+solve :: int_search(x, max_regret, indomain_split, complete) satisfy;
+
+constraint      
+  all_different(diffs) :: domain
+  /\  
+  all_different(x) :: domain
+  /\ 
+  forall(k in 1..n-1) (
+      diffs[k] = abs(x[k+1] - x[k])
+  )
+  /\ % symmetry breaking
+  x[1] < x[n-1]
+  /\
+  diffs[1] < diffs[2]
+;
+
+
+output [
+       show(x) ++ "," % , " ", show(sum_distinct), " diffs: ", show(diffs)
+]
+
+
+Model 2 : 
+
+include "globals.mzn";
+int: n = 12;
+set of int: classes = 0..n-1;
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+
+solve :: int_search(series, first_fail, indomain_min, complete) satisfy;
+
+constraint
+%    all_different(series) /\
+
+   % C1: Each pitch class occurs exactly once
+   forall(i,j in classes where i != j) (
+     series[i] != series[j]
+   )
+   /\
+   % C2: Differences between neighbouring notes are all different
+   forall(i,j in classes where j < n-1 /\ i < n-1 /\ i != j)  (
+     abs(series[i+1] - series[i]) != abs(series[j+1] - series[j])
+   )
+;
+
+output
+[  show(series)
+];
+
+
+Model 3 : 
+
+
+int: n= 12;
+set of int: classes = 0..n-1;
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+
+solve :: int_search(series, first_fail, indomain_min, complete) satisfy;
+
+constraint
+   %  C1: Each pitch class occurs exactly once
+   forall(i, j in classes where i != j) (
+     series[i] != series[j]
+   )
+   /\
+   % C2: Differences between neighbouring notes are all different
+   forall(i,j in classes where j < n-1 /\ i < n-1 /\ i!=j) (
+     abs(series[i+1] - series[i]) != abs(series[j+1] - series[j])
+   )
+   /\
+   % SBSO: Symmetry-breaking by selective ordering
+   % The first note is less than last one
+   series[0] < series[n-1]
+;
+
+
+output
+[ show(series)
+];
+
+
+Model 4 : 
+
+
+int: n= 12;
+set of int: classes = 0..n-1;
+set of int: differ = 1..n-1;
+
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+array[differ] of var differ: differences;
+
+solve satisfy;
+
+constraint
+   % C1: Each pitch class occurs exactly once
+   forall(i,j in classes where i != j) (
+     series[i] != series[j]
+   )
+   /\
+   % C2: Differences between neighbouring notes are all different
+   % AUX: Addition of auxiliary predicates
+   % Auxiliary predicate stores the interval between pairs of neighbouring notes
+   forall(i in 1..n-2) (
+       differences[i]=abs(series[i+1] - series[i])
+   )
+   /\
+   forall(i,j in differ where i != j) (
+       differences[i] != differences[j]
+   )
+;
+
+output [
+  show(series)
+];
+
+
+Model 5 : 
+
+
+include "globals.mzn";
+
+int: n = 12;
+set of int: classes = 0..n-1;
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+
+solve :: int_search(series, first_fail, indomain_median, complete) satisfy;
+
+constraint
+  % C1: Each pitch class occurs exactly once
+  % GCAD: Exploitation of alldifferent() global constraint
+  all_different(series)
+  /\
+
+  % C2: Differences between neighbouring notes are all different
+  % GCAD: Exploitation of alldifferent() global constraint
+  % alldifferent(all (i in classes: i <> n-1) abs(series[i+1] - series[i]));
+  all_different( 
+         [ abs(series[i+1] - series[i]) | i in classes where i != n-1]
+  )
+  
+;
+
+output [
+  show(series)
+];
+
+
+Model 6 : 
+
+
+int: n= 12;
+set of int: classes = 0..n-1;
+set of int: differ = 1..n-1;
+
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+array[0..n-2] of var differ: differences;
+
+% solve satisfy;
+solve :: int_search(series, occurrence, indomain_min, complete) satisfy;
+
+constraint
+   % C1: Each pitch class occurs exactly once
+   forall(i,j in classes where i != j) (
+     series[i] != series[j]
+   )
+   /\
+   % C2: Differences between neighbouring notes are all different
+   % AUX: Addition of auxiliary predicates
+   % Auxiliary predicate stores the interval between pairs of neighbouring notes
+   forall(i in 0..n-2) (
+      differences[i]=abs(series[i+1] - series[i])
+   )
+   /\
+   forall(i,j in 0..n-2 where i != j) (
+      differences[i] != differences[j]
+   )
+   /\
+   % SBSO: Symmetry-breaking by selective ordering
+   % The first note is less than last one
+   series[0] < series[n-1]
+;
+
+output [
+  show(series)
+];
+
+
+Model 7 : 
+
+
+include "globals.mzn";
+int: n = 12;
+set of int: classes = 0..n-1;
+set of int: differ = 1..n-1;
+
+% Search space: The set of permutations of integer range [0..n-1]
+array[classes] of var classes: series;
+array[0..n-2] of var differ: differences;
+
+solve ::int_search(series, first_fail, indomain_max, complete) satisfy;
+
+constraint
+   % C1: Each pitch class occurs exactly once
+   % GCAD: Exploitation of alldifferent() global constraint
+   all_different(series)
+   /\
+   % C2: Differences between neighbouring notes are all different
+   % AUX: Addition of auxiliary predicates
+   % Auxiliary predicate stores the interval between pairs of neighbouring notes
+   forall(i in 0..n-2) (
+          differences[i] = abs(series[i+1] - series[i])
+   )
+   /\
+   % GCAD: Exploitation of alldifferent() global constraint
+   all_different(differences)
+   /\
+   % SBSO: Symmetry-breaking by selective ordering
+   % The first note is less than last one
+   series[0] < series[n-1]
+;
+
+
+output [
+   "series: " ++ show(series) ++ "\n" ++
+   "differences: " ++ show(differences) 
+];

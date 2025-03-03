@@ -1,0 +1,28 @@
+The problem represented by these Minizinc models is the All-Interval Series Problem.
+
+**What is the All-Interval Series Problem?**
+
+The All-Interval Series Problem is a classic constraint programming problem that originates from music theory. It involves finding a series of pitch classes (notes) such that each pitch class occurs exactly once, and the intervals between neighboring notes cover the full set of possible intervals (from minor second to major seventh).
+
+**Main Decision Variables:**
+
+The main decision variables in these models are:
+
+* `x` or `series`: an array of variables representing the pitch classes (notes) in the series.
+* `diffs` or `differences`: an array of variables representing the intervals between neighboring notes in the series.
+
+**Key Constraints:**
+
+The key constraints in these models are:
+
+* Each pitch class occurs exactly once (all_different constraint).
+* The intervals between neighboring notes are all different (all_different constraint on the differences array).
+* The series forms a permutation of the pitch classes (i.e., each pitch class is used exactly once).
+
+**Objective:**
+
+The objective of the problem is to find a feasible solution that satisfies the constraints, rather than optimizing a specific objective function.
+
+**Models:**
+
+The seven models provided are different formulations of the All-Interval Series Problem, with varying search strategies, constraint formulations, and symmetry-breaking techniques. They are all designed to find a solution that satisfies the constraints, but may differ in their efficiency and effectiveness in finding a solution.

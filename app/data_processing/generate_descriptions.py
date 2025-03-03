@@ -1,7 +1,6 @@
 import os
 from time import sleep
 
-from langchain.output_parsers import StructuredOutputParser
 from llama_index.core import PromptTemplate, Document
 from llama_index.core import VectorStoreIndex
 from llama_index.core.extractors import QuestionsAnsweredExtractor
@@ -11,9 +10,13 @@ from tqdm import tqdm
 
 from app.utils.data_utils import problem_family
 from app.utils.throttle import throttle_requests
+from configuration import config_parser
+from llama_index.core.callbacks import TokenCountingHandler, CallbackManager
+from llama_index.core import Settings
 
-class Storage:
-    def __init__(self, args):
+class Description_Generator:
+    def __init__(self,args):
+
         self.args = args
 
         self.template_description_level_expert = PromptTemplate(
@@ -21,6 +24,7 @@ class Storage:
             "In particular, you know Minizinc. You are provided with one or several Minizinc models that represents a single classical "
             "problem in constraint programming. Your task is to identify what is the problem modeled and give a "
             "complete description of the problem to the user. \n"
+            "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
             "This is the source code of the model(s):\n"
             "--------------\n"
             "{source_code}"
@@ -41,6 +45,7 @@ class Storage:
             "You are provided with one or more Minizinc models representing a classic constraint programming problem."
             "Your task is to identify the problem and explain it in clear, intermediate-level language."
             "Assume the reader has some technical background but is not an expert."
+            "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
             "In your explanation, please include:\n"
             "The name of the problem.\n"
             "A concise description of what the problem is about.\n"
@@ -54,8 +59,9 @@ class Storage:
         )
 
         self.template_description_level_beginner = PromptTemplate(
-            "You are given one or more Minizinc models that represent a classical constraint programming problem."
+            "You are given one or more Minizinc models that represent a single classical constraint programming problem."
             "Your task is to read the code and explain what the problem is about using very simple language."
+            "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
             "Assume the reader does not have much background in programming or mathematics."
             "Please explain:\n"
             "The name of the problem.\n"
@@ -69,57 +75,59 @@ class Storage:
             "--------------\n"
         )
 
-        self.descriptor_model = Groq(model="llama3-70b-8192", api_key=args.groq_api_key,
-                                     model_kwargs={"seed": 42}, temperature=0.1, output_parser=self.output_parser)
+        self.descriptor_model = Groq(
+            model="llama3-70b-8192",
+            api_key=args.groq_api_key,
+            model_kwargs={"seed": 19851900},
+            temperature=0.1
+        )
+        self.token_counter = TokenCountingHandler()
+        self.callback_manager = CallbackManager([self.token_counter])
+        Settings.callback_manager = self.callback_manager
+        self.descriptor_model.callback_manager = Settings.callback_manager
+        self.model_tpd = 30_000
 
-        self.embeddings_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
-
-        self.documents = []
-        self.index = None
-
+    @throttle_requests()
     def run(self):
-        for filename in tqdm(os.listdir(self.args.txt_path), desc="Generating descriptions"):
-            file_path = os.path.join(self.args.txt_path, filename)
+        for filename in tqdm(os.listdir(self.args.mixed_db_txt), desc="Generating descriptions"):
+            file_path = os.path.join(self.args.mixed_db_txt, filename)
             if os.path.isfile(file_path):
                 with open(file_path, "r", encoding="utf-8") as file:
                     file_content = file.read()
+                    filename_stripped = filename[:4]
 
-                    prompt = self.description_template.format(source_code=file_content)
-                    text_description = self.descriptor_model.complete(prompt=prompt, formatted=True)
-
-                    cp_model = Document(
-                        text=text_description.text,
-                        metadata={
-                            "problem_family": problem_family(os.path.splitext(filename)[0]),
-                            "model_name": os.path.splitext(filename)[0],  # TODO: Drop this
-                            "source_code": file_content  # TODO: If this doesn't contribute, drop it.
-                        },
-                        id_=os.path.splitext(filename)[0]
+                    prompt_expert = self.template_description_level_expert.format(
+                        source_code=file_content
+                    )
+                    prompt_medium = self.template_description_level_medium.format(
+                        source_code=file_content
+                    )
+                    prompt_beginner = self.template_description_level_beginner.format(
+                        source_code=file_content
                     )
 
-                    """
-                    cp_model_document.excluded_embed_metadata_keys = ["source_code"]
-                    # The source code won't be embedded, therefore won't be used on the retrieval-by-similarity process. 
-                    """
-                    """
-                    cp_model_document.excluded_llm_metadata_keys = ["source_code"]
-                    # the source code won't be seen by the LLM during the inference/answer synthesis procedure,
-                    # therefore the LLM won't be able to produce code based on this.
-                    """
+                    text_description_expert = self.descriptor_model.complete(
+                        prompt=prompt_expert
+                    ).text
+                    text_description_medium = self.descriptor_model.complete(
+                        prompt=prompt_medium
+                    ).text
+                    text_description_beginner = self.descriptor_model.complete(
+                        prompt=prompt_beginner
+                    ).text
 
-                    self.documents.append(cp_model)
-                    sleep(3)
+                    output_folder = os.path.join("data/generated_descriptions", filename_stripped)
 
-        self.index = VectorStoreIndex.from_documents(documents=self.documents,
-                                                     transformations=[
-                                                         QuestionsAnsweredExtractor(
-                                                             llm=self.qa_model,
-                                                             prompt_template=self.qa_template,
-                                                             questions=5,
-                                                             num_workers=1,
-                                                             show_progress=False
-                                                         )],
-                                                     embed_model=self.embeddings_model,
-                                                     show_progress=True)
+                    os.makedirs(output_folder, exist_ok=True)
 
-        self.index.storage_context.persist(persist_dir=self.args.storage_dir)
+                    with open(os.path.join(output_folder, "expert.txt"), "w", encoding="utf-8") as f:
+                        f.write(text_description_expert)
+
+                    with open(os.path.join(output_folder, "medium.txt"), "w", encoding="utf-8") as f:
+                        f.write(text_description_medium)
+
+                    with open(os.path.join(output_folder, "beginner.txt"), "w", encoding="utf-8") as f:
+                        f.write(text_description_beginner)
+
+                    with open(os.path.join(output_folder, "source_code.txt"), "w", encoding="utf-8") as f:
+                        f.write(file_content)
