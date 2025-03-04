@@ -1,0 +1,119 @@
+Model 1 :
+
+% n queens problem in MiniZinc.
+
+include "globals.mzn";
+
+int: n;
+array[1..n] of var 1..n: queens;
+
+solve :: int_search(
+        queens, 
+        first_fail, 
+        indomain_min, 
+        complete) 
+    satisfy;
+
+% solve satisfy;
+
+constraint all_different(queens);
+
+constraint
+    forall(i, j in 1..n where i < j) (
+         queens[i] != queens[j] /\
+         queens[i] + i != queens[j] + j /\
+         queens[i] - i != queens[j] - j
+    ) 
+ ;
+
+output [
+  show(queens) ++ "\n"
+
+];
+
+% data
+n = 8;
+
+
+
+Model 2 : 
+
+
+include "globals.mzn";
+
+int: n;
+
+array[1..n] of var 1..n: queens;
+
+solve :: int_search(
+        queens, 
+        first_fail,
+        indomain_median,
+        complete
+       )
+     satisfy;
+
+% solve satisfy;
+constraint all_different(queens); %  :: domain;
+constraint all_different([queens[i]+i | i in 1..n]) :: domain;
+constraint all_different([queens[i]-i | i in 1..n]) :: domain;
+
+output 
+[
+  "queens: " ++ show(queens)
+] ++ 
+% [
+%   if j = 1 then "\n" else "" endif ++
+%      if fix(queens[i]) = j then          
+%         show_int(2,j)
+%      else
+%         "__"
+%      endif
+%   | i in 1..n, j in 1..n
+% ] ++
+["\n"]
+;
+
+% data
+n = 8;
+
+
+Model 3 :
+
+
+
+int: n;                                 % The number of queens.
+
+array [1..n] of var 1..n: q;
+
+include "alldifferent.mzn";
+
+constraint alldifferent(q);
+constraint alldifferent(i in 1..n)(q[i] + i);
+constraint alldifferent(i in 1..n)(q[i] - i);
+
+
+solve 
+%      :: int_search(q, input_order, indomain_min, complete) 
+%      :: int_search(q, first_fail, indomain_min, complete) 
+%      :: int_search(q, smallest, indomain_min, complete)
+%      :: int_search(q, largest, indomain_min, complete)
+%      :: int_search(q, input_order, indomain_max, complete) 
+%      :: int_search(q, first_fail, indomain_max, complete) 
+%      :: int_search(q, smallest, indomain_max, complete)
+%      :: int_search(q, largest, indomain_max, complete)
+%      :: int_search(q, input_order, indomain_median, complete) 
+%      :: int_search(q, first_fail, indomain_median, complete) 
+%      :: int_search(q, smallest, indomain_median, complete)
+%      :: int_search(q, largest, indomain_median, complete)
+%      :: int_search(q, input_order, indomain_random, complete) 
+%      :: int_search(q, first_fail, indomain_random, complete) 
+%      :: int_search(q, smallest, indomain_random, complete)
+%      :: int_search(q, largest, indomain_random, complete)
+      satisfy;
+
+%output	
+%%	[	if fix(q[i]) = j then "Q " else ". " endif ++
+%	 	if j = n then "\n" else "" endif
+%	|	i, j in 1..n
+%	];

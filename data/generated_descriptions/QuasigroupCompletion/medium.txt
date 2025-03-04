@@ -1,0 +1,16 @@
+The problem is known as the Quasigroup with Holes or Latin Square Completion problem.
+
+This problem is about completing a partially filled N x N grid with numbers from 1 to N, such that each row, column, and cell contains each number exactly once. The grid may have some initial values already filled in, and the goal is to fill in the remaining empty cells to satisfy the constraints.
+
+The main decision variables in this problem are the `puzzle` variables, which represent the values to be assigned to each cell in the grid.
+
+The key constraints in this problem are:
+
+* Each row must contain each number from 1 to N exactly once.
+* Each column must contain each number from 1 to N exactly once.
+* Each cell must contain exactly one number from 1 to N.
+* The initial values in the grid must be preserved.
+
+The objective of this problem is to find a solution that satisfies all the constraints, rather than minimizing or maximizing a specific objective function. The `solve satisfy` statement in the model indicates that the goal is to find a feasible solution that meets all the constraints.
+
+In essence, the Quasigroup with Holes problem is a classic constraint satisfaction problem that requires finding a solution that satisfies a set of constraints, rather than optimizing a specific objective function.

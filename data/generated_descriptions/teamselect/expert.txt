@@ -1,0 +1,25 @@
+name: Team Selection Problem
+
+description: The Team Selection Problem is a classic problem in constraint programming that involves selecting three teams of six players each from a pool of 11 players, such that each team has at least one goalie, two defenders, and two forwards, and the total value of the players in each team is maximized.
+
+variables: Xavier, Yuri, Zena ⊆ {1, ..., 11} 
+These variables represent the sets of players selected for each of the three teams, Xavier, Yuri, and Zena.
+
+constraints: 
+card(Xavier) = 6, card(Yuri) = 6, card(Zena) = 6 
+These constraints ensure that each team has exactly six players.
+
+card(Xavier ∩ GOALIE) ≥ 1, card(Yuri ∩ GOALIE) ≥ 1, card(Zena ∩ GOALIE) ≥ 1 
+These constraints ensure that each team has at least one goalie.
+
+card(Xavier ∩ DEFENCE) ≥ 2, card(Yuri ∩ DEFENCE) ≥ 2, card(Zena ∩ DEFENCE) ≥ 2 
+These constraints ensure that each team has at least two defenders.
+
+card(Xavier ∩ OFFENCE) ≥ 2, card(Yuri ∩ OFFENCE) ≥ 2, card(Zena ∩ OFFENCE) ≥ 2 
+These constraints ensure that each team has at least two forwards.
+
+card(Xavier ∩ Yuri) ≤ 2, card(Xavier ∩ Zena) ≤ 2 
+These constraints ensure that no more than two players are shared between any two teams.
+
+objective: maximize ∑(c in CAPTAIN)(∑(p in team[c])(value[c,p])) 
+The objective is to maximize the total value of the players in all three teams.

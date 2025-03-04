@@ -1,0 +1,15 @@
+The Transportation Problem.
+
+This problem is about finding the most cost-effective way to transport goods from multiple factories to multiple warehouses, while meeting the demand of each warehouse and not exceeding the production capacity of each factory.
+
+The main decision variables are the `ship` variables, which represent the quantity of goods to be shipped from each factory to each warehouse.
+
+The key constraints are:
+
+* Each warehouse must receive at least as many goods as it demands.
+* Each factory cannot ship more goods than it produces.
+* The quantity of goods shipped from each factory to each warehouse must be non-negative.
+
+The objective is to minimize the total transportation cost, which is calculated by multiplying the cost of shipping from each factory to each warehouse by the quantity of goods shipped.
+
+In essence, the problem is about finding the optimal assignment of goods from factories to warehouses that meets the demand and production constraints while minimizing the total transportation cost.

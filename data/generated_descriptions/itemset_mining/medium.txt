@@ -1,0 +1,19 @@
+**Market Basket Analysis Problem**
+
+The Market Basket Analysis Problem is a classic constraint programming problem that involves identifying a set of items that frequently appear together in a dataset of transactions.
+
+**Decision Variables:**
+
+The main decision variable is `Items`, which represents a set of items (e.g., products) that are frequently purchased together.
+
+**Key Constraints:**
+
+1. **Frequency constraint**: The set of items `Items` must appear together in at least `Freq` transactions (i.e., baskets).
+2. **Transaction database constraint**: Each transaction in the dataset `TDB` contains a subset of items, and the set of items `Items` must be a subset of at least one transaction.
+3. **Minimum utility constraint**: The total price of the items in `Items` must be at least `minUtility`.
+
+**Objective:**
+
+The objective is to find a set of items that satisfies the constraints, without optimizing any specific objective function (i.e., `solve satisfy`). The goal is to identify a set of items that frequently appear together in the transactions and meet the minimum utility requirement.
+
+In this specific model, the problem is instantiated with 6 items (bread, butter, cheese, cocoa, milk, and vegemite) and 7 transactions. The frequency threshold is set to 4, and the minimum utility is set to 3. The model aims to find a set of items that appears together in at least 4 transactions and has a total price of at least 3.

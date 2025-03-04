@@ -1,0 +1,17 @@
+**Problem Name:** Resource Allocation Problem
+
+**What the problem is about in everyday terms:** Imagine you have three types of resources (let's call them B, C, and D) and you want to allocate them in the best way possible to maximize your profit or benefit. You have some limitations on how much of each resource you can use, and you want to find the optimal combination that gives you the highest return.
+
+**Main variables and what they mean:**
+
+* B, C, and D: These are the three types of resources you have. They can be thought of as quantities of something (e.g., money, materials, labor).
+* x and y: In some models, these are used instead of B and C, but they represent the same idea - quantities of resources.
+
+**Basic restrictions or rules of the problem:**
+
+* You can't use more resources than you have available (represented by the "less than or equal to" constraints).
+* You can't use a negative amount of resources (represented by the "greater than or equal to 0" constraints).
+
+**Goal of the problem:**
+
+* Maximize the total benefit or profit you get from allocating the resources. This is represented by the "maximize" objective function, which combines the resources in a specific way to give you a total value.

@@ -1,0 +1,21 @@
+**Problem Name:** Clustering Problem
+
+**What the problem is about:** Imagine you have a bunch of points on a map, and you want to group them into clusters so that points in the same cluster are close to each other.
+
+**Main Variables:**
+
+* `n`: The number of points on the map.
+* `POINT`: A set of points, each represented by a number from 1 to `n`.
+* `dist`: A table that shows the distance between each pair of points.
+* `k`: The number of clusters you want to create.
+* `CLUSTER`: A set of cluster numbers, from 1 to `k`.
+* `x`: An array that assigns each point to a cluster number.
+* `maxdiam`: The maximum distance between points in the same cluster.
+
+**Basic Restrictions or Rules:**
+
+* Points in the same cluster should be close to each other (within `maxdiam` distance).
+* Each cluster should have at least one point.
+* Clusters should be numbered in a way that points in cluster `i` are all closer to each other than points in cluster `i+1`.
+
+**Goal of the Problem:** The goal is to find a way to cluster the points so that the total distance between points in the same cluster is as small as possible, while also making sure that points in different clusters are far enough apart.

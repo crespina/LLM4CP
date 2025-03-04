@@ -1,0 +1,19 @@
+name: Maximum Density Still Life
+
+description: The Maximum Density Still Life problem is a classic problem in constraint programming, which involves finding a stable pattern of live and dead cells in a grid, such that the density of live cells is maximized. The problem is inspired by Conway's Game of Life, where live cells follow certain rules to survive or die in each generation. In this problem, the goal is to find a pattern that is stable, meaning it does not change over time, and has the maximum number of live cells.
+
+variables: `grid[r,c]` for `r, c in augmentedBoardCoord`
+
+The decision variables are the elements of the `grid` array, which represent the state of each cell in the grid. The value of `grid[r,c]` is 0 if the cell at row `r` and column `c` is dead, and 1 if it is live.
+
+constraints: 
+`grid[0,x] = 0 /\ grid[1,x] = 0 /\ grid[size+2,x] = 0 /\ grid[size+3,x] = 0 /\ grid[x,0] == 0 /\ grid[x,1] == 0 /\ grid[x,size+2] = 0 /\ grid[x,size+3] = 0` for `x in augmentedBoardCoord`
+`((grid[r-1,c-1] + grid[r-1,c] + grid[r-1,c+1] + grid[r,c-1] + grid[r,c+1] + grid[r+1,c-1] + grid[r+1,c] + grid[r+1,c+1] ) = 3) -> (grid[r,c] = 1)` for `r, c in checkConstraintsBoardCoord`
+`(grid[r,c] = 1) -> (2 <= (grid[r-1,c-1] + grid[r-1,c] + grid[r-1,c+1] + grid[r,c-1] + grid[r,c+1] + grid[r+1,c-1] + grid[r+1,c] + grid[r+1,c+1] ) <= 3)` for `r, c in checkConstraintsBoardCoord`
+`grid[2,2] >= grid[size+1,size+1] /\ grid[2,size+1] >= grid[size+1,2]`
+
+The constraints ensure that the pattern is stable and follows the rules of Conway's Game of Life. The first constraint sets the boundary cells to be dead. The second constraint ensures that each cell with exactly three live neighbors is alive. The third constraint ensures that each live cell has two or three live neighbors. The last constraint is a symmetry-breaking constraint, which forces the assignment to respect an ordering on the values that occur in corner entries of the board.
+
+objective: Maximize `z = sum(r in objFunctionBoardCoord, c in objFunctionBoardCoord) (grid[r,c])`
+
+The objective is to maximize the number of live cells in the grid, which is represented by the variable `z`.

@@ -1,0 +1,12 @@
+name: Constrained Clustering
+
+description: The Constrained Clustering problem is a variant of the traditional clustering problem, where we want to group nodes into clusters such that no two nodes in the same cluster are connected by a forbidden edge. The goal is to find the maximum number of edges that can be included in the clustering while satisfying the constraints.
+
+variables: selected ⊆ EDGE, rep: NODE → NODE
+The decision variables are `selected`, a subset of edges that will be included in the clustering, and `rep`, a function that assigns a representative node to each node in the graph.
+
+constraints: ∀e ∈ EDGE: e ∈ selected → rep[pre[e]] = rep[suc[e]], ∀d ∈ DPAIR: rep[first[d]] ≠ rep[second[d]]
+The constraints ensure that if an edge is selected, its endpoints must have the same representative node, and that the representative nodes of nodes connected by a forbidden edge must be different.
+
+objective: maximize |selected|
+The objective is to maximize the number of edges included in the clustering.

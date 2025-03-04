@@ -1,0 +1,37 @@
+name: Magic Hexagon Problem
+
+description: The Magic Hexagon Problem is a classic constraint satisfaction problem where the goal is to find a configuration of numbers in a hexagonal shape such that the sums of numbers along each line and diagonal are equal to a certain value.
+
+variables: a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s ∈ {1, ..., 19}
+
+These variables represent the numbers to be placed in the hexagonal shape.
+
+constraints: 
+all_different(LD) ∧ 
+a + b + c = 38 ∧ 
+d + e + f + g = 38 ∧ 
+h + i + j + k + l = 38 ∧ 
+m + n + o + p = 38 ∧ 
+q + r + s = 38 ∧ 
+a + d + h = 38 ∧ 
+b + e + i + m = 38 ∧ 
+c + f + j + n + q = 38 ∧ 
+g + k + o + r = 38 ∧ 
+l + p + s = 38 ∧ 
+c + g + l = 38 ∧ 
+b + f + k + p = 38 ∧ 
+a + e + j + o + s = 38 ∧ 
+d + i + n + r = 38 ∧ 
+h + m + q = 38 ∧ 
+a < c ∧ 
+a < h ∧ 
+a < l ∧ 
+a < q ∧ 
+a < s ∧ 
+c < h
+
+These constraints ensure that all numbers are distinct, the sums of numbers along each line and diagonal are equal to 38, and some additional ordering constraints to break symmetry.
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

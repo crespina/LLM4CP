@@ -1,0 +1,30 @@
+name: Stochastic General Assignment Problem
+
+description: The Stochastic General Assignment Problem is a variant of the classic assignment problem, where tasks need to be assigned to machines and scheduled to minimize the expected makespan. The problem is stochastic because the processing times of the tasks are uncertain and are represented by multiple scenarios. The problem involves two stages: in the first stage, tasks are assigned to machines, and in the second stage, the tasks are scheduled on the machines based on the observed processing times.
+
+variables: `start[s,t], dur[s,t], b[o], de_objective[s], objective`
+
+* `start[s,t]`: the start time of task `t` in scenario `s`
+* `dur[s,t]`: the duration of task `t` in scenario `s`
+* `b[o]`: a boolean variable indicating whether optional task `o` is executed
+* `de_objective[s]`: the makespan of scenario `s`
+* `objective`: the expected makespan over all scenarios
+
+constraints: 
+`start[s,i] + dur[s,i] <= start[s,i + 1], 
+dur[s,t] = optt_dur[s,o] <-> b[o], 
+sum(o in optts[t])(bool2int(b[o])) <= 1, 
+exists(o in optts[t])(b[o]), 
+b[o1] <-> not(b[o2]), 
+cumulative(start, dur, b, 1), 
+start[s,last_task[j]] + dur[s,last_task[j]] <= de_objective[s], 
+objective = sum(s in SCENARIOS)(weights[s]*de_objective[s])`
+
+* Precedence relations: each task must start after its predecessor
+* Duration constraints: the duration of a task is equal to the duration of the selected optional task
+* Optional tasks' constraints: at most one optional task can be executed for each task, and if an optional task is executed, its duration is used
+* Resource constraints: the cumulative duration of tasks on each machine does not exceed the machine's capacity
+* Objective constraint: the makespan of each scenario is the maximum completion time of all tasks
+* Objective function: the expected makespan over all scenarios
+
+objective: Minimize the expected makespan over all scenarios.

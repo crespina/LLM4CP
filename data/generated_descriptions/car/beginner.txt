@@ -1,0 +1,18 @@
+**Car Sequencing Problem**
+
+This problem is about arranging cars on a production line in a specific order. Imagine a factory that produces cars with different features, such as sunroofs, leather seats, or navigation systems. The goal is to sequence the cars in a way that minimizes the total number of changes needed to switch between different features.
+
+**Main Variables:**
+
+* `slot`: represents the type of car (e.g., sedan, SUV, etc.) assigned to each production slot.
+* `setup`: indicates whether a specific feature (e.g., sunroof) is installed on a car in a particular slot.
+
+**Basic Restrictions or Rules:**
+
+* Each type of car has a specific number of units to be produced.
+* Certain features require a minimum number of consecutive cars to be produced together (e.g., a sunroof requires 3 consecutive cars).
+* The production line has a limited capacity for each feature (e.g., only 5 cars with leather seats can be produced in a row).
+
+**Goal:**
+
+The goal is to minimize the total number of changes needed to switch between different car types and features while satisfying the production requirements and restrictions.

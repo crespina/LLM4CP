@@ -1,0 +1,15 @@
+The Prisoner Allocation Problem.
+
+This problem involves allocating prisoners to cells in a prison, where each prisoner has a specific cost associated with their allocation. The goal is to minimize the total cost of allocating all prisoners to cells.
+
+The main decision variables are `r` and `c`, which represent the row and column of the cell assigned to each prisoner, respectively.
+
+The key constraints are:
+
+* Each prisoner must be assigned a unique cell (i.e., no two prisoners can be in the same cell).
+* Prisoners deemed "dangerous" must be separated from each other by at least one cell in either the row or column direction.
+* Female prisoners must be allocated to cells in the top half of the prison, while male prisoners must be allocated to cells in the bottom half.
+
+The objective is to minimize the total cost of allocating all prisoners to cells, where the cost of allocating a prisoner to a cell is given by the `cost` array.
+
+In essence, this problem involves finding an optimal assignment of prisoners to cells that satisfies the constraints and minimizes the total cost.

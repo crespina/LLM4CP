@@ -1,0 +1,20 @@
+The Stochastic General Assignment Problem.
+
+This problem is about assigning tasks to machines and scheduling them to minimize the expected makespan. The problem has two stages: in the first stage, tasks are assigned to machines, and in the second stage, the tasks are scheduled on the machines based on observed processing times.
+
+The main decision variables are:
+
+* `start`: the start time of each task on each machine in each scenario
+* `dur`: the duration of each task on each machine in each scenario
+* `b`: a boolean variable indicating whether an optional task is executed or not
+
+The key constraints are:
+
+* Precedence relations: each task must start after its predecessor has finished
+* Duration constraints: the duration of each task is determined by the observed processing time
+* Optional tasks' constraints: each optional task can be executed at most once, and if it is executed, its duration is fixed
+* Resource constraints: the total processing time of all tasks on each machine cannot exceed the machine's capacity
+
+The objective is to minimize the expected makespan, which is the maximum completion time of all tasks across all scenarios.
+
+In essence, this problem is about finding the best assignment and scheduling of tasks to machines to minimize the overall processing time, while taking into account the uncertainty in processing times and the availability of optional tasks.

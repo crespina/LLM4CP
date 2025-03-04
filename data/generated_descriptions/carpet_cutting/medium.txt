@@ -1,0 +1,19 @@
+The problem is known as the "2D Rectangular Cutting Stock Problem" or "2D Bin Packing Problem".
+
+This problem is about cutting rectangular pieces from a roll of carpet to cover a set of rooms with different shapes and sizes. The goal is to minimize the total length of carpet used.
+
+The main decision variables are:
+
+* `x` and `y`: the coordinates of the top-left corner of each room on the carpet
+* `rot`: the rotation of each room (0, 90, 180, or 270 degrees)
+* `kind`: the shape of each room (which set of rectangles to use)
+* `l`: the total length of carpet used
+
+The key constraints are:
+
+* Each room must be placed within the carpet roll, without exceeding its boundaries.
+* No two rooms can overlap.
+* Each room must be placed according to its rotation and shape.
+* The total length of carpet used must be minimized.
+
+The objective is to minimize the total length of carpet used (`l`).

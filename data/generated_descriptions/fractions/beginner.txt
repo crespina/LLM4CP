@@ -1,0 +1,18 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Fractions problem
+
+**What the problem is about:** Imagine you have 9 distinct digits (from 1 to 9) that you want to use to create three fractions that add up to 1. The fractions are created by combining the digits in a specific way.
+
+**Main variables and their meanings:**
+
+* A, B, C, D, E, F, G, H, I: These are the 9 distinct digits (from 1 to 9) that we want to use to create the fractions.
+* D1, D2, D3: These are the denominators (the numbers at the bottom) of the three fractions.
+
+**Basic restrictions or rules:**
+
+* Each digit can only be used once.
+* The digits must be combined in a specific way to create the fractions.
+* The three fractions must add up to 1.
+
+**Goal of the problem:** Find a way to combine the 9 digits to create three fractions that add up to 1, while following the rules and restrictions mentioned above.

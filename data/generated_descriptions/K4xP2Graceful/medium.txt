@@ -1,0 +1,19 @@
+The problem is known as the "Graceful Graph" problem.
+
+The Graceful Graph problem is about labeling the nodes of a graph with integers from 1 to m, such that the absolute difference between the labels of two adjacent nodes is equal to the edge label connecting them. The goal is to find a labeling that satisfies this condition for all edges in the graph.
+
+The main decision variables in this problem are:
+
+* `nodes`: an array of variables representing the labels assigned to each node in the graph.
+* `edges`: an array of variables representing the labels assigned to each edge in the graph.
+* `graph`: a 2D array representing the adjacency matrix of the graph, where `graph[i,1]` and `graph[i,2]` represent the nodes connected by the `i`-th edge.
+
+The key constraints in this problem are:
+
+* For each edge, the absolute difference between the labels of the two nodes it connects must be equal to the edge label.
+* All edge labels must be distinct.
+* All node labels must be distinct.
+
+The objective of the problem is to find a feasible solution that satisfies all these constraints, rather than optimizing a specific objective function.
+
+In this specific model, the graph is fixed and represented by the `graph` array, and the goal is to find a labeling of the nodes and edges that satisfies the graceful graph condition.

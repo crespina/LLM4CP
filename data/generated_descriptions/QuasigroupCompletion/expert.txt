@@ -1,0 +1,31 @@
+name: Latin Square Completion
+
+description: The Latin Square Completion problem is a classic problem in constraint programming. It involves completing a partially filled N x N grid with numbers from 1 to N, such that each row, column, and cell contains each number exactly once.
+
+variables: puzzle[i,j] (Model 1) or puzzle[i,j,k] (Model 2)
+
+The decision variables represent the values to be assigned to each cell in the grid. In Model 1, puzzle[i,j] represents the value assigned to the cell at row i and column j. In Model 2, puzzle[i,j,k] represents a binary variable indicating whether the value k is assigned to the cell at row i and column j.
+
+constraints: 
+fill initial board: ∀i,j (if start[i,j] > 0 then puzzle[i,j] = start[i,j] else true endif) (Model 1)
+∀i,j (if start[i,j] > 0 then puzzle[i,j, start[i,j]] = 1 else true endif) (Model 2)
+
+These constraints ensure that the initial values in the grid are preserved.
+
+All different in rows: ∀i (alldifferent([puzzle[i,j] | j in PuzzleRange])) (Model 1)
+∀i,k (∑j (puzzle[i,j,k]) == 1) (Model 2)
+
+These constraints ensure that each row contains each number exactly once.
+
+All different in columns: ∀j (alldifferent([puzzle[i,j] | i in PuzzleRange])) (Model 1)
+∀j,k (∑i (puzzle[i,j,k]) == 1) (Model 2)
+
+These constraints ensure that each column contains each number exactly once.
+
+Each cell must have a number assigned: ∀i,j (∑k (puzzle[i,j,k]) == 1) (Model 2)
+
+This constraint ensures that each cell contains exactly one number.
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

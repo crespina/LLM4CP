@@ -1,0 +1,21 @@
+**Traveling Tournament Problem**
+
+This problem is about scheduling a tournament where multiple teams play each other in a round-robin format, meaning each team plays every other team once. The twist is that each game has already been assigned a specific venue (home or away), and we want to find the schedule that minimizes the total travel distance for all teams.
+
+**Main Variables:**
+
+* `nbTeams`: The number of teams participating in the tournament.
+* `opponent[i,k]`: The team that team `i` plays against in round `k`.
+* `venue[i,k]`: Whether team `i` plays at home (1) or away (2) in round `k`.
+* `travel[i,k]`: The distance team `i` travels to play in round `k` (including the return journey after the last round).
+
+**Basic Restrictions:**
+
+* A team cannot play against itself.
+* If team `i` plays team `j` in round `k`, then team `j` plays team `i` in the same round.
+* Each team plays every other team exactly once.
+* No team can have more than three consecutive home games or away games.
+
+**Goal:**
+
+The goal is to find a schedule that minimizes the total travel distance for all teams.

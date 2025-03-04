@@ -1,0 +1,21 @@
+**Problem Name:** Ship Scheduling
+
+**What the problem is about:** Imagine a busy port with multiple channels where ships come and go. We need to schedule when each ship enters and leaves the port through which channel, so that they don't crash into each other.
+
+**Main variables:**
+
+* `SHIP`: Each ship is represented by a number.
+* `CHANNEL`: Each channel in the port is represented by a number.
+* `start`: The time when each ship starts to enter or leave the port.
+* `end`: The time when each ship finishes entering or leaving the port.
+* `channel`: The channel assigned to each ship.
+* `next`: The next ship that will use the same channel.
+
+**Basic restrictions or rules:**
+
+* Each ship must enter and leave the port through one of the channels.
+* Ships must not collide with each other in the same channel.
+* There must be a safe distance (called "leeway") between two ships in the same channel.
+* Each channel has a limited length, and ships take different times to traverse it.
+
+**Goal of the problem:** We want to find a schedule that minimizes the total difference between the desired start time and the actual start time for all ships. In other words, we want to make sure that each ship starts entering or leaving the port as close as possible to its desired time.

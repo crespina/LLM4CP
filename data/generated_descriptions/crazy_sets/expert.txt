@@ -1,0 +1,20 @@
+name: Error-Correcting Code Design
+
+description: The problem of Error-Correcting Code Design involves designing a set of codes such that any three codes have no element in common. This problem is a classic problem in constraint programming and is used in various applications such as coding theory and data storage.
+
+variables: s[i], x[i,j]
+
+The decision variables are s[i] which represents the i-th set of codes, and x[i,j] which represents the j-th element of the i-th set.
+
+constraints: 
+s[i] intersect s[j] intersect s[k] = {}, 
+x[i,j] < x[i,j+1], 
+x[i,j] < x[i+1,j], 
+o in s[i] -> exists(j in 1..c)(x[i,j] = o), 
+x[i,j] in s[i]
+
+The constraints ensure that any three sets have no element in common, the elements in each set are in increasing order, and the elements in each set are distinct. The last two constraints ensure that the x[i,j] variables are correctly assigned to the sets s[i].
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, i.e., to design a set of codes such that any three codes have no element in common.

@@ -1,0 +1,15 @@
+name: Permutation with Restrictions
+
+description: This problem involves finding a permutation of numbers from 1 to 10, where the first element is at least 9, and all elements from the second to the tenth are at most 9. The goal is to find a permutation that satisfies these restrictions.
+
+variables: x = (x[1], x[2], ..., x[10]) ∈ {1, 2, ..., 10}^10
+These variables represent the elements of the permutation, where x[i] is the i-th element of the permutation.
+
+constraints: 
+∀i, j ∈ {1, 2, ..., 10} where i < j, x[i] ≠ x[j] (alldifferent constraint)
+∀i ∈ {2, 3, ..., 10}, x[i] ≤ 9
+x[1] ≥ 9
+The first constraint ensures that all elements in the permutation are distinct. The second constraint restricts the values of elements from the second to the tenth to be at most 9. The third constraint ensures that the first element is at least 9.
+
+objective: satisfy
+The objective of this problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific value.

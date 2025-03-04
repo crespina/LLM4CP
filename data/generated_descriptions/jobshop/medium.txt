@@ -1,0 +1,19 @@
+**Flowshop Scheduling Problem**
+
+The Flowshop Scheduling Problem is a classic constraint programming problem that involves scheduling a set of jobs on a set of machines in a specific order.
+
+**Decision Variables:**
+
+* `s[j,t]`: the start time of task `t` in job `j`
+* `makespan`: the maximum completion time of all jobs
+
+**Key Constraints:**
+
+* Each task in a job must be performed in order, meaning that the start time of a task must be after the completion time of the previous task in the same job.
+* Only one task can be performed on a machine at a time, meaning that two tasks on the same machine cannot overlap in time.
+
+**Objective:**
+
+The objective of the problem is to minimize the `makespan`, which is the maximum completion time of all jobs.
+
+In summary, the Flowshop Scheduling Problem involves scheduling a set of jobs on a set of machines in a specific order, subject to constraints on the order of tasks within each job and the availability of machines, with the goal of minimizing the overall completion time.

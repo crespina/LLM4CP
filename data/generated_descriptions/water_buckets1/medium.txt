@@ -1,0 +1,18 @@
+The problem is known as the Water Buckets Problem.
+
+This problem is about dividing a certain amount of water into two buckets of specific capacities using a series of pouring operations. The goal is to find the minimum number of transfers required to achieve a desired distribution of water in the buckets.
+
+The main decision variables in this problem are the states of the buckets at each time step, represented by the `state` array in the model. Each element of the array represents the amount of water in a particular bucket at a particular time step.
+
+The key constraints in this problem are:
+
+* The initial state of the buckets is specified by the `start` array.
+* The goal state of the buckets is specified by the `goal` array.
+* At each time step, the amount of water in each bucket must be within its capacity.
+* The total amount of water remains constant throughout the process.
+* At each step, exactly two buckets change their water levels.
+* After each transfer, either the source bucket becomes empty or the target bucket becomes full.
+
+The objective of the problem is to minimize the number of transfers required to reach the goal state from the initial state.
+
+In the second model, the problem is represented as a finite state machine, where the states are the possible configurations of the buckets, and the transitions between states are the pouring operations. The goal is to find the shortest path from the initial state to the goal state.

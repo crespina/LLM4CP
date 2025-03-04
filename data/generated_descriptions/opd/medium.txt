@@ -1,0 +1,23 @@
+**Orthogonal Pairs of Designs (OPD) Problem**
+
+The OPD problem is a classic constraint programming problem that involves designing a binary matrix with specific properties.
+
+**Problem Description**
+
+Given three integers `v`, `b`, and `r`, the goal is to find a binary matrix `m` with `v` rows and `b` columns, where each row sums to `r`. The matrix should be designed such that the dot product between any pair of distinct rows is minimal.
+
+**Decision Variables**
+
+The main decision variables are the elements of the binary matrix `m`, where `m[i, j]` represents the value (0 or 1) at row `i` and column `j`.
+
+**Key Constraints**
+
+1. **Row Sum Constraint**: Each row of the matrix must sum to `r`.
+2. **Dot Product Constraint**: The dot product between any pair of distinct rows must be less than or equal to a minimum value, represented by the variable `objective`.
+3. **Symmetry Breaking Constraints**: These constraints are used to break the symmetry of the matrix, ensuring that the solution is unique and not duplicated.
+
+**Objective**
+
+The objective of the problem is to minimize the dot product between any pair of distinct rows, represented by the variable `objective`. This is equivalent to finding the minimum value of lambda (λ) that satisfies the dot product constraint.
+
+In summary, the OPD problem involves designing a binary matrix with specific properties, where each row sums to a fixed value, and the dot product between any pair of distinct rows is minimal. The goal is to find the minimum value of lambda that satisfies these constraints.

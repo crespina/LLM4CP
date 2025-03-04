@@ -1,0 +1,14 @@
+The problem is known as the "Graph Numbering Problem" or "Graph Labeling Problem".
+
+This problem is about assigning unique numbers from 1 to 8 to the vertices of a specific graph, such that each number is used exactly once, and the numbers assigned to adjacent vertices differ by at most two.
+
+The main decision variables are `a` to `h`, which represent the numbers assigned to each vertex of the graph.
+
+The key constraints are:
+
+* Each number is used exactly once, which means that no two vertices can have the same number.
+* Adjacent vertices (connected by an edge) must have numbers that differ by at least two. This is represented by the absolute difference constraints, such as `abs(a - b) >= 2`.
+
+The objective of the problem is to find a feasible assignment of numbers to the vertices that satisfies all the constraints, which is achieved by using the `solve satisfy` statement.
+
+The output of the model is a graphical representation of the graph with the assigned numbers, as well as a list of the assigned numbers for each vertex.

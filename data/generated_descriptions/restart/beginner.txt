@@ -1,0 +1,21 @@
+**The Problem of the Ten Variables**
+
+This problem is about assigning numbers to ten variables in a special way.
+
+**Main Variables:**
+
+The problem has ten variables, labeled x[1] to x[10]. Each variable can take a value between 1 and 10.
+
+**Basic Restrictions or Rules:**
+
+The rules are:
+
+* Each variable must have a different value than the others.
+* The values of variables x[2] to x[10] cannot be more than 9.
+* The value of variable x[1] must be at least 9.
+
+**Goal of the Problem:**
+
+The goal is to find a way to assign numbers to the variables that satisfy all the rules. In other words, we want to find a solution that makes all the variables happy!
+
+Note that the three models are slightly different, but they all represent the same problem. The differences are in how the problem is solved, not in what the problem is about.

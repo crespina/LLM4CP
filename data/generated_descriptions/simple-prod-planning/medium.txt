@@ -1,0 +1,19 @@
+**Problem Name:** Production Planning Problem
+
+**Description:** The Production Planning Problem is a classic constraint programming problem that involves determining the optimal production quantities of different products to maximize profit, given limited resources and production constraints.
+
+**Decision Variables:**
+
+* `produce`: an array of variables representing the quantity of each product to produce.
+* `used`: an array of variables representing the amount of each resource used in production.
+
+**Key Constraints:**
+
+* The production of each product cannot exceed the available resources. This is ensured by the constraint that the total amount of each resource used (calculated by multiplying the production quantity of each product by its resource consumption) does not exceed the available capacity of that resource.
+* The production quantity of each product is bounded by the maximum possible production quantity, calculated based on the available resources and resource consumption.
+
+**Objective:**
+
+The objective is to maximize the total profit, which is calculated by multiplying the production quantity of each product by its profit per unit.
+
+In summary, the Production Planning Problem involves finding the optimal production quantities of different products to maximize profit, while ensuring that the production does not exceed the available resources and respecting the production constraints.

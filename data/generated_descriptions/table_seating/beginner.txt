@@ -1,0 +1,24 @@
+**The Seating Arrangement Problem**
+
+This problem is about arranging people at tables for a dinner or a party. Imagine you have a certain number of people and a certain number of tables, and each table can only fit a certain number of people.
+
+**Main Variables:**
+
+* `n`: The total number of people.
+* `T`: The number of tables.
+* `S`: The maximum number of people that can sit at each table.
+* `couples`: Pairs of people who want to sit together.
+* `key`: A set of special people who cannot sit together.
+* `table`: An array that shows which people are sitting at each table.
+* `seat`: An array that shows which table each person is sitting at.
+
+**Basic Restrictions or Rules:**
+
+* Each table can only fit a certain number of people (S).
+* Each person must sit at a table.
+* Couples want to sit together at the same table.
+* Special people in the `key` set cannot sit together.
+
+**Goal:**
+
+The goal is to find a seating arrangement that minimizes the total table numbers of all couples. In other words, we want to find a way to seat the couples together at tables with the lowest possible table numbers.

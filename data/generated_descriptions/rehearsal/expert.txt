@@ -1,0 +1,28 @@
+name: Rehearsal Scheduling Problem
+
+description: The problem involves scheduling a rehearsal for a concert consisting of nine pieces of music with different durations, each requiring a different combination of five orchestra players. The goal is to find an order in which the pieces can be rehearsed to minimize the total time that players are waiting to play, i.e., the total time when players are present but not currently playing.
+
+variables: rehearsal_order ∈ {1, ..., num_pieces}^num_pieces, waiting_time ∈ ℤ^num_players, p_from ∈ {1, ..., num_pieces}^num_players, p_to ∈ {1, ..., num_pieces}^num_players, total_waiting_time ∈ ℤ
+
+The decision variables are:
+- rehearsal_order: an array representing the order in which the pieces are rehearsed
+- waiting_time: an array representing the waiting time for each player
+- p_from and p_to: arrays representing the first and last pieces each player is involved in, respectively
+- total_waiting_time: the total waiting time for all players
+
+constraints: 
+all_different(rehearsal_order), 
+p_from[p] < p_to[p] ∀p ∈ {1, ..., num_players}, 
+rehearsal[p, rehearsal_order[i]] = 0 ∀p ∈ {1, ..., num_players}, i < p_from[p], 
+rehearsal[p, rehearsal_order[i]] = 0 ∀p ∈ {1, ..., num_players}, i > p_to[p], 
+waiting_time[p] = ∑(i ∈ {1, ..., num_pieces}) (duration[rehearsal_order[i]] * bool2int(i ≥ p_from[p] ∧ i ≤ p_to[p] ∧ rehearsal[p, rehearsal_order[i]] = 0)) ∀p ∈ {1, ..., num_players}, 
+rehearsal_order[1] < rehearsal_order[num_pieces]
+
+The constraints are:
+- all_different(rehearsal_order): ensures that each piece is rehearsed exactly once
+- p_from[p] < p_to[p]: ensures that the first piece each player is involved in is before the last piece
+- rehearsal[p, rehearsal_order[i]] = 0: ensures that players are not involved in pieces before their first or after their last piece
+- waiting_time[p] = ...: calculates the waiting time for each player
+- rehearsal_order[1] < rehearsal_order[num_pieces]: breaks symmetry by ensuring that the first piece is rehearsed before the last piece
+
+objective: minimize total_waiting_time

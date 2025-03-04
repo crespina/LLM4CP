@@ -1,0 +1,19 @@
+name: Assignment Problem
+
+description: The Assignment Problem is a classic problem in combinatorial optimization and operations research. It involves finding the optimal assignment of a set of workers to a set of tasks, where each worker can be assigned to at most one task and each task can be assigned to at most one worker, in order to maximize the total profit or value of the assignments.
+
+variables: x, px, task, worker
+x: an array of variables, where x[w] represents the task assigned to worker w
+px: an array of variables, where px[w] represents the profit of assigning worker w to task x[w]
+task: an array of variables, where task[w] represents the worker assigned to task w
+worker: an array of variables, where worker[t] represents the task assigned to worker t
+These variables represent the assignment of workers to tasks and the corresponding profits.
+
+constraints: alldifferent(x), inverse(task,worker), alldifferent(worker)
+alldifferent(x): ensures that each worker is assigned to at most one task
+inverse(task,worker): ensures that each task is assigned to at most one worker and each worker is assigned to at most one task
+alldifferent(worker): ensures that each task is assigned to at most one worker
+These constraints ensure that the assignment is one-to-one, i.e., each worker is assigned to at most one task and each task is assigned to at most one worker.
+
+objective: maximize obj, where obj = sum(w in WORK)(px[w]) or obj = sum(t in COD)(profit[worker[t],t])
+The objective is to maximize the total profit of the assignments, which is the sum of the profits of assigning each worker to their assigned task.

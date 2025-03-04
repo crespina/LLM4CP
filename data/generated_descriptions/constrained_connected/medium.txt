@@ -1,0 +1,19 @@
+Constrained Clustering Problem
+
+The Constrained Clustering Problem is a classic constraint programming problem that involves dividing a set of nodes into clusters such that certain constraints are satisfied.
+
+The problem is about grouping nodes into clusters in a way that no two nodes in the same cluster are connected by a forbidden edge. The goal is to find the largest possible subset of edges that do not violate these constraints.
+
+The main decision variables in this problem are:
+
+* `selected`: a set of edges that are selected to form the clusters
+* `rep`: an array of node representatives, where `rep[i]` represents the cluster that node `i` belongs to
+
+The key constraints in this problem are:
+
+* Each selected edge must connect two nodes that belong to the same cluster (i.e., have the same representative)
+* No two nodes that are connected by a forbidden edge can belong to the same cluster
+
+The objective of the problem is to maximize the number of selected edges, which means finding the largest possible subset of edges that satisfy the constraints.
+
+In other words, the goal is to find the largest possible clustering of nodes such that no two nodes connected by a forbidden edge are in the same cluster.

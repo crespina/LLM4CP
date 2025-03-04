@@ -1,0 +1,17 @@
+**The Ternary Steiner Problem**
+
+**What is it about?**
+Imagine you have a set of items, like toys or balls, and you want to group them into sets of three in a special way.
+
+**Main variables:**
+* `N`: The total number of items (toys or balls).
+* `Sets`: A collection of groups, each containing three items.
+
+**Basic restrictions or rules:**
+* Each group must have exactly three items.
+* Any two groups can share at most one item.
+
+**Goal:**
+The goal is to find a way to group all the items into sets of three, following the rules above, so that we have the desired number of groups (`NB`).
+
+In simpler terms, we want to divide a set of items into groups of three, making sure that each group is unique and doesn't share too many items with other groups.

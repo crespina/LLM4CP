@@ -2,7 +2,7 @@ import os
 
 from llama_index.core import Document
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.core import VectorStoreIndex
+from llama_index.core import VectorStoreIndex, Settings
 
 class VectorStoresConstructor:
 
@@ -37,6 +37,8 @@ class VectorStoresConstructor:
         self.storage_dir_beginner_medium = self.args.storage_dir + "/beginnermedium"
 
     def run(self):
+
+        Settings.chunk_size = 4096
 
         for folder_name in os.listdir(self.args.descriptions_folder):
             folder_path = os.path.join(self.args.descriptions_folder, folder_name)
@@ -105,48 +107,55 @@ class VectorStoresConstructor:
             documents=self.docs_code_only,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_expert = VectorStoreIndex.from_documents(
             documents=self.docs_expert,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_medium = VectorStoreIndex.from_documents(
             documents=self.docs_medium,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_beginner = VectorStoreIndex.from_documents(
             documents=self.docs_beginner,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_expert_medium = VectorStoreIndex.from_documents(
             documents=self.docs_expert_medium,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_expert_beginner = VectorStoreIndex.from_documents(
             documents=self.docs_expert_beginner,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_beginner_medium = VectorStoreIndex.from_documents(
             documents=self.docs_beginner_medium,
             embed_model=self.embeddings_model,
             show_progress=True,
+            chunk_size=2048,
         )
 
-        self.index_code_only.storage_context.persist(persist_dir=self.args.storage_dir_code_only)
+        self.index_code_only.storage_context.persist(persist_dir=self.storage_dir_code_only)
         self.index_expert.storage_context.persist(persist_dir=self.storage_dir_expert)
-        self.index_medium.storage_context.persist(persist_dir=self.args.storage_dir_medium)
-        self.index_beginner.storage_context.persist(persist_dir=self.args.storage_dir_beginner)
-        self.index_expert_medium.storage_context.persist(persist_dir=self.args.storage_dir_expert_medium)
-        self.index_expert_beginner.storage_context.persist(persist_dir=self.args.storage_dir_expert_beginner)
-        self.index_beginner_medium.storage_context.persist(persist_dir=self.args.storage_dir_beginner_medium)
+        self.index_medium.storage_context.persist(persist_dir=self.storage_dir_medium)
+        self.index_beginner.storage_context.persist(persist_dir=self.storage_dir_beginner)
+        self.index_expert_medium.storage_context.persist(persist_dir=self.storage_dir_expert_medium)
+        self.index_expert_beginner.storage_context.persist(persist_dir=self.storage_dir_expert_beginner)
+        self.index_beginner_medium.storage_context.persist(persist_dir=self.storage_dir_beginner_medium)

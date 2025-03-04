@@ -1,0 +1,19 @@
+The problem is the **Assignment Problem**.
+
+The Assignment Problem is a classic constraint programming problem that involves assigning a set of tasks to a set of workers in such a way that each task is assigned to exactly one worker and each worker is assigned to exactly one task. The goal is to maximize the total profit or value obtained from the assignments.
+
+The main decision variables in this problem are:
+
+* `x` or `task` or `worker`: These variables represent the assignment of tasks to workers. For example, `x[w]` represents the task assigned to worker `w`.
+
+The key constraints in this problem are:
+
+* Each task is assigned to exactly one worker.
+* Each worker is assigned to exactly one task.
+* The assignments must be unique, meaning that no two workers can be assigned the same task, and no two tasks can be assigned to the same worker.
+
+The objective of the problem is to maximize the total profit obtained from the assignments. The profit is calculated as the sum of the profits obtained from each task-worker pair.
+
+In the provided models, the profit is represented by the `profit` array, where `profit[w,t]` represents the profit obtained from assigning task `t` to worker `w`. The objective is to maximize the sum of these profits.
+
+The models use different constraints and search strategies to solve the problem. Model 1 uses the `alldifferent` constraint to ensure that the assignments are unique, while Model 2 uses the `inverse` constraint to achieve the same goal. Model 3 is similar to Model 1 but uses a different search strategy.

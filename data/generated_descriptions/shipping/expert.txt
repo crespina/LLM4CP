@@ -1,0 +1,12 @@
+name: Transportation Problem
+
+description: The Transportation Problem is a classic problem in Operations Research and Management Science that involves finding the most cost-effective way to transport goods from a set of factories to a set of warehouses. Each factory has a limited production capacity, and each warehouse has a certain demand that must be met. The goal is to determine the optimal shipment quantities from each factory to each warehouse to minimize the total transportation cost.
+
+variables: ship[f,w] (f ∈ FACT, w ∈ WARE) - The decision variables represent the quantity of goods to be shipped from factory f to warehouse w.
+
+constraints: 
+∀f ∈ FACT, w ∈ WARE : ship[f,w] ≥ 0 - Each shipment quantity must be non-negative.
+∀w ∈ WARE : ∑(f ∈ FACT) ship[f,w] ≥ demand[w] - The total quantity shipped to each warehouse must meet its demand.
+∀f ∈ FACT : ∑(w ∈ WARE) ship[f,w] ≤ production[f] - The total quantity shipped from each factory must not exceed its production capacity.
+
+objective: Minimize ∑(f ∈ FACT, w ∈ WARE) cost[f,w]*ship[f,w] - The objective is to minimize the total transportation cost, which is the sum of the product of the cost of shipping from each factory to each warehouse and the corresponding shipment quantity.

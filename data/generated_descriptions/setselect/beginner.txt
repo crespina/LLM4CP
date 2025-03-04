@@ -1,0 +1,19 @@
+**The Set Selection Problem**
+
+**What is it about?**
+Imagine you have a bunch of items, and you want to choose a few of them. These items are grouped into smaller sets, and you have some rules to follow when making your selection.
+
+**Main variables:**
+
+* `n`: The total number of items.
+* `k`: The number of smaller sets that the items are grouped into.
+* `s`: The smaller sets themselves, each containing some of the items.
+* `x`: The selection of items you want to choose.
+
+**Basic restrictions or rules:**
+
+* You can only choose one item from each smaller set.
+* The total number of items you choose is limited (this limit is `u` in some models).
+
+**Goal:**
+The goal is to choose the items that add up to the largest total value. In other words, you want to maximize the sum of the items you select.

@@ -1,0 +1,21 @@
+**Knapsack Problem**
+
+This problem is about packing objects of different sizes and values into a bag with a limited capacity. Imagine you're going on a trip and you have a small bag that can only hold so much weight. You have several items you want to bring, each with a different weight and importance to you. You want to pack the most important items that fit in the bag without exceeding its weight limit.
+
+**Main variables:**
+
+* `n`: the number of objects
+* `capacity`: the maximum weight the bag can hold
+* `profit` (or `value`): how important each object is to you
+* `size`: how much each object weighs
+* `x`: which objects to pack in the bag (how many of each object to take)
+
+**Basic restrictions or rules:**
+
+* You can't pack more objects than you have.
+* The total weight of the packed objects can't exceed the bag's capacity.
+* You can't pack a fraction of an object (you either take it or leave it).
+
+**Goal:**
+
+The goal is to pack the objects that give you the most importance (or value) while staying within the bag's weight limit.

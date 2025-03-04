@@ -1,0 +1,13 @@
+Schur's Numbers Problem
+
+Schur's Numbers Problem is a classic constraint programming problem that involves placing labeled balls into boxes subject to certain constraints.
+
+The problem is about distributing `n` balls, labeled from 1 to `n`, into `c` boxes such that no box contains a triple of balls `{x, y, z}` where `x + y = z`. In other words, the problem seeks to find an assignment of balls to boxes that avoids any arithmetic progression of length three.
+
+The main decision variables in this problem are the `box` array, where `box[i]` represents the box number that ball `i` is assigned to.
+
+The key constraints in this problem are:
+
+* For any two balls `i` and `j`, if `i + j` is also a ball, then `i` and `j` cannot be in the same box, and `i` and `i + j` cannot be in the same box, and `j` and `i + j` cannot be in the same box. This ensures that no box contains a triple of balls that form an arithmetic progression.
+
+The objective of this problem is to find a feasible assignment of balls to boxes that satisfies the constraints, rather than optimizing a specific objective function. The `solve satisfy` statement in the model indicates that the goal is to find a solution that satisfies all the constraints, rather than minimizing or maximizing a particular objective.

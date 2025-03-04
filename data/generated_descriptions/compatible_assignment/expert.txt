@@ -1,0 +1,21 @@
+name: Task Scheduling Problem
+
+description: The Task Scheduling Problem is a classic problem in constraint programming where we have a set of tasks and a set of workers. Each task has a profit associated with it, and each worker can perform a subset of tasks. The problem is to assign tasks to workers such that the total profit is maximized, subject to certain constraints.
+
+variables: task[w] (w ∈ W), worker[t] (t ∈ T)
+The decision variables are task[w] which represents the task assigned to worker w, and worker[t] which represents the worker assigned to task t.
+
+constraints: 
+alldifferent(task), 
+∀w1, w2 ∈ W (task[w1] ≠ m ∧ task[w2] = task[w1] + 1 → compatible[w1, w2]), 
+inverse(task, worker), 
+∀t ∈ T (t mod m ≠ 0 → compatible[worker[t], worker[t+1]])
+
+The constraints are: 
+- Each worker is assigned a unique task (alldifferent(task)).
+- If two tasks are assigned to two consecutive workers, then the tasks must be compatible (compatible[w1, w2]).
+- The inverse constraint ensures that each task is assigned to a unique worker and each worker is assigned a unique task (inverse(task, worker)).
+- If two tasks are consecutive, then the workers assigned to these tasks must be compatible (compatible[worker[t], worker[t+1]]).
+
+objective: Maximize ∑(w ∈ W) profit[w, task[w]]
+The objective is to maximize the total profit by assigning tasks to workers such that the profit of each task is maximized.

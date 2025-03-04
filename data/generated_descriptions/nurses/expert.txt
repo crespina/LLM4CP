@@ -1,0 +1,19 @@
+name: Nurse Scheduling Problem
+
+description: The Nurse Scheduling Problem is a classic constraint satisfaction problem that involves creating a schedule for a set of nurses over a set of days, where each nurse can be assigned to one of three shifts: day, night, or day off. The problem aims to find a schedule that satisfies certain constraints, such as ensuring that a nurse who works two consecutive night shifts gets a day off on the third day, and that the number of nurses working night shifts on each day is within a certain range.
+
+variables: x[n,d] ∈ {1, 2, 3} ∀n ∈ NURSE, ∀d ∈ DAY
+The decision variables x[n,d] represent the shift assigned to nurse n on day d, where 1 corresponds to a day shift, 2 corresponds to a night shift, and 3 corresponds to a day off.
+
+constraints: 
+1. ∀n ∈ NURSE, ∀d ∈ 1..m-2: (x[n,d] = 2 ∧ x[n,d+1] = 2) → x[n,d+2] = 3
+This constraint ensures that if a nurse works two consecutive night shifts, they get a day off on the third day.
+
+2. ∀n ∈ NURSE, ∀d ∈ 1..m-1: x[n,d] = 2 → x[n,d+1] ≠ 1
+This constraint ensures that a nurse who works a night shift on one day does not work a day shift on the next day.
+
+3. ∀d ∈ DAY: l ≤ ∑(n ∈ NURSE) (bool2int(x[n,d] = 2)) ≤ u
+This constraint ensures that the number of nurses working night shifts on each day is within the range [l, u].
+
+objective: satisfy
+The objective of the problem is to find a schedule that satisfies all the constraints, rather than optimizing a specific objective function.

@@ -1,0 +1,17 @@
+SONET Problem
+
+The SONET problem is about designing a network that connects certain nodes (think of them as computers or devices) in a way that uses the fewest resources possible.
+
+The main variables are:
+
+* Rings: These are like circles that connect nodes together. Each ring can hold a certain number of nodes.
+* Nodes: These are the devices that need to be connected.
+* Demand: This is a list of which nodes need to be connected to each other.
+* Capacity nodes: This is the maximum number of nodes that can be on each ring.
+
+The basic restrictions or rules of the problem are:
+
+* If two nodes need to be connected, they must be on the same ring.
+* Each ring can only hold a certain number of nodes, based on its capacity.
+
+The goal of the problem is to use the fewest number of rings (and therefore the fewest resources) to connect all the nodes that need to be connected.

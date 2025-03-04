@@ -1,0 +1,16 @@
+name: Bus Driver Scheduling Problem
+
+description: The Bus Driver Scheduling Problem is a classic problem in constraint programming that involves assigning bus drivers to shifts to cover a set of tasks (pieces of work) while minimizing the number of shifts used. Each shift has a set of tasks it covers, and the goal is to select a subset of shifts that covers each task exactly once.
+
+variables: x = (x[1], ..., x[num_shifts]) ∈ {0, 1}^num_shifts, tot_shifts ∈ {0, ..., num_shifts}
+
+The decision variables x[i] represent whether shift i is selected (x[i] = 1) or not (x[i] = 0). The variable tot_shifts represents the total number of shifts used in the solution.
+
+constraints: 
+tot_shifts = ∑(x)
+∀j ∈ {0, ..., num_work-1}, ∑(i ∈ {1, ..., num_shifts}) (x[i] * bool2int(j ∈ shifts[i])) = 1
+tot_shifts ≥ min_num_shifts
+
+The first constraint sets the total number of shifts used to the sum of the x variables. The second constraint ensures that each task is covered exactly once by the selected shifts. The third constraint sets a lower bound on the total number of shifts used.
+
+objective: Minimize tot_shifts

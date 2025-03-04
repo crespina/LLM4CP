@@ -1,0 +1,13 @@
+Social Golfer Problem.
+
+The Social Golfer Problem is a classic constraint programming problem that involves scheduling golf games for a group of golfers over a series of weeks. The goal is to create a schedule that maximizes the social interaction among the golfers.
+
+The main decision variables in this problem are `x` and `y`. `x` represents the assignment of golfers to positions in each game, while `y` represents the assignment of positions to golfers. In other words, `x[i]` represents the position of golfer `i`, and `y[j]` represents the golfer assigned to position `j`.
+
+The key constraints in this problem are:
+
+* Each golfer must be assigned a unique position in each game (alldifferent constraint on `y`).
+* Each position in each game must be assigned to a unique golfer (inverse constraint between `x` and `y`).
+* The objective is to maximize the total number of friendships between golfers playing together in consecutive games.
+
+The problem's objective is to maximize the sum of friendships between golfers playing together in consecutive games. This is achieved by summing up the friendships between golfers `y[i]` and `y[i+1]` for each game `i`. The `friend` array represents the friendships between golfers, where `friend[i, j]` is 1 if golfers `i` and `j` are friends, and 0 otherwise.

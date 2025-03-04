@@ -1,0 +1,15 @@
+The problem is called Killer Sudoku.
+
+Killer Sudoku is a puzzle that combines elements of Sudoku and Kakuro. The objective is to fill a 9x9 grid with numbers from 1 to 9, such that each row, column, and nonet (a 3x3 sub-grid) contains each number exactly once. Additionally, the puzzle is divided into "cages" or "segments" which are groups of cells that must add up to a specific total value. Each cage must contain each number only once, and no number can be repeated within a cage.
+
+The main decision variables in this problem are the values of the cells in the 9x9 grid, represented by the `x` array in the model. Each `x[i,j]` represents the value of the cell at row `i` and column `j`.
+
+The key constraints in this problem are:
+
+* Each row, column, and nonet must contain each number exactly once.
+* The sum of the values in each cage must equal the specified total value for that cage.
+* No number can be repeated within a cage.
+
+The objective of the problem is to find a solution that satisfies all these constraints.
+
+In the provided models, the `solve` statement is set to `satisfy`, which means that the objective is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

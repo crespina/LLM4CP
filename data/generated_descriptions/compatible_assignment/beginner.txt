@@ -1,0 +1,20 @@
+**Problem Name:** Task Assignment Problem
+
+**What the problem is about:** Imagine you have a set of tasks that need to be done, and a set of workers who can do these tasks. Each task has a certain profit associated with it, and each worker can do a specific set of tasks. The problem is to assign tasks to workers in a way that maximizes the total profit.
+
+**Main variables:**
+
+* `task`: an array that assigns a task to each worker
+* `worker`: an array that assigns a worker to each task
+* `profit`: a 2D array that stores the profit of each task for each worker
+* `compatible`: a 2D array that indicates whether two workers can work together on consecutive tasks
+
+**Basic restrictions or rules:**
+
+* Each task must be assigned to a worker
+* Each worker can only do one task at a time
+* If two workers are assigned to consecutive tasks, they must be compatible with each other
+
+**Goal:** The goal is to maximize the total profit by assigning tasks to workers in a way that satisfies the above rules.
+
+In simple terms, the problem is about finding the best way to assign tasks to workers to get the most profit, while making sure that workers who need to work together can do so.

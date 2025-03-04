@@ -1,0 +1,20 @@
+name: Social Golfers Problem
+
+description: The Social Golfers Problem is a classic constraint satisfaction problem that involves assigning golfers to tables of a fixed size, subject to certain constraints. The problem is to find an assignment that minimizes the total sum of table numbers for all couples.
+
+variables: table[t] (t in TABLE), seat[p] (p in PERSON)
+
+The decision variables are table[t], which represents the set of people assigned to table t, and seat[p], which represents the table number assigned to person p.
+
+constraints: 
+forall(t in TABLE)(card(table[t]) <= S), 
+forall(p in PERSON)(exists(t in TABLE)(p in table[t])), 
+forall(c in index_set_1of2(couples))(not_same_table(couples[c,1],couples[c,2])), 
+forall(p1,p2 in key where p1 < p2)(not_same_table(p1,p2)), 
+forall(t in TABLE, p in PERSON)(p in table[t] <-> seat[p] = t)
+
+The constraints ensure that each table has at most S people, each person is assigned to a table, couples are not assigned to the same table, people in the key set are not assigned to the same table, and the relationship between table and seat variables is maintained.
+
+objective: minimize obj
+
+The objective is to minimize the total sum of table numbers for all couples, where obj is the sum of table numbers for each couple.

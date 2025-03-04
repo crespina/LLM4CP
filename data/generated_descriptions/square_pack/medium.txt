@@ -1,0 +1,20 @@
+**The 2D Bin Packing Problem**
+
+The 2D Bin Packing Problem is a classic constraint programming problem that involves packing a set of rectangular items of different sizes into a single rectangular container, called a bin, in a way that minimizes the area of the bin.
+
+**Decision Variables:**
+
+* `height` and `width`: the dimensions of the bin
+* `x` and `y`: arrays of variables representing the x and y coordinates of the top-left corner of each item in the bin
+* `area`: the area of the bin, calculated as the product of `height` and `width`
+
+**Key Constraints:**
+
+* Each item must fit within the bin, meaning its top-right corner must be within the bin's boundaries.
+* No two items can overlap, meaning that for any two items, one must be to the left of, above, or below the other.
+
+**Objective:**
+
+The objective is to minimize the area of the bin, which is equivalent to minimizing the product of `height` and `width`.
+
+In this model, the problem is formulated as a minimization problem, where the goal is to find the smallest bin that can accommodate all the items. The model uses various constraints to ensure that the items fit within the bin and do not overlap, and the objective is to minimize the area of the bin.

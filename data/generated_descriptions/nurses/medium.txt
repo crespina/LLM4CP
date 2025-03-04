@@ -1,0 +1,20 @@
+**Nurse Rostering Problem**
+
+The Nurse Rostering Problem is a classic constraint programming problem that involves creating a schedule for a set of nurses to work on different days and shifts.
+
+**Decision Variables:**
+
+The main decision variables in this problem are the assignments of nurses to shifts on different days, represented by a 2D array `x` where `x[n,d]` represents the shift assigned to nurse `n` on day `d`. The shifts can be one of three types: day, night, or day off.
+
+**Key Constraints:**
+
+1. **Consecutive Night Shifts:** A nurse cannot work two consecutive night shifts without a day off in between.
+2. **Night Shift Followed by Day Off:** If a nurse works a night shift, they cannot work a day shift the next day.
+3. **Shift Coverage:** The number of nurses working night shifts on each day must be within a specified range (lower bound `l` and upper bound `u`).
+4. **Day Shift Coverage:** The number of nurses working day shifts on each day must be at least `o`.
+
+**Objective:**
+
+The objective of the problem is to find a feasible schedule that satisfies all the constraints, rather than optimizing a specific objective function. The goal is to assign shifts to nurses in a way that meets the requirements and rules of the problem.
+
+In summary, the Nurse Rostering Problem involves creating a schedule for nurses to work on different days and shifts, subject to constraints on consecutive night shifts, shift coverage, and day shift coverage. The problem is typically solved using constraint programming techniques, and the goal is to find a feasible solution that satisfies all the constraints.

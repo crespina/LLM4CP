@@ -1,0 +1,26 @@
+name: Car Sequencing Problem
+
+description: The Car Sequencing Problem is a classic problem in constraint programming that involves scheduling the production of cars with different options and classes. The goal is to find an optimal sequence of cars to produce, taking into account the availability of options and the constraints on the production process.
+
+variables: 
+`slot[s] ∈ Classes, s ∈ Slots` 
+`setup[o, s] ∈ {0, 1}, o ∈ Options, s ∈ Slots`
+
+The decision variables are `slot` and `setup`. `slot[s]` represents the class of the car produced in slot `s`, and `setup[o, s]` represents whether option `o` is installed in the car produced in slot `s`.
+
+constraints: 
+`∀c ∈ Classes, ∑(s ∈ Slots) (bool2int(slot[s] = c)) = numberPerClass[c]`
+`∀o ∈ Options, s ∈ 1..numcars - windowSize[o] + 1, ∑(j ∈ s..s + windowSize[o]- 1) (setup[o, j]) ≤ optMax[o]`
+`∀o ∈ Options, s ∈ Slots, setup[o, s] = optionsRequired[slot[s], o]`
+`∀o ∈ Options, i ∈ 1..optionNumberPerClass[o], ∑(s ∈ 1..(numcars - i * windowSize[o])) (setup[o, s]) ≥ (optionNumberPerClass[o] - i * optMax[o])`
+
+The constraints ensure that: 
+- each class of cars is produced the required number of times, 
+- the number of consecutive cars with a particular option does not exceed the maximum allowed, 
+- each car is produced with the required options, 
+- and the total number of cars with a particular option is at least the minimum required.
+
+objective: 
+`minimize z = ∑(s ∈ Classes) (s * slot[s])`
+
+The objective is to minimize the total "cost" of the production sequence, where the cost of each car is proportional to its class.

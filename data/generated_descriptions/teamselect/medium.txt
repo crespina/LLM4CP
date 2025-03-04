@@ -1,0 +1,15 @@
+The problem is known as the Team Selection Problem.
+
+This problem is about selecting three teams, Xavier, Yuri, and Zena, from a pool of 11 players, where each team must have exactly 6 players, including at least one goalie, two defenders, and two offenders. The goal is to maximize the total value of the selected players across all three teams.
+
+The main decision variables are Xavier, Yuri, and Zena, which represent the sets of players selected for each team.
+
+The key constraints are:
+
+* Each team must have exactly 6 players.
+* Each team must have at least one goalie, two defenders, and two offenders.
+* The intersection of any two teams cannot have more than 2 players in common.
+
+The objective is to maximize the total value of the selected players across all three teams, where the value of each player is given by the value array.
+
+In essence, the problem is about finding the optimal selection of players for each team, subject to the constraints, to maximize the overall value of the teams.

@@ -1,0 +1,27 @@
+name: Template Design Problem
+
+description: The Template Design Problem is a classic problem in constraint programming that involves designing templates for printing variations of a product. The goal is to determine the optimal allocation of slots on each template to meet the demand for each variation while minimizing the total production.
+
+variables: p[i, j], R[j], Production, Surplus
+
+p[i, j] represents the number of slots allocated to variation i in template j. R[j] represents the number of pressings of template j. Production represents the total number of pressings. Surplus represents the excess production beyond the total demand.
+
+constraints: 
+Production = sum(R[j]), 
+Production >= llower /\ Production <= lupper, 
+sum(p[i, j]) = S, 
+sum(p[i, j]*R[j]) >= d[i], 
+lex_lesseq([p[i,  j] | j in 1..t], [p[i+1,j] | j in 1..t]), 
+sum(p[i, j]*R[j]) <= sum(p[i+1, j]*R[j]), 
+Surplus = Production*S - sum(d[i]), 
+sum(p[k, j]*R[j]-d[k]) <= Surplus, 
+sum(p[m, j]*R[j]-d[m]) <= Surplus, 
+R[1] <= Production div 2, 
+R[2] >= Production div 2, 
+R[1] <= Production div 3, 
+R[2] <= Production div 2, 
+R[3] >= Production div 3
+
+These constraints ensure that the total production is the sum of the pressings, the production is within the bounds, each template has S slots, the demand for each variation is met, symmetry and pseudo-symmetry constraints are satisfied, the surplus is correctly calculated, and the run length constraints are satisfied.
+
+objective: minimize Production

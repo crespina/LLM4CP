@@ -1,0 +1,13 @@
+name: Maximum Clique Problem
+
+description: The Maximum Clique Problem is a classic problem in graph theory and computer science. Given a graph, the goal is to find the largest subset of vertices such that every pair of vertices in the subset is connected by an edge. This problem has applications in social network analysis, data mining, and computer vision, among others.
+
+variables: c = (c_1, ..., c_n), size
+
+The decision variables c_i (i = 1, ..., n) are boolean variables indicating whether vertex i is included in the clique or not. The variable size is an integer representing the total number of vertices in the clique.
+
+constraints: size = ∑_{i=1}^n c_i, ∀i, j ∈ {1, ..., n} where i < j and adj[i, j] = 0, c_i + c_j ≤ 1
+
+The first constraint ensures that the size of the clique is equal to the sum of the boolean variables c_i. The second constraint ensures that for any pair of non-adjacent vertices i and j, at most one of them can be included in the clique.
+
+objective: Maximize size

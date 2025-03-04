@@ -1,0 +1,12 @@
+Resource-Constrained Project Scheduling Problem (RCPSP)
+
+The Resource-Constrained Project Scheduling Problem is a classic constraint programming problem that involves scheduling a set of tasks with given durations and resource requirements, subject to resource availability and precedence constraints.
+
+The main decision variables in this problem are the start times of each task, represented by the array `s` of variables. Each `s[t]` represents the start time of task `t`.
+
+The key constraints in this problem are:
+
+* Precedence constraints: Each task can only start after its predecessors have finished. This is ensured by the constraint `s[pre[p,1]] + d[pre[p,1]] <= s[pre[p,2]]`, which states that the start time of a task plus its duration must be less than or equal to the start time of its successor.
+* Resource constraints: The total resource usage of all tasks at any given time must not exceed the available resource limit. This is ensured by the cumulative constraint, which is implemented using the `cumulative` function from the `cumulative.mzn` library.
+
+The objective of the problem is to minimize the maximum completion time of all tasks, which is equivalent to minimizing the project duration. This is achieved by minimizing the maximum value of `s[t] + d[t]` across all tasks `t`.

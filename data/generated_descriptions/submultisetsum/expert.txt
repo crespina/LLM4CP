@@ -1,0 +1,12 @@
+name: Subset Sum Problem
+
+description: The Subset Sum Problem is a classic problem in computer science and mathematics that involves finding a subset of a given set of integers that sums up to a target value.
+
+variables: selected ⊆ NUMBER
+The decision variable is a set of indices selected from the set NUMBER, which represents the subset of numbers to be selected.
+
+constraints: ∑(i ∈ selected) number[i] = target
+The constraint ensures that the sum of the numbers corresponding to the selected indices is equal to the target value.
+
+objective: satisfy
+The objective of the problem is to find a feasible solution that satisfies the constraint, i.e., to find a subset of numbers that sums up to the target value.

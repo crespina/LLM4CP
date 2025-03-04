@@ -1,0 +1,20 @@
+**Team Selection Problem**
+
+This problem is about selecting three teams of six players each from a pool of 11 players. The teams are named Xavier, Yuri, and Zena.
+
+**Main Variables:**
+
+* Xavier, Yuri, and Zena: These are the three teams, each consisting of six players.
+* PLAYER: This is the set of all 11 players.
+* GOALIE, DEFENCE, and OFFENCE: These are subsets of players with specific roles (goalie, defense, and offense).
+* value: This is a table that shows the value or score of each player.
+
+**Basic Restrictions or Rules:**
+
+* Each team must have exactly six players.
+* Each team must have at least one goalie, two defense players, and two offense players.
+* No more than two players can be shared between any two teams.
+
+**Goal:**
+
+The goal is to select the teams in a way that maximizes the total value or score of all three teams.

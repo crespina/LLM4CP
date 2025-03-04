@@ -1,0 +1,12 @@
+name: Loan Repayment Problem
+
+description: This problem models a loan repayment scenario where a borrower takes a loan with a certain principal amount and interest rate, and repays the loan in quarterly installments over a year. The problem calculates the balance owing at the end of the year.
+
+variables: R, P, I, B1, B2, B3, B4
+R is the quarterly repayment amount, P is the principal amount borrowed, I is the interest rate, and B1, B2, B3, B4 are the balances owing after each quarter.
+
+constraints: B1 = P * (1.0 + I) - R, B2 = B1 * (1.0 + I) - R, B3 = B2 * (1.0 + I) - R, B4 = B3 * (1.0 + I) - R
+These constraints model the balance update after each quarter, where the new balance is the previous balance plus the interest accrued minus the repayment amount.
+
+objective: satisfy
+The objective of this problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

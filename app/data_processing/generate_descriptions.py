@@ -21,7 +21,7 @@ class Description_Generator:
 
         self.template_description_level_expert = PromptTemplate(
             "You are an expert in high-level constraint modeling and solving discrete optimization problems. \n"
-            "In particular, you know Minizinc. You are provided with one or several Minizinc models that represents a single classical "
+            "In particular, you know Minizinc. You are provided with one or several Minizinc models that represents a single classical"
             "problem in constraint programming. Your task is to identify what is the problem modeled and give a "
             "complete description of the problem to the user. \n"
             "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
@@ -29,15 +29,16 @@ class Description_Generator:
             "--------------\n"
             "{source_code}"
             "\n--------------\n"
-            "The format of the answer should be without any variation a JSON-like format with the following keys and "
-            "explanation of what the corresponding values should be:\n"
+            "In your answer please explain:\n"
             "name: The name of the problem\n"
             "description: A description of the problem in English\n"
             "variables: A string containing the list of all the decision variables in mathematical notation, "
             "followed by an explanation of what they are in English\n"
             "constraints: A string containing the list of all the constraints in mathematical notation, followed by an "
             "explanation of what they are in English\n"
-            "objective: The objective of the problem (minimize or maximize what value)"
+            "objective: The objective of the problem (minimize or maximize what value)\n"
+            "In your answer, do not include any introductory phrases (such as 'Here is the explanation of the problem')"
+            
         )
 
         self.template_description_level_medium = PromptTemplate(
@@ -46,12 +47,13 @@ class Description_Generator:
             "Your task is to identify the problem and explain it in clear, intermediate-level language."
             "Assume the reader has some technical background but is not an expert."
             "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
-            "In your explanation, please include:\n"
+            "In your answer please explain:\n"
             "The name of the problem.\n"
             "A concise description of what the problem is about.\n"
             "An explanation of the main decision variables and what they represent.\n"
             "A description of the key constraints in plain language (avoid heavy mathematical notation).\n"
             "An explanation of the problem's objective (what is being minimized or maximized).\n"
+            "In your answer, do not include any introductory phrases (such as 'Here is the explanation of the problem')"
             "Here is the source code of the model(s):"
             "--------------\n"
             "{source_code}"
@@ -63,12 +65,13 @@ class Description_Generator:
             "Your task is to read the code and explain what the problem is about using very simple language."
             "If there are several models for the same problem, do not explain each one separately. Instead, focus on explaining the overall problem"
             "Assume the reader does not have much background in programming or mathematics."
-            "Please explain:\n"
+            "In your answer please explain:\n"
             "The name of the problem.\n"
             "What the problem is about in everyday terms.\n"
             "What the main variables are and what they mean, using plain language.\n"
             "What the basic restrictions or rules of the problem are, explained simply.\n"
             "What the goal of the problem is (for example, what you want to minimize or maximize).\n"
+            "In your answer, do not include any introductory phrases (such as 'Here is the explanation of the problem')"
             "Here is the source code:\n"
             "--------------\n"
             "{source_code}"
@@ -85,7 +88,7 @@ class Description_Generator:
         self.callback_manager = CallbackManager([self.token_counter])
         Settings.callback_manager = self.callback_manager
         self.descriptor_model.callback_manager = Settings.callback_manager
-        self.model_tpd = 30_000
+        self.model_tpm = 30_000
 
     @throttle_requests()
     def run(self):
@@ -94,7 +97,7 @@ class Description_Generator:
             if os.path.isfile(file_path):
                 with open(file_path, "r", encoding="utf-8") as file:
                     file_content = file.read()
-                    filename_stripped = filename[:4]
+                    filename_stripped = filename[:-4]
 
                     prompt_expert = self.template_description_level_expert.format(
                         source_code=file_content

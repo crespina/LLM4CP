@@ -1,0 +1,29 @@
+name: Warehouse Allocation Problem
+
+description: The Warehouse Allocation Problem is a classic problem in operations research and logistics. It involves determining the optimal allocation of warehouses to supply stores with goods, while minimizing the overall cost, which includes the construction cost of warehouses and the transportation cost from warehouses to stores.
+
+variables: 
+supplier[i] ∈ {1, ..., n_suppliers}, open[i] ∈ {true, false}, cost[i] ∈ {1, ..., MaxCost}, tot ∈ {1, ..., MaxTotal}
+
+The decision variables are:
+- supplier[i]: the warehouse that supplies store i
+- open[i]: a boolean indicating whether warehouse i is constructed or not
+- cost[i]: the transportation cost from the warehouse that supplies store i to store i
+- tot: the total cost, which is the sum of the construction costs of the warehouses and the transportation costs from the warehouses to the stores
+
+constraints: 
+∑(i in 1..n_suppliers) (building_cost * bool2int(open[i])) + ∑(i in 1..n_stores) (cost[i]) = tot
+cost_matrix[i,supplier[i]] = cost[i]
+count(supplier,i,use) ∧ use ≤ capacity[i]
+(exists (j in 1..n_stores) (supplier[j] == i)) == open[i]
+
+The constraints are:
+- The total cost is the sum of the construction costs of the warehouses and the transportation costs from the warehouses to the stores
+- The transportation cost from the warehouse that supplies store i to store i is equal to the cost_matrix value at the corresponding row and column
+- The number of stores supplied by warehouse i does not exceed its capacity
+- A warehouse is constructed if and only if it supplies at least one store
+
+objective: 
+minimize tot
+
+The objective is to minimize the total cost, which is the sum of the construction costs of the warehouses and the transportation costs from the warehouses to the stores.

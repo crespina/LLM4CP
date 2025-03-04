@@ -1,0 +1,20 @@
+**Solitaire Battleships**
+
+**What is it about?**
+Imagine you have a puzzle with a partially filled grid, and you need to fill in the rest of the grid with ships of different lengths. You are given the number of ships of each length and the number of ships in each row and column.
+
+**Main variables:**
+
+* `board`: a grid that represents the puzzle, where each cell can be a ship part (like a submarine, left end, right end, etc.) or water.
+* `fill`: a grid that shows which cells are part of a ship.
+* `npiece`: the number of each type of ship part (like submarines, left ends, etc.).
+
+**Basic restrictions or rules:**
+
+* The puzzle must respect the given hints (initially filled cells).
+* Ships cannot touch each other (there must be water between them).
+* Each ship must have the correct number of parts (like left and right ends, middle parts, etc.).
+* The number of ships in each row and column must match the given sums.
+
+**Goal:**
+The goal is to find a solution that satisfies all the rules and restrictions, and then output the completed puzzle grid with the ship parts and the row and column sums.

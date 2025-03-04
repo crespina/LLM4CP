@@ -1,0 +1,13 @@
+name: Production Planning Problem
+
+description: The Production Planning Problem is a classic problem in Operations Research and Management Science. It involves determining the optimal production levels of different products to maximize profit, given limited resources and production constraints.
+
+variables: produce[p] (p ∈ Products), used[r] (r ∈ Resources)
+These variables represent the decision variables in the problem. produce[p] represents the quantity of product p to be produced, and used[r] represents the amount of resource r used in the production process.
+
+constraints: 
+∀r ∈ Resources, used[r] = ∑(p ∈ Products)(consumption[p, r] * produce[p]) ∧ used[r] ≤ capacity[r]
+These constraints ensure that the total amount of each resource used does not exceed the available capacity. The first part of the constraint calculates the total amount of resource r used, and the second part ensures that it does not exceed the capacity.
+
+objective: Maximize ∑(p ∈ Products)(profit[p]*produce[p])
+The objective of the problem is to maximize the total profit, which is calculated by summing the profit of each product multiplied by its production quantity.

@@ -1,0 +1,19 @@
+Balanced Incomplete Block Design (BIBD)
+
+A Balanced Incomplete Block Design is a classic problem in combinatorial design theory. It involves arranging a set of elements (called "treatments") into subsets (called "blocks") such that each treatment appears in a fixed number of blocks, each block contains a fixed number of treatments, and each pair of treatments appears together in a fixed number of blocks.
+
+Decision Variables:
+The main decision variables in this problem are the elements of a binary matrix `m`, where `m[i, j]` represents whether treatment `i` is included in block `j` or not.
+
+Key Constraints:
+
+* Each treatment appears in a fixed number of blocks (`r`).
+* Each block contains a fixed number of treatments (`k`).
+* Each pair of treatments appears together in a fixed number of blocks (`lambda`).
+
+Objective:
+The objective of the problem is to find a binary matrix `m` that satisfies the above constraints.
+
+In this model, the problem is formulated as a constraint satisfaction problem, where the goal is to find a feasible solution that satisfies all the constraints. The `solve` statement uses a boolean search strategy to find a solution, and the `output` statement is used to print the solution in a human-readable format.
+
+Note that the model also includes some symmetry-breaking constraints to reduce the search space and improve the efficiency of the solver. These constraints ensure that the solution is lexicographically smaller than any other possible solution, which helps to avoid duplicate solutions.
