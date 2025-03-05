@@ -1,16 +1,10 @@
 import os
-from time import sleep
 
-from llama_index.core import PromptTemplate, Document
-from llama_index.core import VectorStoreIndex
-from llama_index.core.extractors import QuestionsAnsweredExtractor
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.core import PromptTemplate
 from llama_index.llms.groq import Groq
 from tqdm import tqdm
 
-from app.utils.data_utils import problem_family
 from app.utils.throttle import throttle_requests
-from configuration import config_parser
 from llama_index.core.callbacks import TokenCountingHandler, CallbackManager
 from llama_index.core import Settings
 

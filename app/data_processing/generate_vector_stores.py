@@ -19,6 +19,7 @@ class VectorStoresConstructor:
         self.docs_expert_medium = []
         self.docs_expert_beginner = []
         self.docs_beginner_medium = []
+        self.docs_beginner_medium_expert = []
 
         self.index_code_only = None
         self.index_expert = None
@@ -27,6 +28,7 @@ class VectorStoresConstructor:
         self.index_expert_medium = None
         self.index_expert_beginner = None
         self.index_beginner_medium = None
+        self.index_beginner_medium_expert = None
 
         self.storage_dir_code_only = self.args.storage_dir + "/code"
         self.storage_dir_expert = self.args.storage_dir + "/expert"
@@ -35,6 +37,7 @@ class VectorStoresConstructor:
         self.storage_dir_expert_medium = self.args.storage_dir + "/expertmedium"
         self.storage_dir_expert_beginner = self.args.storage_dir + "/expertbeginner"
         self.storage_dir_beginner_medium = self.args.storage_dir + "/beginnermedium"
+        self.storage_dir_beginner_medium_expert = self.args.storage_dir + "/beginnermediumexpert"
 
     def run(self):
 
@@ -102,6 +105,9 @@ class VectorStoresConstructor:
                 self.docs_expert_beginner.append(doc_beginner)
                 self.docs_beginner_medium.append(doc_medium)
                 self.docs_beginner_medium.append(doc_beginner)
+                self.docs_beginner_medium_expert.append(doc_beginner)
+                self.docs_beginner_medium_expert.append(doc_medium)
+                self.docs_beginner_medium_expert.append(doc_expert)
 
         self.index_code_only = VectorStoreIndex.from_documents(
             documents=self.docs_code_only,
@@ -150,6 +156,13 @@ class VectorStoresConstructor:
             embed_model=self.embeddings_model,
             show_progress=True,
             chunk_size=2048,
+        ) 
+
+        self.index_beginner_medium_expert = VectorStoreIndex.from_documents(
+            documents=self.docs_beginner_medium_expert,
+            embed_model=self.embeddings_model,
+            show_progress=True,
+            chunk_size=2048,
         )
 
         self.index_code_only.storage_context.persist(persist_dir=self.storage_dir_code_only)
@@ -159,3 +172,4 @@ class VectorStoresConstructor:
         self.index_expert_medium.storage_context.persist(persist_dir=self.storage_dir_expert_medium)
         self.index_expert_beginner.storage_context.persist(persist_dir=self.storage_dir_expert_beginner)
         self.index_beginner_medium.storage_context.persist(persist_dir=self.storage_dir_beginner_medium)
+        self.index_beginner_medium_expert.storage_context.persist(persist_dir=self.storage_dir_beginner_medium_expert)
