@@ -10,7 +10,7 @@ class VectorStoresConstructor:
 
         self.args = args
 
-        self.embeddings_model = HuggingFaceEmbedding(model_name="BAAI/bge-base-en-v1.5")
+        self.embeddings_model = HuggingFaceEmbedding(model_name="Alibaba-NLP/gte-modernbert-base", trust_remote_code=True)
 
         self.docs_code_only = []
         self.docs_expert = []
@@ -63,7 +63,35 @@ class VectorStoresConstructor:
 
                 base_name = os.path.splitext(folder_name)[0]
 
-                text_description_beginner_medium = f"""Description 1:
+                text_description_code_beginner = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description:
+                    ---------
+                    {text_description_beginner}"""
+
+                text_description_code_medium = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description:
+                    ---------
+                    {text_description_medium}"""
+
+                text_description_code_expert = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description:
+                    ---------
+                    {text_description_expert}"""
+
+                text_description_beginner_medium = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description 1:
                     ------
                     {text_description_beginner}
                     ======
@@ -71,7 +99,11 @@ class VectorStoresConstructor:
                     ---------
                     {text_description_medium}"""
 
-                text_description_beginner_expert = f"""Description 1:
+                text_description_beginner_expert = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description 1:
                     ------
                     {text_description_beginner}
                     ======
@@ -79,7 +111,11 @@ class VectorStoresConstructor:
                     ---------
                     {text_description_expert}"""
 
-                text_description_medium_expert = f"""Description 1:
+                text_description_medium_expert = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description 1:
                     ------
                     {text_description_medium}
                     ======
@@ -87,7 +123,11 @@ class VectorStoresConstructor:
                     ---------
                     {text_description_expert}"""
 
-                text_description_beginner_medium_expert = f"""Description 1:
+                text_description_beginner_medium_expert = f"""Source code:
+                    ------
+                    {source_code}
+                    ======
+                    Description 1:
                     ------
                     {text_description_beginner}
                     ======
@@ -101,32 +141,32 @@ class VectorStoresConstructor:
 
                 doc_source_code = Document(
                     text=source_code,
+                    metadata={
+                        "model_name" : base_name
+                    },
                     id_=base_name + "_source_code",
                 )
 
                 doc_beginner = Document(
-                    text=text_description_beginner,
+                    text=text_description_code_beginner,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_beginner",
                 )
 
                 doc_medium = Document(
-                    text=text_description_medium,
+                    text=text_description_code_medium,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_medium",
                 )
 
                 doc_expert = Document(
-                    text=text_description_expert,
+                    text=text_description_code_expert,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_expert",
                 )
@@ -135,7 +175,6 @@ class VectorStoresConstructor:
                     text=text_description_beginner_medium,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_beginner_medium",
                 )
@@ -144,7 +183,6 @@ class VectorStoresConstructor:
                     text=text_description_beginner_expert,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_beginner_expert",
                 )
@@ -153,7 +191,6 @@ class VectorStoresConstructor:
                     text=text_description_medium_expert,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_medium_expert",
                 )
@@ -162,7 +199,6 @@ class VectorStoresConstructor:
                     text=text_description_beginner_medium_expert,
                     metadata={
                         "model_name": base_name,
-                        "source_code": source_code,
                     },
                     id_=base_name + "_beginner_medium_expert",
                 )
@@ -180,56 +216,56 @@ class VectorStoresConstructor:
             documents=self.docs_code_only,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_expert = VectorStoreIndex.from_documents(
             documents=self.docs_expert,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_medium = VectorStoreIndex.from_documents(
             documents=self.docs_medium,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_beginner = VectorStoreIndex.from_documents(
             documents=self.docs_beginner,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_beginner_medium = VectorStoreIndex.from_documents(
             documents=self.docs_beginner_medium,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_beginner_expert = VectorStoreIndex.from_documents(
             documents=self.docs_beginner_expert,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_medium_expert = VectorStoreIndex.from_documents(
             documents=self.docs_medium_expert,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
-        ) 
+            chunk_size=4096,
+        )
 
         self.index_beginner_medium_expert = VectorStoreIndex.from_documents(
             documents=self.docs_beginner_medium_expert,
             embed_model=self.embeddings_model,
             show_progress=True,
-            chunk_size=2048,
+            chunk_size=4096,
         )
 
         self.index_code_only.storage_context.persist(persist_dir=self.storage_dir_code_only)
