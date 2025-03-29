@@ -1,9 +1,9 @@
 from datetime import datetime
 import gradio as gr
+from llama_index.llms.groq import Groq
 from llama_parse import LlamaParse
-import os
-import csv
 import psycopg2
+from llama_index.core import PromptTemplate
 
 from app.inference.inference import Inference
 
@@ -17,6 +17,18 @@ class GUI:
     def __init__(self, args) -> None:
         self.args = args
         self.agent = Inference(args=self.args)
+
+        self.describing_llm = Groq(
+            model="llama3-70b-8192",
+            api_key=args.groq_api_key,
+            model_kwargs={"seed": 19851900},
+            temperature=0.1,
+        )
+        self.prompt = PromptTemplate(
+            "You are an expert in high-level constraint modelling and solving discrete optimization problems. \n"
+            "Your task is to provide a short description of the following classical CP problem : {node1}."
+        )
+
         self.parser = LlamaParse(
             result_type="markdown", api_key=self.args.llama_parse_key
         )
@@ -202,7 +214,6 @@ class GUI:
     def bot(self, question, request : gr.Request):
 
         values = [request.session_hash]
-
         query = question[-1]["content"]
 
         # Output
@@ -214,9 +225,14 @@ class GUI:
             score = source_node.score
             values.append(f"{name} ({score:.3f})\n")
 
+        descr_prompt = self.prompt.format(node1=values[2][0:-8])
+        description = self.describing_llm.complete(prompt=descr_prompt)
+        description_text = description.text
+        values[1] = description_text
+        # response.response = description_text
         # Print Output
         self.update(query, request.session_hash, values)
-        question.append({"role":"assistant", "content":response.response})
+        question.append({"role": "assistant", "content": description_text})
 
         return question
 
