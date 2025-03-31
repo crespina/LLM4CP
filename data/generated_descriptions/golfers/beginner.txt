@@ -1,0 +1,24 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Social Golfers Problem
+
+**What the problem is about in everyday terms:** Imagine a group of golfers who want to play golf together in small groups over several rounds. The goal is to arrange the golfers into groups for each round such that each golfer plays with different people in each round, and no two golfers play together more than once.
+
+**Main variables and what they mean:**
+
+* `n_groups`: The number of groups that the golfers will be divided into.
+* `n_per_group`: The number of golfers in each group.
+* `n_rounds`: The number of rounds that the golfers will play.
+* `golfers`: The set of all golfers.
+* `rounds`: The set of all rounds.
+* `places` or `groups`: The set of all possible positions or groups that a golfer can be assigned to.
+
+**Basic restrictions or rules of the problem:**
+
+* Each group must have the same number of golfers.
+* Each golfer must play with different people in each round.
+* No two golfers can play together more than once.
+
+**Goal of the problem:** The goal is to find an arrangement of golfers into groups for each round that satisfies the above rules and restrictions.
+
+Note that the different models provided are different ways of representing the same problem, but the overall problem remains the same.

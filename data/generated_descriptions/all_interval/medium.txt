@@ -1,0 +1,14 @@
+The problem is the All-Interval Series Problem.
+
+The All-Interval Series Problem is a classic constraint programming problem that involves finding a series of pitch classes (represented by numbers 0 to 11) such that each pitch class occurs exactly once, and the musical intervals between neighboring notes cover the full set of intervals from the minor second (1 semitone) to the major seventh (11 semitones).
+
+The main decision variables in this problem are the pitch classes, represented by an array `x` or `series` in the models, which is a permutation of the set of integers from 0 to 11.
+
+The key constraints in this problem are:
+
+* Each pitch class occurs exactly once (i.e., the array `x` or `series` is a permutation of the set of integers from 0 to 11).
+* The differences between neighboring notes are all different (i.e., the intervals between consecutive pitch classes are all unique).
+
+The objective of this problem is to find a series that satisfies these constraints.
+
+Note that there is no explicit objective function to minimize or maximize in this problem. The goal is to find a feasible solution that satisfies the constraints.

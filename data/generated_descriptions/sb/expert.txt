@@ -1,0 +1,35 @@
+name: Solitaire Battleships
+
+description: Solitaire Battleships is a puzzle where a partially filled board is given along with the number of ships in each row and column. The goal is to fill the board with ships of different lengths, respecting the given constraints.
+
+variables: `board[i, j], fill[i, j], npiece[p]`
+
+* `board[i, j]`: a variable representing the type of piece (water, submarine, left/right/top/bottom of a ship, or middle of a ship) at position `(i, j)` on the board.
+* `fill[i, j]`: a binary variable indicating whether the piece at position `(i, j)` is part of a ship or not.
+* `npiece[p]`: a variable representing the number of pieces of type `p` on the board.
+
+constraints: 
+`hint[i, j] != 0 -> board[i, j] == hint[i, j], 
+board[i, 0] == w, board[i, width + 1] == w, 
+board[0, j] == w, board[height + 1, j] == w, 
+fill[i, j] = bool2int(board[i, j] != w), 
+spacing constraints, 
+ship shape constraints, 
+sum up pieces, 
+piece sum constraints, 
+count number of bigger ships, 
+row sums respected, 
+column sums respected`
+
+* `hint[i, j] != 0 -> board[i, j] == hint[i, j]`: ensure that the initial hints are respected.
+* `board[i, 0] == w, board[i, width + 1] == w, board[0, j] == w, board[height + 1, j] == w`: ensure that the extended rows and columns are empty.
+* `fill[i, j] = bool2int(board[i, j] != w)`: ensure that the fill array matches the board.
+* `spacing constraints`: ensure that there are gaps between ships.
+* `ship shape constraints`: ensure that ships are correctly formed.
+* `sum up pieces`: count the number of each type of piece.
+* `piece sum constraints`: ensure that the number of pieces of each type matches the given ship lengths.
+* `count number of bigger ships`: count the number of ships of each length.
+* `row sums respected`: ensure that the sum of pieces in each row matches the given row sum.
+* `column sums respected`: ensure that the sum of pieces in each column matches the given column sum.
+
+objective: The objective is to satisfy all the constraints, i.e., to find a feasible solution. There is no objective function to minimize or maximize.

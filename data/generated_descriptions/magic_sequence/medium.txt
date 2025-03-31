@@ -1,0 +1,18 @@
+The problem represented by these Minizinc models is the Magic Sequence/Magic Square problem.
+
+**Problem Description:**
+A Magic Sequence/Magic Square is an arrangement of integers in a sequence or square grid, such that each integer from 0 to n-1 appears exactly i times in the sequence, where i is the value of the integer. For example, the sequence 6, 2, 1, 0, 0, 0, 1, 0, 0, 0 is a Magic Sequence of length 10, because 0 appears 6 times, 1 appears twice, and 2 appears once.
+
+**Decision Variables:**
+The main decision variables in these models are arrays of integers, representing the Magic Sequence or Magic Square. In the sequence models, the array `s` represents the Magic Sequence, where `s[i]` is the value of the i-th element in the sequence. In the square models, the array `magic` or `square` represents the Magic Square, where `magic[i, j]` or `square[i, j]` is the value of the cell at row i and column j.
+
+**Key Constraints:**
+The key constraints in these models are:
+
+* Each integer from 0 to n-1 appears exactly i times in the sequence (or square).
+* The sum of the values in each row, column, and diagonal of the square is equal to a constant magic sum.
+
+**Objective:**
+The objective of these models is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.
+
+Note that Models 1-4 represent the Magic Sequence problem, while Models 5 and 6 represent the Magic Square problem. Model 5 uses a more concise representation of the Magic Square, while Model 6 uses a more explicit representation with binary variables.

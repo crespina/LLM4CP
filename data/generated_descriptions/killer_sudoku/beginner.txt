@@ -1,0 +1,20 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Killer Sudoku
+
+**What the problem is about in everyday terms:** Killer Sudoku is a puzzle game that combines elements of Sudoku and Kakuro. The goal is to fill a 9x9 grid with numbers from 1 to 9, following certain rules.
+
+**Main variables and what they mean:**
+
+* `x[i, j]`: represents the number in the cell at row `i` and column `j` of the grid.
+* `P` and `segments`: represent the "cages" or groups of cells that have specific sum constraints.
+* `num_p` and `num_segments`: represent the number of cages or segments in the puzzle.
+* `num_hints`: represents the maximum number of hints or cells in each cage.
+
+**Basic restrictions or rules of the problem:**
+
+* Each row, column, and 3x3 sub-grid (called a "nonet") must contain each number from 1 to 9 exactly once.
+* The sum of the numbers in each cage must match the given sum for that cage.
+* No number can appear more than once in a cage.
+
+**Goal of the problem:** The goal is to find a solution that satisfies all the constraints and rules, filling the entire grid with numbers from 1 to 9.

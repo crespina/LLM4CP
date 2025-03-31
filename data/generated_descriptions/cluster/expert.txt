@@ -1,0 +1,18 @@
+name: Capacitated Clustering Problem
+
+description: The Capacitated Clustering Problem is a classic problem in constraint programming that involves dividing a set of points into a fixed number of clusters, such that the maximum distance between any two points in the same cluster does not exceed a certain limit, and the clusters are ordered in a way that the points in each cluster are contiguous.
+
+variables: x (array of variables, where x[i] represents the cluster assignment of point i)
+
+The decision variables x represent the assignment of each point to a cluster.
+
+constraints: 
+∀i,j in POINT where i < j /\ x[i] = x[j], dist[i,j] ≤ maxdiam 
+∀i in 1..k-1, min([ j | j in POINT where x[j] = i]) < min([ j | j in POINT where x[j] = i+1])
+value_precede_chain([ i | i in 1..k ],x)
+
+The first constraint ensures that the distance between any two points in the same cluster does not exceed the maximum diameter. The second constraint ensures that the points in each cluster are contiguous, i.e., the points in cluster i are all less than the points in cluster i+1. The third constraint is a global constraint that ensures the same contiguity property.
+
+objective: maximize obj = min( i,j in POINT where i < j ) ( dist[i,j] + maxdist * (x[i] != x[j]) )
+
+The objective is to maximize the minimum distance between any two points in different clusters, while also penalizing the assignment of points to different clusters.

@@ -1,0 +1,23 @@
+name: Nurse Rostering Problem
+
+description: The Nurse Rostering Problem is a classic problem in constraint programming that involves creating a schedule for nurses to work in a hospital. The problem involves assigning shifts to nurses over a certain period of time, taking into account various constraints such as the number of nurses required for each shift, the minimum and maximum number of consecutive days a nurse can work, and the requirement for rest days.
+
+variables: plan1d, plan2d, plan2dT, s_min_arrays, s_max_arrays
+plan1d, plan2d, and plan2dT are arrays of decision variables that represent the shift assignments for each nurse over the planning period. plan1d is a 1D array, while plan2d and plan2dT are 2D arrays that represent the same schedule in different formats. s_min_arrays and s_max_arrays are helper arrays used to model the minimum and maximum consecutive days constraints.
+
+constraints: 
+C_equalDays: plan2d[week, daysPerWeek - 1] == plan2d[week, daysPerWeek]
+C_shiftRepetitions: forall(day in 1..numberOfDays - s_min) (plan1d[day] != plan1d[day+1] -> all_equal(plan1d[day+1..day+s_min]))
+C_shiftRepetitions: forall(day in 1..numberOfWeeks * daysPerWeek - s_max) ((all_equal(plan1d[day..day+s_max])) -> (plan1d[day] != plan1d[day + s_max]))
+C_restDays: forall(day in 1..(numberOfWeeks - 2) * daysPerWeek) (count(j in plan1d[day..day + daysPerWeek * 2])(j=0) >= 2)
+C_shiftOrder: forall(day in 2..numberOfWeeks * daysPerWeek - 1) (plan1d[day] <= plan1d[day + 1] \/ plan1d[day+1] == 0)
+C_shiftRequirements: forall(day in 1..daysPerWeek) ((global_cardinality(row(plan2dT,day),[0,1,2,3],row(shiftRequirements,day))))
+
+These constraints ensure that: 
+- weekend days have the same shift
+- there is a minimum and maximum number of consecutive days with the same shift
+- there are at least 2 rest days every 2 weeks
+- the order of shifts follows a forward rotating principle
+- the number of required staff for each shift is satisfied
+
+objective: The objective of the problem is to find a feasible schedule that satisfies all the constraints, rather than to minimize or maximize a specific value.

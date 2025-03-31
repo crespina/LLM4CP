@@ -1,0 +1,15 @@
+The problem is known as the Set Selection Problem.
+
+The Set Selection Problem is about selecting a subset of elements from a larger set, subject to certain constraints. The goal is to maximize the sum of the selected elements.
+
+The main decision variables in this problem are the elements that are selected, represented by the set `x` in the models. In some models, `x` is an array of variables, where each variable represents an element that may or may not be selected.
+
+The key constraints in this problem are:
+
+* Each subset `s[i]` can have at most one element in common with the selected set `x`. This is represented by the constraint `card(x intersect s[i]) <= 1`.
+* In some models, the cardinality of the selected set `x` is fixed to `u`, represented by the constraint `card(x) = u`.
+* In other models, the selected set `x` is represented as an array of variables, and constraints are added to ensure that the variables are distinct and non-decreasing.
+
+The objective of the problem is to maximize the sum of the selected elements, represented by the expression `sum(i in x)(i)` or `sum(x)`.
+
+In summary, the Set Selection Problem is about selecting a subset of elements from a larger set, subject to constraints on the overlap with predefined subsets, and maximizing the sum of the selected elements.

@@ -1,0 +1,21 @@
+**Still Life Problem**
+
+The Still Life problem is a classic constraint programming problem that involves finding a stable pattern of live and dead cells in a grid, where live cells are represented by 1s and dead cells are represented by 0s.
+
+**Decision Variables**
+
+The main decision variables are the elements of the `grid` array, which represents the assignment of live (1) or dead (0) cells to each position in the grid.
+
+**Key Constraints**
+
+The key constraints in the problem are:
+
+* **Boundary constraints**: Cells in the first and last two rows and columns of the grid are all dead (0).
+* **Live cell constraints**: A cell is alive (1) if it has exactly three live neighbors. A live cell must have 2 or 3 live neighbors.
+* **Symmetry-breaking constraints**: The assignment of live and dead cells is forced to respect an ordering on the values that occur in corner entries of the grid.
+
+**Objective**
+
+The objective of the problem is to **maximize** the number of live cells in the grid, subject to the constraints.
+
+In essence, the problem is to find a stable pattern of live and dead cells in a grid, where live cells are sustained by having exactly three live neighbors, and dead cells are sustained by not having three live neighbors. The goal is to find the pattern with the maximum number of live cells.

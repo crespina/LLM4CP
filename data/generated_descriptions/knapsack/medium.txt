@@ -1,0 +1,14 @@
+The problem is known as the 0/1 Knapsack Problem.
+
+This problem is about selecting a subset of items to include in a knapsack of limited capacity, with the goal of maximizing the total value of the selected items. Each item has a size and a profit, and the knapsack has a limited capacity.
+
+The main decision variables are the `x` variables, which represent whether each item is included in the knapsack (1) or not (0).
+
+The key constraints are:
+
+* Each item can only be included once (or not at all), which is ensured by the `x` variables being binary.
+* The total size of the included items must not exceed the knapsack's capacity.
+
+The objective is to maximize the total profit of the included items.
+
+In other words, the problem is to find the optimal selection of items to put in the knapsack, given the capacity constraint, to maximize the total value of the selected items.

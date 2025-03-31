@@ -1,0 +1,20 @@
+The Balanced Academic Curriculum Problem.
+
+This problem is about creating a schedule for a set of university courses. Each course has a certain number of credits, and students can only take a certain number of credits and courses per period. The goal is to assign each course to a period in a way that minimizes the total number of credits per period.
+
+The main variables are:
+
+* Courses: these are the university courses that need to be scheduled.
+* Periods: these are the time slots when the courses can be taught.
+* Course load: this is the number of credits each course is worth.
+* Course period: this is the period when each course is taught.
+* Load: this is the total number of credits for all courses in a period.
+
+The basic restrictions or rules of the problem are:
+
+* Each course must be assigned to a period.
+* A course cannot be taught before its prerequisites (i.e., courses that must be taken before it).
+* Students can only take a certain number of credits and courses per period.
+* The total number of credits per period should be within a certain range.
+
+The goal of the problem is to minimize the total number of credits per period, while satisfying all the above rules.

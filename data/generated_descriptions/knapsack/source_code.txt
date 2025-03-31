@@ -1,0 +1,106 @@
+Model 1 : 
+
+
+int: n; % number of objects
+set of int: OBJ = 1..n;
+int: capacity;
+array[OBJ] of int: profit;
+array[OBJ] of int: size;
+
+array[OBJ] of var int: x; % how many of each object
+
+constraint forall(i in OBJ)(x[i] >= 0);
+constraint sum(i in OBJ)(size[i] * x[i]) <= capacity;
+solve maximize sum(i in OBJ)(profit[i] * x[i]);
+
+output ["x = ", show(x), "\n"];
+
+
+Model 2 : 
+
+
+int: n;    set of int: OBJ = 1..n;
+array[OBJ] of int: size;
+array[OBJ] of int: value;
+int: limit;
+array[OBJ] of var int: x;
+constraint forall(i in OBJ)(x[i] >= 0);
+constraint sum(i in OBJ)(size[i]*x[i])<= limit;
+solve maximize sum(i in OBJ)(value[i]*x[i]);
+n = 4;
+size = [5,8,9,12];
+value = [3,5,7,8];
+limit = 29;
+
+
+
+Model 3 : 
+
+
+int: n; % number of objects
+int: capacity;
+array[1..n] of int: profit;
+array[1..n] of int: size;
+
+array[1..n] of var 0..1: x; 
+
+constraint sum(i in 1..n)(size[i] * x[i]) <= capacity;
+solve maximize sum(i in 1..n)(profit[i] * x[i]);
+
+output ["x = ", show(x), "\n"];
+
+
+
+Model 4 : 
+
+
+int: n; % number of objects
+int: capacity;
+array[1..n] of int: profit;
+array[1..n] of int: size;
+
+array[1..n] of var bool: x; 
+
+constraint sum(i in 1..n)(size[i] * bool2int(x[i])) <= capacity;
+solve maximize sum(i in 1..n)(profit[i] * bool2int(x[i]));
+
+output ["x = ", show(x), "\n"];
+
+
+
+Model 5 : 
+
+
+
+int: n; % number of objects
+set of int: OBJ = 1..n;
+int: capacity;
+array[OBJ] of int: profit;
+array[OBJ] of int: size;
+
+var set of OBJ: x; 
+
+
+constraint sum(i in x)(size[i]) <= capacity;
+
+solve maximize sum(i in x)(profit[i]);
+
+
+output ["x = ", show(x), "\n"];
+
+
+
+Model 6 : 
+
+
+int: n; % number of objects
+int: capacity;
+array[1..n] of int: profit;
+array[1..n] of int: size;
+
+var set of 1..n: x;
+
+constraint sum(i in 1..n)(size[i] * bool2int(i in x)) <= capacity;
+solve maximize sum(i in 1..n)(profit[i] * bool2int(i in x));
+
+output ["x = ", show(x), "\n"];

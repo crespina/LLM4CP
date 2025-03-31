@@ -1,0 +1,17 @@
+**Problem Name:** Maximum Density Still Life
+
+**What the problem is about:** Imagine you have a grid of cells that can be either alive (represented by 1) or dead (represented by 0). The goal is to find a pattern of alive and dead cells that follows certain rules and has the maximum number of alive cells.
+
+**Main variables:**
+
+* `grid`: a 2D array that represents the grid of cells, where each cell can be either alive (1) or dead (0).
+* `z`: the total number of alive cells in the grid.
+
+**Basic restrictions or rules:**
+
+* Cells in the outermost rows and columns of the grid must be dead.
+* A cell becomes alive if it has exactly three alive neighbors.
+* An alive cell must have either two or three alive neighbors to stay alive.
+* The pattern of alive and dead cells must be symmetrical in certain ways.
+
+**Goal:** The goal is to maximize the number of alive cells (`z`) in the grid while following the rules above.

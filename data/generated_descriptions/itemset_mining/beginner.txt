@@ -1,0 +1,17 @@
+**Problem Name:** Item Selection Problem
+
+**What the problem is about:** Imagine you have a list of items (like bread, butter, cheese, etc.) and you want to choose some of them to buy. You also have some bundles of items that are often bought together (like butter, cheese, and milk). You want to choose a set of items that covers most of these bundles and also has a total price above a certain minimum.
+
+**Main variables:**
+
+* `Items`: the set of items you choose to buy
+* `TDB`: the bundles of items that are often bought together
+* `itemprice`: the price of each item
+* `minUtility`: the minimum total price you want to achieve
+
+**Basic restrictions or rules:**
+
+* You want to choose a set of items that covers at least a certain number of bundles (defined by `Freq`)
+* The total price of the chosen items should be at least `minUtility`
+
+**Goal of the problem:** Find a set of items that covers most of the bundles and has a total price above the minimum, while satisfying the rules above.

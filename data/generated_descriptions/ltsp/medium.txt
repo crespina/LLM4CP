@@ -1,0 +1,20 @@
+Traveling Salesman Problem (TSP)
+
+The Traveling Salesman Problem is a classic constraint programming problem that involves finding the shortest possible tour that visits a set of cities and returns to the starting city.
+
+The main decision variables in this problem are:
+
+* `order`: an array of variables that represents the order in which the cities are visited
+* `city`: an array of variables that represents the city at each position in the tour
+
+These variables are used to determine the sequence of cities that the salesman will visit.
+
+The key constraints in this problem are:
+
+* Each city must be visited exactly once
+* The order of visitation must satisfy the precedence constraints, which specify that certain cities must be visited before others
+* The tour must start and end at the same city
+
+The objective of the problem is to minimize the total distance traveled by the salesman, which is calculated as the sum of the absolute differences between the coordinates of consecutive cities in the tour.
+
+In other words, the goal is to find the shortest possible route that visits all the cities and returns to the starting point, while satisfying the precedence constraints.

@@ -1,0 +1,26 @@
+name: Fractions Problem
+
+description: The Fractions Problem is a classic constraint satisfaction problem where the goal is to find distinct non-zero digits such that the following equation holds: A/(BC) + D/(EF) + G/(HI) = 1.
+
+variables: A, B, C, D, E, F, G, H, I, D1, D2, D3
+These variables represent the digits in the equation. A, B, C, D, E, F, G, H, and I are the digits in the numerators and denominators of the fractions, and D1, D2, and D3 are intermediate variables used to calculate the denominators.
+
+constraints: 
+all_different(Vars) 
+D1 = 10*B+C 
+D2 = 10*E+F 
+D3 = 10*H+I 
+A*D2*D3 + D*D1*D3 + G*D1*D2 = D1*D2*D3 
+A*D2 >= D*D1 
+D*D3 >= G*D2 
+3*A >= D1 
+3*G <= D2
+
+These constraints ensure that: 
+- all digits are distinct, 
+- the intermediate variables D1, D2, and D3 are correctly calculated, 
+- the equation A/(BC) + D/(EF) + G/(HI) = 1 holds, 
+- and some symmetry-breaking and redundant constraints are added to help the solver.
+
+objective: satisfy
+The objective of the problem is to find a solution that satisfies all the constraints, rather than to minimize or maximize a specific value.

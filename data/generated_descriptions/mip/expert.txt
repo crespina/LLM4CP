@@ -1,0 +1,22 @@
+name: Linear Programming Problem
+
+description: This is a classic Linear Programming Problem, which involves finding the optimal values of decision variables to maximize or minimize a linear objective function, subject to a set of linear constraints.
+
+variables: x, y, B, C, D
+These variables represent the quantities of different items or resources that need to be optimized. In the context of Linear Programming, they are often referred to as decision variables.
+
+constraints: 
+2.0*B + 2.0*C + 1.0*D <= 30.0, 
+1.0*B + 2.0*C + 3.0*D <= 25.0, 
+2.0*B + 1.0*C + 1.0*D <= 20.0, 
+7*x + 4*y <= 13, 
+x + y <= 6, 
+9*x + 5*y <= 45, 
+2.0*B - 1.0*C + 2.0*D <= 4.0, 
+2.0*B - 3.0*C + 1.0*D <= -5.0, 
+-1.0*B + 1.0*C - 2.0*D <= -1.0, 
+B >= 0, C >= 0, D >= 0, x >= 0, y >= 0
+These constraints represent the limitations and restrictions on the values of the decision variables. They can be interpreted as resource constraints, capacity constraints, or other types of limitations that need to be satisfied.
+
+objective: Maximize 3.0*B + 1.0*C + 3.0*D, Maximize 1.0*B - 1.0*C + 1.0*D, Maximize 21*x + 11*y, Maximize 8*x + 5*y
+The objective of the problem is to maximize the given linear function, which represents the profit, revenue, or other performance metric that needs to be optimized.

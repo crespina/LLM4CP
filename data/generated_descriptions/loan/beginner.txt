@@ -1,0 +1,15 @@
+Loan Repayment Problem
+
+This problem is about borrowing money and paying it back with interest over a year.
+
+The main variables are:
+- R: the amount of money you pay back each quarter (like a monthly payment, but every 3 months)
+- P: the amount of money you borrow initially
+- I: the interest rate, which is like a fee for borrowing money
+- B1, B2, B3, B4: these are like snapshots of how much you still owe after each quarter
+
+The basic rules are:
+- You borrow some money (P) and promise to pay it back with some extra (I) as interest.
+- Each quarter, you pay back some money (R), and the amount you still owe changes based on the interest rate.
+
+The goal of the problem is to find a way to pay back the loan over a year, with the given interest rate, and see how much you still owe at the end.

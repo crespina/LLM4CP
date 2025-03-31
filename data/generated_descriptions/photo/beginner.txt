@@ -1,0 +1,18 @@
+Social Golfers Problem.
+
+This problem is about organizing a group of people to play golf together in a way that makes everyone happy. Imagine you have a group of friends who want to play golf together, and you want to arrange them into pairs to play together.
+
+The main variables are:
+
+* PERSON: This represents each individual person in the group.
+* POS: This represents the position or pair that each person will play in.
+* friend: This is a table that shows how much each person likes to play with each other person.
+* x and y: These are variables that will be used to decide who plays with whom.
+
+The basic restrictions or rules of the problem are:
+
+* Each person must play with someone.
+* No two people can play in the same position (pair).
+* The goal is to make sure that people play with their friends as much as possible.
+
+The goal of the problem is to maximize the total happiness of all the golfers, which is measured by how much they like to play with the person they are paired with.

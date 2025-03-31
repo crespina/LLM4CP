@@ -1,0 +1,21 @@
+name: Diamond-free Degree Sequence
+
+description: The Diamond-free Degree Sequence problem is a constraint satisfaction problem that involves finding all unique degree sequences of a simple, undirected, and diamond-free graph. A diamond-free graph is a graph that does not contain a diamond subgraph, which is a set of four vertices with at least five edges between them. The problem requires that each vertex has a degree greater than zero, the degree of each vertex is a multiple of 3, and the sum of the degrees is a multiple of 12.
+
+variables: x[i,j], degrees[i]
+
+The decision variables are x[i,j], which represents the adjacency matrix of the graph, where x[i,j] = 1 if there is an edge between vertices i and j, and x[i,j] = 0 otherwise. The variables degrees[i] represent the degree of each vertex i, which is the number of edges incident on that vertex.
+
+constraints: 
+x[i,j] + x[i,k] + x[i,l] + x[j,k] + x[j,l] + x[k,l] <= 4, 
+degrees[i] = sum([x[i,j] | j in 1..n]), 
+degrees[i] mod 3 = 0, 
+x[i,i] = 0, 
+x[i,j] = x[j,i], 
+sum(degrees) mod 12 = 0, 
+decreasing(degrees), 
+lex2(x)
+
+The constraints ensure that the graph is diamond-free, each vertex has a degree greater than zero and a multiple of 3, the sum of the degrees is a multiple of 12, and the graph is undirected. The symmetry breaking constraints decreasing(degrees) and lex2(x) are used to reduce the number of symmetric solutions.
+
+objective: satisfy

@@ -1,0 +1,71 @@
+**Model 1, 2, 3, and 4: Magic Sequence**
+
+name: Magic Sequence
+
+description: A magic sequence of length n is a sequence of integers x0, ..., xn-1 between 0 and n-1, such that for all i in 0 to n-1, the number i occurs exactly xi times in the sequence.
+
+variables: s (array of var 0..n-1)
+
+The decision variable s is an array of length n, where each element si represents the number of times the integer i appears in the sequence.
+
+constraints: 
+forall(i in 0..n-1) (s[i] = sum(j in 0..n-1) (bool2int(s[j] = i)))
+sum(i in 0..n-1) (s[i]) = n
+sum(i in 0..n-1) (s[i]*i) = n
+distribute(s, value, s)
+global_cardinality(s, array1d(0..n-1, set2array(index_set(s))), s)
+
+The constraints ensure that each number i in the sequence appears exactly si times, the sum of all si is equal to n, and the sum of all si*i is equal to n. The distribute and global_cardinality constraints are used to model the magic sequence property.
+
+objective: satisfy
+
+The objective is to find a feasible solution that satisfies all the constraints.
+
+**Model 5: Magic Square**
+
+name: Magic Square
+
+description: A magic square of order n is an arrangement of n^2 numbers, usually distinct integers, in a square, such that n numbers in all rows, all columns, and both diagonals sum to the same constant.
+
+variables: magic (array of var 1..n*n), total (int)
+
+The decision variable magic is a 2D array of size n x n, where each element magic[i,j] represents the integer in the cell (i,j) of the magic square. The variable total is the magic sum.
+
+constraints: 
+all_different([magic[i,j] | i in 1..n, j in 1..n])
+forall(k in 1..n) (sum(i in 1..n) (magic[k,i]) = total)
+forall(k in 1..n) (sum(i in 1..n) (magic[i,k]) = total)
+sum(i in 1..n) (magic[i,i]) = total
+sum(i in 1..n) (magic[i,n-i+1]) = total
+
+The constraints ensure that all numbers in the magic square are distinct, the sum of each row, column, and diagonal is equal to the magic sum total.
+
+objective: satisfy
+
+The objective is to find a feasible solution that satisfies all the constraints.
+
+**Model 6: Magic Square (Integer Programming Version)**
+
+name: Magic Square (Integer Programming Version)
+
+description: A magic square of order n is an arrangement of n^2 numbers, usually distinct integers, in a square, such that n numbers in all rows, all columns, and both diagonals sum to the same constant.
+
+variables: x (array of var 0..1), square (array of var 1..n*n), s (int)
+
+The decision variable x is a 3D array of size n x n x n, where x[i,j,k] = 1 if the cell (i,j) contains the integer k. The variable square is a 2D array of size n x n, where square[i,j] represents the integer in the cell (i,j) of the magic square. The variable s is the magic sum.
+
+constraints: 
+s >= 0 /\ s <= n*n*n
+forall(i in 1..n, j in 1..n) (sum(k in N) (x[i,j,k]) = 1)
+forall(k in N) (sum(i in 1..n, j in 1..n) (x[i,j,k]) = 1)
+forall(i in 1..n) (sum(j in 1..n, k in N) (k * x[i,j,k]) = s)
+forall(j in 1..n) (sum(i in 1..n, k in N) (k * x[i,j,k]) = s)
+sum(i in 1..n, k in N) (k * x[i,i,k]) = s
+sum(i in 1..n, k in N) (k * x[i,n-i+1,k]) = s
+forall(i,j in 1..n) (square[i,j] = sum(k in N) (k * x[i,j,k]))
+
+The constraints ensure that each cell contains exactly one integer, each integer is assigned to exactly one cell, the sum of each row, column, and diagonal is equal to the magic sum s, and the magic square is correctly constructed.
+
+objective: satisfy
+
+The objective is to find a feasible solution that satisfies all the constraints.

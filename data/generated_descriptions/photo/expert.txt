@@ -1,0 +1,19 @@
+name: Social Golfer Problem
+
+description: The Social Golfer Problem is a classic constraint satisfaction problem that involves scheduling golfers into groups of a fixed size over a series of rounds, such that each golfer plays with every other golfer exactly once.
+
+variables: x[i] (i in PERSON), y[j] (j in POS)
+
+The decision variables are x and y, where x[i] represents the position of person i in the schedule, and y[j] represents the person assigned to position j in the schedule.
+
+constraints: 
+inverse(x, y), 
+alldifferent(y), 
+%alldifferent(x), 
+y[i] = sum(j in 1..n)(bool2int(x[j] = i) * j)
+
+The constraints ensure that each person is assigned a unique position, and each position is assigned a unique person (inverse and alldifferent constraints). The third constraint is a redundant constraint that is commented out, and the fourth constraint ensures that the y array is correctly defined as the inverse of the x array.
+
+objective: maximize sum(i in 1..n-1)(friend[y[i],y[i+1]])
+
+The objective is to maximize the total friendship score, which is calculated by summing the friendship values between adjacent pairs of golfers in the schedule.

@@ -1,0 +1,19 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** All-Interval Series Problem
+
+**What the problem is about in everyday terms:** Imagine you have 12 different musical notes (like C, C#, D, etc.). You want to arrange these notes in a special order so that each note appears only once, and the distance between each pair of adjacent notes is different from the distance between any other pair of adjacent notes. For example, if the distance between the first two notes is 2 semitones, then there should be no other pair of adjacent notes with a distance of 2 semitones.
+
+**Main variables and what they mean:**
+
+* `x` or `series`: an array of 12 variables, each representing a musical note (0 to 11). This array represents the order in which the notes will be played.
+* `diffs` or `differences`: an array of variables representing the distance between each pair of adjacent notes.
+
+**Basic restrictions or rules of the problem:**
+
+* Each note must appear only once in the series.
+* The distance between each pair of adjacent notes must be different from the distance between any other pair of adjacent notes.
+
+**Goal of the problem:** Find an arrangement of the 12 notes that satisfies the above rules.
+
+Note that the different models provided are different ways of solving the same problem, but the underlying problem remains the same.

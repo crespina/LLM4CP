@@ -1,0 +1,15 @@
+**The Australian Map Colouring Problem**
+
+This problem is about colouring a map of Australia with different colours. Imagine you have a map of Australia with six states: Western Australia (WA), Northern Territory (NT), South Australia (SA), Queensland (Q), New South Wales (NSW), and Victoria (V), plus Tasmania (T).
+
+**Main variables:**
+
+* wa, nt, sa, q, nsw, v, and t: These are the colours assigned to each state.
+
+**Basic restrictions or rules:**
+
+* Each state must have a different colour from its neighbouring states.
+
+**Goal:**
+
+* Find a way to colour the map of Australia using a certain number of colours (4 or more) such that no two neighbouring states have the same colour.

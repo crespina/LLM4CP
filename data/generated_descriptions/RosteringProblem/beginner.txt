@@ -1,0 +1,21 @@
+**Nurse Scheduling Problem**
+
+This problem is about creating a schedule for nurses to work in a hospital. Imagine you are the person in charge of making sure there are enough nurses working each day to take care of patients.
+
+**Main Variables:**
+
+* `plan1d`, `plan2d`, and `plan2dT`: These are arrays that represent the schedule of nurses. They show which shift each nurse is working on each day (early, late, night, or day off).
+* `shiftRequirements`: This is a matrix that shows how many nurses are needed for each shift on each day of the week.
+* `s_min` and `s_max`: These are the minimum and maximum number of days in a row that a nurse can work the same shift.
+
+**Basic Restrictions or Rules:**
+
+* Nurses need to work a certain number of days in a row with the same shift (between `s_min` and `s_max` days).
+* Weekend days (Saturday and Sunday) must have the same shift.
+* There must be at least 2 rest days every 2 weeks.
+* The order of shifts follows a rotating principle (e.g., after an early shift, the next shift can only be the same or a higher value, or a rest shift).
+* The number of nurses working each shift must meet the required staff numbers for that day.
+
+**Goal:**
+
+The goal is to create a schedule that satisfies all these rules and restrictions, while also making sure that the hospital has enough nurses working each day to take care of patients.

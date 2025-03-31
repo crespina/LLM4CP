@@ -1,0 +1,21 @@
+**Partition Problem**
+
+This problem is about dividing a set of numbers into two groups, so that the sum of the numbers in each group is equal, and the sum of the squares of the numbers in each group is also equal.
+
+**Main Variables:**
+
+* `x` and `y` are the two groups of numbers.
+* `n` is the number of numbers in each group.
+
+**Basic Restrictions:**
+
+* Each group must have the same number of numbers (`n`).
+* The numbers in each group must be different from each other.
+* The sum of the numbers in each group must be equal.
+* The sum of the squares of the numbers in each group must be equal.
+
+**Goal:**
+
+The goal is to find two groups of numbers that satisfy all the restrictions above.
+
+In simpler terms, imagine you have a set of numbers, and you want to divide them into two groups, so that the total value of each group is the same, and the total value of the squares of each group is also the same.

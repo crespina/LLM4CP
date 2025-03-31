@@ -1,0 +1,18 @@
+name: Job Shop Scheduling Problem
+
+description: The Job Shop Scheduling Problem is a classic problem in operations research and computer science that involves scheduling a set of jobs on a set of machines. Each job consists of a sequence of tasks, and each task requires a specific machine. The goal is to find a schedule that minimizes the total time required to complete all jobs.
+
+variables: s[j,t] (start time of task t of job j), makespan (maximum completion time of all jobs)
+
+The decision variables s[j,t] represent the start time of task t of job j, and makespan represents the maximum completion time of all jobs.
+
+constraints: 
+s[j,t] + d[j,t] <= s[j,t+1] (tasks in a job are performed in order), 
+nonoverlap(s[j1,t1],d[j1,t1],s[j2,t2],d[j2,t2]) (only one task on any machine at one time), 
+disjunctive(ss,dd) (tasks on the same machine do not overlap)
+
+The constraints ensure that tasks in a job are performed in order, only one task on any machine can be performed at a time, and tasks on the same machine do not overlap.
+
+objective: minimize makespan
+
+The objective is to minimize the maximum completion time of all jobs, which is represented by the makespan variable.

@@ -1,0 +1,20 @@
+The problem is known as the "Fractions Problem" or "Einstein's Fractions Problem".
+
+This problem is about finding distinct non-zero digits (from 1 to 9) that satisfy a specific equation involving three fractions. The equation is:
+
+(A / (B*C)) + (D / (E*F)) + (G / (H*I)) = 1
+
+The main decision variables are the digits A, B, C, D, E, F, G, H, and I, which represent the numerators and denominators of the three fractions.
+
+The key constraints are:
+
+* Each digit must be distinct and non-zero.
+* The equation above must hold.
+* Some symmetry-breaking constraints are added to reduce the search space:
+	+ A*D2 >= D*D1 (to avoid swapping the first two fractions)
+	+ D*D3 >= G*D2 (to avoid swapping the last two fractions)
+* Some redundant constraints are added to help the solver:
+	+ 3*A >= D1 (to reduce the possible values of A)
+	+ 3*G <= D2 (to reduce the possible values of G)
+
+The objective of the problem is to find a solution that satisfies all the constraints, rather than to minimize or maximize a specific objective function. The problem is a classic example of a constraint satisfaction problem, where the goal is to find a feasible solution that meets all the constraints.

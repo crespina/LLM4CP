@@ -1,0 +1,20 @@
+**Seating Arrangement Problem**
+
+This problem is about arranging people in a line, like in a queue or at a table, in a specific order.
+
+**Main Variables:**
+
+* `n`: The number of people.
+* `gender`: An array that stores the gender of each person (male or female).
+* `age`: An array that stores the age of each person.
+* `order`: An array that stores the order in which the people should be arranged.
+
+**Basic Restrictions or Rules:**
+
+* The people should be arranged in a line, one after the other.
+* Males and females should alternate in the line (i.e., a male should be followed by a female, and vice versa).
+* The age difference between two people sitting next to each other should not be more than 10 years.
+
+**Goal:**
+
+The goal is to find an arrangement of people that satisfies all the above rules. There is no specific goal to minimize or maximize anything; we just want to find a valid arrangement.

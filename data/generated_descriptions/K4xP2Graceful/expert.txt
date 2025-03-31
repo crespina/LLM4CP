@@ -1,0 +1,20 @@
+name: Graceful Graph
+
+description: The Graceful Graph problem is a well-known problem in graph theory and constraint programming. It involves labeling the nodes of a graph with integers from 1 to m, such that the absolute difference between the labels of two adjacent nodes is equal to the edge label. The goal is to find a labeling that satisfies these conditions and makes the edge labels distinct.
+
+variables: nodes ∈ {0, ..., m}^n, graph ∈ {1, ..., n}^(m × 2), edges ∈ {1, ..., m}^m
+The decision variables are:
+- nodes: an array of length n, where each element represents the label of a node in the graph.
+- graph: a 2D array of size m × 2, where each row represents an edge in the graph, and the two columns represent the nodes connected by the edge.
+- edges: an array of length m, where each element represents the label of an edge in the graph.
+
+constraints: 
+∀i ∈ {1, ..., m} (|nodes[graph[i,1]] - nodes[graph[i,2]]| = edges[i]) ∧ 
+all_different(edges) ∧ 
+all_different(nodes)
+The constraints are:
+- For each edge, the absolute difference between the labels of the two nodes connected by the edge is equal to the edge label.
+- All edge labels are distinct.
+- All node labels are distinct.
+
+objective: The problem does not have an objective function to minimize or maximize. The goal is to find a feasible solution that satisfies all the constraints.

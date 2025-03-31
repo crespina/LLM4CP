@@ -1,0 +1,19 @@
+**Problem Name:** Task Scheduling with Compatibility Constraints
+
+**Description:** This problem involves scheduling tasks to workers while ensuring that certain compatibility constraints are met. Each task has a profit associated with it, and the goal is to maximize the total profit earned by assigning tasks to workers.
+
+**Decision Variables:**
+
+* `task`: an array of variables representing the task assigned to each worker. Each element `task[w]` represents the task assigned to worker `w`.
+* `worker`: an array of variables representing the worker assigned to each task. Each element `worker[t]` represents the worker assigned to task `t`.
+
+**Key Constraints:**
+
+* Each task is assigned to a unique worker (ensured by the `alldifferent` constraint).
+* If two tasks are compatible, they must be assigned to adjacent time slots (ensured by the `compatible` array and the constraint `task[w1] != m /\ task[w2] = task[w1] + 1 -> compatible[w1,w2]`).
+* If a task is assigned to a worker, the next task in the sequence must be assigned to the same worker (ensured by the constraint `compatible[worker[t],worker[t+1]]`).
+
+**Objective:**
+The objective is to maximize the total profit earned by assigning tasks to workers, calculated as the sum of profits for each task assigned to a worker.
+
+In summary, this problem involves scheduling tasks to workers while ensuring compatibility constraints are met, with the goal of maximizing the total profit earned.

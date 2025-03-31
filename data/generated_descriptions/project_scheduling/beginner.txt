@@ -1,0 +1,19 @@
+**House Building Problem**
+
+This problem is about building a house. Imagine you have a list of tasks to complete, like laying foundations, building walls, installing doors and windows, and putting on a roof. Each task takes a certain amount of time to finish.
+
+**Main Variables:**
+
+* **Tasks**: These are the individual jobs that need to be done to build the house, like laying foundations or installing doors.
+* **Duration**: This is how long each task takes to complete.
+* **Start time**: This is when each task begins.
+* **Makespan**: This is the total time it takes to complete all the tasks.
+
+**Basic Restrictions or Rules:**
+
+* Some tasks can't start until others are finished. For example, you can't start building walls until the foundations are laid.
+* Some tasks can't happen at the same time. For example, you can't be building the interior walls and exterior walls at the same time.
+
+**Goal:**
+
+The goal is to find the order and timing of the tasks that will allow you to build the house in the shortest amount of time possible.

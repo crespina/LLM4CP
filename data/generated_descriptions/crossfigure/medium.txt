@@ -1,0 +1,20 @@
+The problem is called the Crossfigure problem.
+
+The Crossfigure problem is a classic constraint programming problem that involves placing numerical answers to clues in a grid, similar to a crossword puzzle. The clues come in different forms, such as arithmetic operations, prime numbers, and square numbers.
+
+The main decision variables in this problem are:
+
+* `M`: a 9x9 grid of variables, where each cell can take a value between 0 and 9.
+* `A1`, `A4`, ..., `A30`: variables representing the answers to the across clues.
+* `D1`, `D2`, ..., `D28`: variables representing the answers to the down clues.
+
+The key constraints in this problem are:
+
+* The `across` and `down` predicates, which ensure that the answers to the clues are correctly placed in the grid.
+* The arithmetic constraints, such as `A1 = 2 * A27` and `D1 = A1 + 27`, which relate the answers to each other.
+* The constraints on prime numbers and square numbers, such as `is_prime(A23)` and `square(A20)`.
+* The constraints on the black boxes, which fix certain cells in the grid to be 0.
+
+The objective of this problem is to find a solution that satisfies all the constraints.
+
+Note that this problem does not have an objective function to minimize or maximize, as it is a satisfaction problem. The goal is to find a feasible solution that satisfies all the constraints.

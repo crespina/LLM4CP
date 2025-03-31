@@ -1,0 +1,28 @@
+name: Production Planning Problem
+
+description: This problem involves planning the production of different colored items on multiple machines, subject to various constraints on the production capacity of each machine and the total production of each color. The goal is to maximize the total production across all machines and colors.
+
+variables: produce[m,c] (m ∈ MACHINE, c ∈ COLOR)
+
+The decision variables represent the amount of each color produced on each machine, where produce[m,c] is the amount of color c produced on machine m.
+
+constraints: 
+∀m ∈ MACHINE: ∑(c ∈ COLOR)(produce[m,c]) ≤ k
+∀c ∈ COLOR: ∑(m ∈ MACHINE)(produce[m,c]) ≥ l[c]
+∀c ∈ COLOR: ∑(m ∈ MACHINE)(produce[m,c]) ≤ u[c]
+∀m ∈ MACHINE: produce[m,white] > 0 ∧ produce[m,black] > 0 → produce[m,blue] = 0
+∀m ∈ MACHINE: produce[m,blue] ≤ produce[m,red]
+∀m ∈ MACHINE: produce[m,red] mod 4 = 0
+∀m ∈ MACHINE: produce[m,white] mod 3 = 0
+
+The constraints ensure that:
+- Each machine does not produce more than k units in total.
+- The total production of each color meets the lower bound l[c] and does not exceed the upper bound u[c].
+- If a machine produces both white and black, it cannot produce blue.
+- The production of blue on a machine does not exceed the production of red on the same machine.
+- The production of red on a machine is a multiple of 4.
+- The production of white on a machine is a multiple of 3.
+
+objective: Maximize ∑(m ∈ MACHINE, c ∈ COLOR)(produce[m,c])
+
+The objective is to maximize the total production across all machines and colors.

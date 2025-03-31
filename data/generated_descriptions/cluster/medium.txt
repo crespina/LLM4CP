@@ -1,0 +1,16 @@
+The problem is known as the "Clustering Problem" or "Facility Location Problem".
+
+This problem is about dividing a set of points into clusters such that the points within each cluster are close to each other and the clusters are well-separated. The goal is to find the optimal assignment of points to clusters that minimizes the maximum distance between any two points in the same cluster.
+
+The main decision variables are:
+
+* `x`: an array of variables, where `x[i]` represents the cluster assignment of point `i`.
+
+The key constraints are:
+
+* Each pair of points in the same cluster must be within a certain distance (`maxdiam`) of each other.
+* The clusters must be contiguous, meaning that the points in cluster `i` must have smaller indices than the points in cluster `i+1`.
+
+The objective is to maximize the minimum distance between any two points in different clusters, which is represented by the variable `obj`. This is achieved by minimizing the sum of distances between points in the same cluster and penalizing assignments that put points in different clusters.
+
+In essence, the problem is trying to find the best way to group points into clusters such that the points within each cluster are close together, and the clusters are well-separated from each other.

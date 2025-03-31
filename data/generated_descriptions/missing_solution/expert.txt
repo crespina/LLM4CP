@@ -1,0 +1,19 @@
+name: Alternating Marriage Problem
+
+description: This problem involves arranging a sequence of people of different genders and ages in a specific order, subject to certain constraints. The goal is to find an ordering that satisfies the conditions.
+
+variables: order ∈ {1, ..., n}^n
+The decision variable is an array `order` of length `n`, where each element `order[i]` represents the person at position `i` in the sequence.
+
+constraints: 
+alldifferent(order)
+∀i ∈ {1, ..., n} : (i mod 2 = 0 ↔ gender[order[i]] = female)
+∀i ∈ {1, ..., n-1} : age[order[i+1]] - age[order[i]] ≤ 10
+
+The constraints are:
+- `alldifferent(order)`: Each person must appear exactly once in the sequence.
+- `∀i ∈ {1, ..., n} : (i mod 2 = 0 ↔ gender[order[i]] = female)`: Males and females must alternate in the sequence.
+- `∀i ∈ {1, ..., n-1} : age[order[i+1]] - age[order[i]] ≤ 10`: The age difference between consecutive people in the sequence must not exceed 10.
+
+objective: satisfy
+The objective is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific value.

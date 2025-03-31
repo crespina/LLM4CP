@@ -1,0 +1,20 @@
+**Problem Name:** TooMany
+
+**What the problem is about:** Imagine you have a factory with several machines that can produce different colored products (red, white, black, and blue) every day. Each machine can produce a certain amount of each color, and there are rules about how much of each color can be produced.
+
+**Main variables:**
+
+* `n`: The number of machines in the factory.
+* `k`: The total amount of products that can be produced per day.
+* `produce[m,c]`: The amount of color `c` produced by machine `m`.
+
+**Basic restrictions or rules:**
+
+* Each machine can produce at most `k` products per day.
+* The total amount of each color produced by all machines must be within a certain range (defined by `l` and `u`).
+* If a machine produces white and black products, it cannot produce blue products.
+* The amount of blue products produced by a machine cannot be more than the amount of red products.
+* The amount of red products produced by a machine must be a multiple of 4.
+* The amount of white products produced by a machine must be a multiple of 3.
+
+**Goal of the problem:** The goal is to maximize the total amount of products produced by all machines while following the rules and restrictions.

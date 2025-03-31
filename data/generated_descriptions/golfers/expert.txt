@@ -1,0 +1,26 @@
+name: Social Golfers Problem
+
+description: The Social Golfers Problem is a classic constraint satisfaction problem that involves scheduling golfers into groups for multiple rounds of golf, such that each golfer plays with a different set of golfers in each round, and no two golfers play together more than once.
+
+variables: `round_place_golfer[r, p]`, `golfer_golfer_round[g1, g2]`, `round_group_i_golfer[r, g, i]`, `round_group_golfers[r, g]`, `assign[g, w]`
+
+These variables represent the assignment of golfers to groups and rounds. Specifically, `round_place_golfer[r, p]` represents the golfer assigned to place `p` in round `r`, `golfer_golfer_round[g1, g2]` represents the round in which golfers `g1` and `g2` play together, `round_group_i_golfer[r, g, i]` represents the golfer assigned to group `g` and position `i` in round `r`, `round_group_golfers[r, g]` represents the set of golfers assigned to group `g` in round `r`, and `assign[g, w]` represents the group assignment of golfer `g` in week `w`.
+
+constraints: 
+`alldifferent (p in places) (round_place_golfer[r, p])`, 
+`round_place_golfer[r, p] < round_place_golfer[r, p + 1]`, 
+`golfer_golfer_round[g1, g2] = r`, 
+`alldifferent (g in groups, i in group) (round_group_i_golfer[r, g, i])`, 
+`round_group_i_golfer[r, g, i] < round_group_i_golfer[r, g, i + 1]`, 
+`sum (r in rounds, g in groups, i, j in group where i < j) (bool2int(round_group_i_golfer[r, g, i] = a /\ round_group_i_golfer[r, g, j] = b)) <= 1`, 
+`card(round_group_golfers[r, g]) = n_per_group`, 
+`all_disjoint (g in groups) (round_group_golfers[r, g])`, 
+`sum (r in rounds, g in groups) (bool2int({a, b} subset round_group_golfers[r, g])) <= 1`, 
+`sum (g in Golfer) (bool2int(assign[g,w] = gr)) = groupSize`, 
+`(bool2int(assign[g1,w1] = assign[g2,w1]) + bool2int(assign[g1,w2] = assign[g2,w2])) <= 1`, 
+`assign[g,1]=((g-1) div groupSize) + 1`, 
+`assign[g,2]=g`
+
+These constraints ensure that each golfer is assigned to a unique group and position in each round, that each group has the correct size, that each pair of golfers plays together at most once, and that the symmetry of the problem is broken.
+
+objective: The objective of the problem is to find a feasible assignment of golfers to groups and rounds that satisfies all the constraints. There is no objective function to minimize or maximize.

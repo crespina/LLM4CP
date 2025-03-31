@@ -1,0 +1,15 @@
+Maximum Clique Problem
+
+This problem is about finding a group of friends in a social network where everyone in the group knows each other.
+
+The main variables are:
+
+* `c`: an array that says whether each person is in the group or not (true or false)
+* `size`: the total number of people in the group
+
+The basic restrictions or rules of the problem are:
+
+* If two people don't know each other, they can't both be in the group
+* We want to find the largest possible group of friends
+
+The goal of the problem is to find the largest group of friends (maximize `size`).

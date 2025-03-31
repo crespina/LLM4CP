@@ -1,0 +1,16 @@
+Golomb Ruler Problem
+
+This problem is about creating a special kind of ruler with marks on it. Imagine a ruler with some marks on it, and we want to find the best way to place these marks so that the ruler is as short as possible.
+
+The main variables are:
+
+* `m`: the number of marks on the ruler
+* `mark`: an array that stores the positions of the marks on the ruler
+* `differences`: an array that stores the differences between the positions of the marks
+
+The basic restrictions or rules of the problem are:
+
+* The marks must be placed in order from left to right (i.e., the first mark is at position 0, and each subsequent mark is to the right of the previous one)
+* All the differences between the positions of the marks must be unique (i.e., no two differences can be the same)
+
+The goal of the problem is to find the shortest ruler that satisfies these rules. In other words, we want to minimize the length of the ruler.

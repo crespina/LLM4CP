@@ -1,0 +1,18 @@
+**Problem Name:** Quasigroup with Holes (also known as Latin Square Completion)
+
+**What the problem is about:** Imagine you have a grid with some numbers already filled in, and some empty cells. Your task is to fill in the empty cells with numbers so that each row, column, and cell has each number only once.
+
+**Main variables:**
+
+* `N`: The size of the grid (e.g., 3x3, 4x4, etc.)
+* `start`: The initial grid with some numbers already filled in and some empty cells (represented by 0)
+* `puzzle`: The grid that we want to fill in with numbers
+
+**Basic restrictions or rules:**
+
+* Each row must have each number only once
+* Each column must have each number only once
+* Each cell can only have one number assigned to it
+* The numbers already filled in the `start` grid cannot be changed
+
+**Goal of the problem:** The goal is to find a way to fill in the empty cells in the grid so that all the rules are satisfied. There is no specific goal to minimize or maximize anything; we just want to find a valid solution that meets all the rules.

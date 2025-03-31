@@ -1,0 +1,14 @@
+name: Traveling Salesman Problem with Precedences
+
+description: The Traveling Salesman Problem with Precedences is a variant of the classic Traveling Salesman Problem. It involves finding the shortest possible tour that visits a set of cities and returns to the starting city, with the additional constraint that certain cities must be visited in a specific order.
+
+variables: order ∈ {1, ..., n}^n, city ∈ {1, ..., n}^n
+The decision variables are two arrays, order and city, which represent the order in which the cities are visited. The order array maps each city to its position in the tour, and the city array maps each position in the tour to the corresponding city.
+
+constraints: 
+∀i ∈ PREC, order[left[i]] < order[right[i]]
+inverse(order, city)
+The constraints ensure that the precedences are respected, i.e., if city A must be visited before city B, then the position of city A in the tour must be less than the position of city B. The inverse constraint ensures that the order and city arrays are inverses of each other, i.e., the position of a city in the tour is equal to the city at that position.
+
+objective: minimize ∑(i=1 to n-1) |coord[city[i]] - coord[city[i+1]]|
+The objective is to minimize the total distance traveled, which is calculated as the sum of the distances between consecutive cities in the tour.

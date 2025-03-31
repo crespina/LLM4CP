@@ -1,0 +1,22 @@
+name: Ship Scheduling Problem
+
+description: The Ship Scheduling Problem is a classic constraint satisfaction problem that involves scheduling ships entering and leaving a port through multiple channels. The goal is to assign a start time, end time, and channel to each ship such that there are no clashes between ships in the same channel, and the total deviation from the desired start times is minimized.
+
+variables: 
+start[s], end[s], channel[s], next[s], kind[s] for s in SHIPE
+These variables represent the start time, end time, assigned channel, and the next ship in the same channel for each ship, respectively. The kind variable represents the direction of the ship (entering or leaving).
+
+constraints: 
+forall(s in nS + 1 .. nS + nC)(start[s] = maxt /\ end[s] = maxt)
+forall(s in nS + 1 .. nS + nC)(channel[s] = s - nS)
+forall(s in SHIP)(end[s] = start[s] + len[channel[s]]*speed[s])
+alldifferent(next)
+forall(s in SHIP)(if kind[s] + kind[next[s]] = entering+leaving then end[s] <= start[next[s]] else start[s] + speed[s]*leeway <= start[next[s]] /\ end[s] + speed[s]*leeway <= end[next[s]])
+forall(s in SHIP)(channel[next[s]] = channel[s])
+
+These constraints ensure that dummy ships have a start and end time of maxt, and are assigned to their own channel. They also ensure that the end time of a ship is calculated based on its start time, speed, and channel length. The alldifferent constraint ensures that each ship has a unique next ship in the same channel. The remaining constraints ensure that there are no clashes between ships in the same channel, and that the next ship in the same channel is correctly assigned.
+
+objective: 
+minimize sum(s in SHIP)(abs(start[s] - desired[s]))
+
+The objective is to minimize the total deviation from the desired start times for all ships.

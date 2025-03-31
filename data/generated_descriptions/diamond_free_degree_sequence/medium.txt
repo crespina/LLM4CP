@@ -1,0 +1,20 @@
+The problem is called the Diamond-free Degree Sequence problem.
+
+This problem is about finding all possible degree sequences of a simple, undirected graph that satisfies certain properties. A degree sequence is a list of numbers, where each number represents the number of edges connected to a vertex in the graph. The graph is simple, meaning it has no loop edges (edges that connect a vertex to itself), and undirected, meaning that if there is an edge between two vertices, it can be traversed in both directions.
+
+The main decision variables in this problem are:
+
+* `x[i,j]`: a binary variable that represents whether there is an edge between vertices `i` and `j` in the graph.
+* `degrees[i]`: an integer variable that represents the degree of vertex `i`, i.e., the number of edges connected to vertex `i`.
+
+The key constraints in this problem are:
+
+* The graph is diamond-free, meaning that for any four vertices, there are at most four edges between them.
+* The degree of each vertex is greater than zero and is a multiple of 3.
+* The sum of the degrees of all vertices is a multiple of 12.
+* The graph is undirected, meaning that if there is an edge between two vertices, it can be traversed in both directions.
+* There are no loop edges, meaning that a vertex cannot be connected to itself.
+
+The objective of this problem is to find all possible degree sequences that satisfy these constraints, without optimizing any particular objective function. In other words, the goal is to enumerate all possible solutions that meet the given constraints.
+
+Note that the problem also includes some symmetry-breaking constraints to reduce the number of duplicate solutions.

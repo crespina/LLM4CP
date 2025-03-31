@@ -1,0 +1,19 @@
+The problem is known as the **Stable Roommates Problem**.
+
+This problem is about finding a stable matching between a set of agents, where each agent has a preference order over the other agents. The goal is to assign each agent to a roommate in a way that is stable, meaning that there is no pair of agents who would prefer to be roommates with each other rather than their current assignments.
+
+The main decision variables in this problem are:
+
+* `a[i]`: the roommate assigned to agent `i`
+* `rank[i, j]`: the ranking of agent `j` in agent `i`'s preference order
+
+The key constraints in this problem are:
+
+* Each agent is assigned to a roommate
+* An agent's roommate is one of their top preferences
+* If an agent prefers another agent to their current roommate, then the other agent must prefer their current roommate to the first agent
+* If an agent is indifferent between two roommates, then the two roommates must also be indifferent between each other
+
+The objective of this problem is to find a stable matching, which means that there is no pair of agents who would prefer to be roommates with each other rather than their current assignments.
+
+In other words, the problem is trying to find a way to assign roommates to each other in a way that is stable and respects the preferences of each agent.

@@ -1,0 +1,20 @@
+Loan Repayment Problem.
+
+This problem is about finding the optimal loan repayment plan for a borrower who takes out a loan with a certain interest rate and repays it over four quarters.
+
+The main decision variables are:
+
+* R: the quarterly repayment amount
+* P: the principal amount borrowed
+* I: the interest rate
+
+These variables represent the key aspects of the loan: how much is borrowed, how much interest is charged, and how much is repaid each quarter.
+
+The key constraints are:
+
+* The balance after each quarter is calculated by adding the interest accrued and subtracting the repayment made.
+* The balance owing at the end of the four quarters is calculated similarly.
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function. In other words, the goal is to find a loan repayment plan that works, rather than minimizing or maximizing a particular aspect of the plan.
+
+In essence, the problem is about finding a loan repayment schedule that takes into account the interest rate and the borrower's quarterly repayments, and ensures that the loan is repaid over the course of a year.

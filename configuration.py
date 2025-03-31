@@ -24,21 +24,34 @@ def config_parser():
     parser.add_argument('--mzn_path', type=str,
                         default="./data/csplib_input/mzn",
                         help='.mzn directory input path.')
+    
     parser.add_argument('--txt_path', type=str,
                         default="./data/csplib_input/txt",
                         help='.txt directory input path.')
+    
     parser.add_argument('--storage_dir', type=str,
-                        default='./data/vector_dbs/csplib_concat_models',
+                        default='data/vector_dbs/code_as_text/beginnermediumexpert',
                         help='Vector DB directory path.')
+    
     parser.add_argument('--like_dislike_json_path', type=str,
                         default="./data/output/like_dislike.json",
                         help='.json like/dislike path')
+    
     parser.add_argument("--like_dislike_csv_path", type=str,
                         default="./data/output/like_dislike.csv",
                         help=".csv like/dislike path")
+    
     parser.add_argument("--output_path", type=str,
                         default="./data/output",
                         help="output path")
+    
+    parser.add_argument("--mixed_db_txt", type=str,
+                        default="data/mixed_db",
+                        help="path of txt files for both datasets")
+    
+    parser.add_argument("--descriptions_folder", type=str,
+                        default="data/generated_descriptions",
+                        help="path of the folder containing the generated descriptions")
 
     # API Keys
     parser.add_argument('--llama_parse_key', type=str, help='Your LlamaParse token key (llx-<...>)')

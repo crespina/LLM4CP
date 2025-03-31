@@ -1,0 +1,11 @@
+The Subset Sum Problem.
+
+This problem is about finding a subset of a given set of integers that adds up to a specific target sum.
+
+The main decision variable is `selected`, which represents the subset of integers from the original set `number` that should be included to reach the target sum.
+
+The key constraint is that the sum of the integers in the `selected` subset must equal the `target` value.
+
+The objective of the problem is to find a feasible solution that satisfies the constraint, rather than minimizing or maximizing a specific objective function.
+
+In other words, the goal is to find a subset of the given integers that adds up to the target sum, without considering any optimization criteria.

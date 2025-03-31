@@ -1,0 +1,17 @@
+The problem is known as the Social Golfers Problem.
+
+The Social Golfers Problem is about scheduling golfers into groups for multiple rounds of golf, such that each golfer plays with a different set of people in each round, and no two golfers play together more than once.
+
+The main decision variables in this problem are:
+
+* `round_place_golfer` (in Model 1) or `round_group_i_golfer` (in Model 2) or `round_group_golfers` (in Model 3) or `assign` (in Model 4), which represent the assignment of golfers to groups in each round.
+
+The key constraints in this problem are:
+
+* Each group in each round must have a distinct set of golfers.
+* Each pair of golfers can play together at most once across all rounds.
+* Symmetry-breaking constraints to reduce the search space and avoid duplicate solutions.
+
+The objective of this problem is to find a feasible assignment of golfers to groups in each round, satisfying the above constraints.
+
+Note that the problem does not have an explicit objective function to minimize or maximize, but rather aims to find a feasible solution that satisfies the constraints.

@@ -1,0 +1,18 @@
+Bus Driver Scheduling Problem
+
+This problem is about creating a schedule for bus drivers to cover all the tasks (like driving routes) with the minimum number of drivers needed.
+
+The main variables are:
+
+* Tasks (or pieces of work): these are the bus routes or driving jobs that need to be covered.
+* Shifts: these are the possible schedules for the bus drivers, which cover some of the tasks.
+* x: this is a variable that decides which shifts to choose for the drivers.
+* tot_shifts: this is the total number of shifts (or drivers) needed to cover all the tasks.
+
+The basic restrictions or rules of the problem are:
+
+* Each task must be covered by exactly one shift (or driver).
+* Each shift can cover multiple tasks.
+* We want to use the minimum number of shifts (or drivers) to cover all the tasks.
+
+The goal of the problem is to minimize the total number of shifts (or drivers) needed to cover all the tasks.

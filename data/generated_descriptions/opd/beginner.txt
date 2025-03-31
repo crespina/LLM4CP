@@ -1,0 +1,20 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Design of Collateralised Debt Obligations Squared (CDO^2) Transactions
+
+**What the problem is about in everyday terms:** Imagine you have a set of boxes (v) and each box can hold a certain number of items (r). You want to put items into the boxes in a way that each box has exactly r items, and the items in each box are distributed in a way that is as different as possible from the items in every other box.
+
+**Main variables and what they mean:**
+
+* v: the number of boxes
+* b: the maximum number of items that can be put into each box
+* r: the exact number of items that each box should have
+* m: a matrix that shows which items are in each box (0 means the item is not in the box, 1 means it is)
+* objective (also called lambda): a measure of how different the items in each box are from the items in every other box
+
+**Basic restrictions or rules of the problem:**
+
+* Each box must have exactly r items
+* The items in each box should be distributed in a way that is as different as possible from the items in every other box
+
+**Goal of the problem:** Find a way to put items into the boxes that minimizes the objective (lambda), which means making the items in each box as different as possible from the items in every other box.

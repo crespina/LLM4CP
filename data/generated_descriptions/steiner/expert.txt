@@ -1,0 +1,18 @@
+name: Ternary Steiner Problem
+
+description: The Ternary Steiner Problem is a classic problem in combinatorial mathematics that involves finding a collection of sets, each containing three elements, such that any two sets have at most one element in common.
+
+variables: Sets = {S_1, S_2, ..., S_NB}, where S_i ⊆ {1, 2, ..., N}
+
+The decision variables are the sets S_i, which are subsets of {1, 2, ..., N}, and NB is the number of sets, calculated as N*(N-1)/6.
+
+constraints: 
+card(S_i) = 3 ∀i ∈ {1, 2, ..., NB}
+card(S_i ∩ S_j) ≤ 1 ∀i, j ∈ {1, 2, ..., NB} where i < j
+decreasing(Sets)
+
+The constraints ensure that each set S_i has exactly three elements, any two sets S_i and S_j have at most one element in common, and the sets are ordered in a decreasing manner (symmetry breaking).
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific value. The problem is a satisfaction problem, where the goal is to find a valid assignment of values to the decision variables that meets all the constraints.

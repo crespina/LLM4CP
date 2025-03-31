@@ -1,0 +1,20 @@
+**The Stable Roommates Problem**
+
+This problem is about finding a way to pair up people (called "agents") in a way that makes everyone happy.
+
+**Main Variables:**
+
+* `n`: The number of agents (people) involved.
+* `pref`: A list of preferences for each agent, showing who they would like to be paired with.
+* `a`: A list of assignments, showing who each agent is paired with.
+* `rank`: A list showing the ranking of each agent's preferences.
+
+**Basic Restrictions or Rules:**
+
+* Each agent has a list of preferences, and they cannot prefer themselves.
+* Each agent's preferences must be unique (they can't prefer the same person twice).
+* The ranking of each agent's preferences is determined by their list of preferences.
+
+**Goal:**
+
+The goal is to find a way to pair up the agents in a way that satisfies everyone's preferences as much as possible. This means that if an agent prefers someone, they should be paired with that person if possible. The problem is trying to find a stable solution, where no agent would rather be paired with someone else if they had the chance.

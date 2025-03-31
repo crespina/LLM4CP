@@ -1,0 +1,15 @@
+The problem represented by these Minizinc models is the Quasigroup Existence Problem, also known as the Quasigroup Completion Problem.
+
+The Quasigroup Existence Problem is a classic constraint satisfaction problem that involves finding a multiplication table for a quasigroup of a given order. A quasigroup is a mathematical structure that satisfies certain properties, similar to a group, but without the requirement of associativity.
+
+In this problem, we are given an integer `n`, and we need to find an `n x n` multiplication table, represented by the `quasiGroup` array, such that each element in the table is an integer between 0 and `n-1`. The table must satisfy certain constraints, which are:
+
+* Each row and column must contain each integer between 0 and `n-1` exactly once (i.e., all rows and columns must be different).
+* The table must satisfy certain multiplication axioms, such as `(b*a)*b = a*(b*a)` or `(j*i)*(i*j) = i`.
+* The table must also satisfy some implied constraints, such as idempotency (i.e., `quasiGroup[i,i] = i`) and anti-Abelian properties (i.e., `quasiGroup[i,j] != quasiGroup[j,i]` for `i != j`).
+
+The decision variables in this problem are the elements of the `quasiGroup` array, which represent the multiplication table.
+
+The objective of this problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.
+
+The problem is challenging because the constraints are complex and interconnected, making it difficult to find a solution that satisfies all of them. The Quasigroup Existence Problem has applications in various fields, including combinatorics, algebra, and computer science.

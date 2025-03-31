@@ -1,0 +1,15 @@
+name: 2D Rectangular Packing Problem
+
+description: The 2D Rectangular Packing Problem is a classic problem in constraint programming where we are given a set of rectangles of different sizes and we need to pack them into a larger rectangle of minimum area, such that no two rectangles overlap and all rectangles are fully contained within the larger rectangle.
+
+variables: height, width, area, x, y
+
+height and width are the dimensions of the larger rectangle, area is the area of the larger rectangle, x and y are arrays of variables representing the x and y coordinates of the top-left corner of each rectangle.
+
+constraints: 
+x[s] + s <= width, y[s] + s <= height, 
+(x[s1] + s1 <= x[s2] \/ x[s2] + s2 <= x[s1] \/ y[s1] + s1 <= y[s2] \/ y[s2] + s2 <= y[s1])
+
+The first two constraints ensure that each rectangle is fully contained within the larger rectangle. The third constraint ensures that no two rectangles overlap.
+
+objective: minimize area

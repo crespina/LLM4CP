@@ -1,0 +1,14 @@
+Magic Hexagon
+
+This problem is about creating a special kind of hexagon (a six-sided shape) with numbers inside it. Imagine a hexagon divided into smaller triangles, and each triangle has a number in it.
+
+The main variables are the numbers that go inside the triangles. There are 19 numbers in total, and they are represented by letters like a, b, c, and so on.
+
+The basic rules of the problem are:
+
+* Each triangle must have a different number in it.
+* The numbers in each row of triangles must add up to 38.
+* The numbers in each column of triangles must also add up to 38.
+* Some specific triangles have to have smaller numbers than others.
+
+The goal of the problem is to find a way to arrange the numbers in the triangles so that all the rules are followed.

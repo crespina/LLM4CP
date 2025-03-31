@@ -1,0 +1,20 @@
+**Problem Name:** Warehouse-Factories Shipping Problem
+
+**What the problem is about:** Imagine you have several warehouses that need certain amounts of goods, and several factories that can produce those goods. You need to decide how much of each good to ship from each factory to each warehouse, so that each warehouse gets what it needs, and each factory doesn't produce more than it can. You also want to minimize the total cost of shipping.
+
+**Main variables:**
+
+* `W`: The number of warehouses.
+* `F`: The number of factories.
+* `demand`: An array that says how much of each good each warehouse needs.
+* `production`: An array that says how much of each good each factory can produce.
+* `cost`: An array that says how much it costs to ship one unit of each good from each factory to each warehouse.
+* `ship`: An array that says how much of each good to ship from each factory to each warehouse.
+
+**Basic restrictions or rules:**
+
+* Each warehouse must get at least as much of each good as it needs.
+* Each factory can't produce more than it can.
+* You can't ship a negative amount of goods.
+
+**Goal:** Minimize the total cost of shipping goods from factories to warehouses.

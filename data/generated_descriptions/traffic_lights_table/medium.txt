@@ -1,0 +1,17 @@
+The problem is known as the Traffic Lights Problem.
+
+This problem is about scheduling the traffic lights at a four-way junction to ensure safe and efficient traffic flow. The junction has eight traffic lights: four for vehicles and four for pedestrians. Each traffic light can be in one of four states: red, red-yellow, green, or yellow.
+
+The main decision variables are:
+
+* V1 to V4, which represent the states of the traffic lights for vehicles
+* P1 to P4, which represent the states of the traffic lights for pedestrians
+
+The key constraints are:
+
+* At any given time, the traffic lights for vehicles and pedestrians at adjacent roads must be in a safe and compatible state. For example, if the traffic light for vehicles on one road is green, the traffic light for pedestrians on the adjacent road must be red.
+* The traffic lights must follow a specific sequence to ensure smooth traffic flow.
+
+The objective of the problem is to find a feasible schedule for the traffic lights that satisfies all the constraints.
+
+In this model, the constraints are represented using quaternary constraints, which specify the allowed combinations of states for the traffic lights at adjacent roads. The model uses a table constraint to enforce these quaternary constraints. The objective is to find a solution that satisfies all the constraints, and the model uses the "satisfy" objective to achieve this.

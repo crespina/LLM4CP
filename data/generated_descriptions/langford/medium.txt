@@ -1,0 +1,15 @@
+Langford's Problem.
+
+Langford's Problem is a classic constraint programming problem that involves arranging a sequence of digits in a specific way. The problem is defined as follows: given two positive integers `m` and `n`, create a sequence of `m` copies of the digits from 1 to `n`, such that any two consecutive copies of a digit `k` are separated by exactly `k` other digits.
+
+The main decision variables in this problem are the positions of the digits in the sequence, represented by the `x` or `y` arrays in the models. These variables represent the indices at which each digit appears in the sequence.
+
+The key constraints in this problem are:
+
+* Each digit appears exactly `m` times in the sequence.
+* Any two consecutive copies of a digit `k` are separated by exactly `k` other digits.
+* The sequence must contain all digits from 1 to `n` exactly `m` times.
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints.
+
+In simpler terms, the problem is about creating a sequence of digits where each digit appears a certain number of times, and the distance between consecutive appearances of the same digit is equal to the digit's value. For example, if we have two copies of the digits 1 to 4, a valid solution would be `41312432`, where each digit appears twice, and the distance between consecutive appearances of the same digit is equal to the digit's value.

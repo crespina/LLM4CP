@@ -1,0 +1,9 @@
+The problem is known as the Graph Colouring Problem, specifically the Australian Map Colouring Problem.
+
+This problem is about assigning colours to different regions of a map, such that no two adjacent regions have the same colour. In this case, the map is of Australia, and the regions are the six states and territories: Western Australia (wa), Northern Territory (nt), South Australia (sa), Queensland (q), New South Wales (nsw), and Victoria (v), as well as Tasmania (t).
+
+The main decision variables are the colours assigned to each region, represented by the variables wa, nt, sa, q, nsw, v, and t. Each variable can take an integer value between 1 and nc, where nc is the number of colours available.
+
+The key constraints are that adjacent regions must have different colours. For example, Western Australia and Northern Territory must have different colours, as must Western Australia and South Australia, and so on. These constraints are represented by the "!=" constraints in the model, which ensure that the colours assigned to adjacent regions are not equal.
+
+The objective of the problem is to find a feasible assignment of colours to the regions, such that all the constraints are satisfied. In other words, the goal is to find a colouring of the Australian map using the available colours, such that no two adjacent regions have the same colour. There is no objective to minimize or maximize in this problem; the goal is simply to find a valid solution.

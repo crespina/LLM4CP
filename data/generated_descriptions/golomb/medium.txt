@@ -1,0 +1,16 @@
+Golomb Ruler Problem
+
+The Golomb Ruler Problem is a classic constraint programming problem that involves finding a set of marks on a ruler such that the differences between all pairs of marks are distinct.
+
+The main decision variables in this problem are the `mark` array, which represents the positions of the marks on the ruler, and the `differences` array, which represents the differences between all pairs of marks.
+
+The key constraints in this problem are:
+
+* The first mark is at position 0.
+* Each mark is to the right of the previous mark.
+* All differences between pairs of marks are distinct.
+* A symmetry-breaking constraint to ensure that the solution is not mirrored.
+
+The objective of the problem is to minimize the length of the ruler, which is represented by the position of the last mark (`mark[m]`).
+
+In essence, the Golomb Ruler Problem is about finding the shortest ruler that can measure all distances up to a certain length, with the constraint that all distances must be unique.

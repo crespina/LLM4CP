@@ -1,0 +1,15 @@
+name: 0/1 Knapsack Problem
+
+description: The 0/1 Knapsack Problem is a classic problem in combinatorial optimization. Given a set of objects, each with a weight and a value, determine the subset of objects to include in a knapsack of limited capacity to maximize the total value while not exceeding the knapsack's capacity.
+
+variables: x (x[i] for i in OBJ or x[i] for i in 1..n)
+
+The decision variables x represent the number of each object to include in the knapsack. In some models, x is a binary variable (0 or 1) indicating whether to include the object or not, while in others, x is an integer variable representing the quantity of each object to include.
+
+constraints: x[i] >= 0, sum(i in OBJ)(size[i] * x[i]) <= capacity
+
+The constraints ensure that the number of each object included is non-negative and that the total weight of the selected objects does not exceed the knapsack's capacity.
+
+objective: maximize sum(i in OBJ)(profit[i] * x[i])
+
+The objective is to maximize the total value of the objects included in the knapsack.

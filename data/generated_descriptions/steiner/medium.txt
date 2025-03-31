@@ -1,0 +1,15 @@
+The ternary Steiner problem.
+
+This problem is about finding a collection of sets, each containing three elements, from a given set of `N` elements, such that any two sets have at most one element in common.
+
+The main decision variables are the `Sets` array, which represents the collection of sets to be found. Each set is a subset of the `N` elements, and the model decides which elements to include in each set.
+
+The key constraints are:
+
+* Each set must contain exactly three elements.
+* Any two sets must have at most one element in common.
+* The sets should be "symmetrically broken", meaning that the model should avoid duplicate solutions by imposing an ordering on the sets.
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.
+
+In other words, the goal is to find a way to partition the `N` elements into `NB = N*(N-1)/6` sets of three elements each, such that no two sets share more than one element. The problem is often used as a benchmark for constraint programming solvers.
