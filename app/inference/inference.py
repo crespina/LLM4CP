@@ -21,10 +21,10 @@ class Inference:
 
     def query_llm(self, question):
         try : 
-            query_engine = self.index.as_query_engine(llm=self.model,
+            query_engine = self.index.as_query_engine(llm=self.model, #as retriever
                                                   similarity_top_k=22,
                                                   node_postprocessors=[self.reranker])
             response = query_engine.query(question)
-            return response
+            return response #also describing llm here
         except Exception as e :
             return e
