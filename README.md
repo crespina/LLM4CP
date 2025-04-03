@@ -72,9 +72,11 @@ This process will:
 1. Generate descriptions at different expertise levels (beginner, medium, expert)
 2. Create vector embeddings databases for efficient searching
 
-> [!TIP]  
-> In this repo, we include both the raw data, as well as the embedding (vector) databases, making the app ready to run.
-> In case one want to add additional models, or to update the existing ones, just drop the MiniZinc source code files in the `./data/input/merged_mzn_source_code` directory, and run the `run_indexing.py` script again.
+>[!TIP]
+> To add a new MiniZinc model into the database, all you need to do is to create a <the name of the problem>.txt file, containing the MiniZinc implementation into the data/input/merged_mzn_source_code folder. 
+> Once this is done, simply rerun the indexing as stated above. 
+> 
+> This will create a new set of vector stores in the data/vector_dbs folder.
 
 ### Command-Line Interface
 
