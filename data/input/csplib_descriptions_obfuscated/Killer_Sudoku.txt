@@ -1,0 +1,5 @@
+A puzzle is played on a $\{9\times 9\}$ grid consisting of 81 cells. The goal is to fill the grid with numbers from the set $\{1\ldots 9\}$, with the following constraints: each row and column must contain all the numbers $\{1\ldots 9\}$, and each of the 9 non-overlapping $3\times 3$ subsquares must also contain all the numbers $\{1\ldots 9\}$.
+
+The puzzle features a set of cages. A cage consists of a group of contiguous cells and a total sum; the numbers in the cells must add up to that total, and each number in a cage must appear only once. The cages do not overlap and cover all cells in the grid. Typically, the cages contain two to four cells, and there is usually exactly one solution to the puzzle.
+
+In a generalisation of this puzzle to $n \times n$ grids, for any $n$ that has an integer square root, the grid has $n^2$ cells, and each cell contains a value from $\{1\ldots n\}$. In the solution, each row and column contains all the numbers $\{1\ldots n\}$, and the $n$ non-overlapping $\sqrt{n} \times \sqrt{n}$ subsquares also contain all the numbers $\{1\ldots n\}$. Cages in this generalisation work the same way as in the $\{9\times 9\}$ version.

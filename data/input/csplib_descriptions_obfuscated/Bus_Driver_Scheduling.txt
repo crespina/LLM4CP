@@ -1,0 +1,7 @@
+This scheduling problem can be formulated as a set partitioning problem. It involves a given set of tasks (pieces of work) that need to be covered and a large set of possible shifts, where each shift covers a subset of the tasks and has an associated cost. The objective is to select a subset of shifts such that each piece of work is covered exactly once, forming a valid partition.
+
+Unlike in air crew scheduling, where cost minimization is a primary concern, the main goal here is to reduce the number of shifts used in the solution, with cost being a secondary factor. To simplify the problem, the cost of each shift is assumed to be the same, making the objective solely to minimize the number of shifts.
+
+The instances originate from four different transportation companies, covering different operational constraints and environments (e.g., urban and short-distance rural schedules can have distinct characteristics). Some instances represent the same problem but with different numbers of generated shifts.
+
+These problems are formatted similarly to the set partitioning examples in ORLIB. The first line specifies the number of rows (pieces of work), columns (shifts), and the minimum number of columns required for a valid partition. Each subsequent line represents a shift, starting with its cost (always 1 in this case), followed by the number of rows it covers and the specific rows included.

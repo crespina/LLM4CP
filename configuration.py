@@ -1,14 +1,13 @@
 """
-Augustin CRESPIN
-augustin.crespin@student.uclouvain.be | crespin.augustin@gmail.com
-
-Ioannis KOSTIS
-ioannis.kostis@uclouvain.be | ioannis.aris.kostis@gmail.com
-
 Config object that handles the various parameters and configurations of the system.
 """
 
+import os
+
 import configargparse
+from dotenv import load_dotenv
+
+load_dotenv(dotenv_path='./app/assets/env/.env')
 
 
 def config_parser():
@@ -16,54 +15,35 @@ def config_parser():
         description="LLM 4 CP.")
     parser.add_argument('--config', is_config_file=True,
                         help='config file path')
-    parser.add_argument("--keys", is_config_file=True, required=False,
-                        help='Path to the API keys file.',
-                        default='./app/assets/.api_keys/keys.txt')
 
     # I/O params
-    parser.add_argument('--mzn_path', type=str,
-                        default="./data/csplib_input/mzn",
-                        help='.mzn directory input path.')
-    
-    parser.add_argument('--txt_path', type=str,
-                        default="./data/csplib_input/txt",
-                        help='.txt directory input path.')
-    
     parser.add_argument('--storage_dir', type=str,
-                        default='data/vector_dbs/code_as_text/beginnermediumexpert',
+                        default='./data/vector_dbs/code_as_text/medium',
                         help='Vector DB directory path.')
-    
-    parser.add_argument('--like_dislike_json_path', type=str,
-                        default="./data/output/like_dislike.json",
-                        help='.json like/dislike path')
-    
-    parser.add_argument("--like_dislike_csv_path", type=str,
-                        default="./data/output/like_dislike.csv",
-                        help=".csv like/dislike path")
-    
-    parser.add_argument("--output_path", type=str,
-                        default="./data/output",
-                        help="output path")
-    
-    parser.add_argument("--mixed_db_txt", type=str,
-                        default="data/mixed_db",
-                        help="path of txt files for both datasets")
-    
-    parser.add_argument("--descriptions_folder", type=str,
-                        default="data/generated_descriptions",
+
+    parser.add_argument('--output_dir', type=str,
+                        default='./data/output',
+                        help='Output directory path.')
+
+    parser.add_argument('--results_dir', type=str,
+                        default='./data/results',
+                        help='Results directory path.')
+
+    parser.add_argument('--mixed_db_txt', type=str,
+                        default="./data/input/merged_mzn_source_code",
+                        help='.txt directory input path.')
+
+    parser.add_argument("--descriptions_dir", type=str,
+                        default="data/output/generated_descriptions",
                         help="path of the folder containing the generated descriptions")
 
-    # API Keys
-    parser.add_argument('--llama_parse_key', type=str, help='Your LlamaParse token key (llx-<...>)')
-    parser.add_argument('--openai_api_key', type=str, help='Your OPENAI API token key (sk-<...>)')
-    parser.add_argument('--groq_api_key', type=str, help='Your Groq API token key gsk_<...>)')
-    parser.add_argument('--cohere_api_key', type=str, help='Your Cohere API token key <...>)')
+    parser.add_argument("--merged_mzn_source_path", type=str,
+                        default="./data/input/merged_mzn_source_code",
+                        help="path to the merged MiniZinc source code files")
 
-    # Database
-    parser.add_argument("--db_name", type=str, default="llm4cp", help="Name of the database")
-    parser.add_argument("--db_user", type=str, default="postgres", help="User owning the database")
-    parser.add_argument("--db_host", type=str, default="localhost", help="Where the database is hosted")
-    parser.add_argument('--db_password', type=str, help='Your database password <...>)')
-    parser.add_argument("--db_port", type=int, default=5432, help="The port used by the database")
+    # API Keys
+    parser.add_argument('--groq_api_key', type=str,
+                        default=os.environ.get('GROQ_API_KEY'),
+                        help='Your Groq API token key gsk_<...>)')
 
     return parser

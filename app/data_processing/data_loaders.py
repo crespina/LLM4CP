@@ -5,7 +5,7 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 
 def load_index(args):
-    Settings.embed_model = HuggingFaceEmbedding(model_name="Alibaba-NLP/gte-modernbert-base", trust_remote_code=True)
+    Settings.embed_model = HuggingFaceEmbedding(model_name="Alibaba-NLP/gte-modernbert-base")
 
     Settings.show_progress = False
 
