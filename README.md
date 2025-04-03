@@ -52,7 +52,7 @@ GROQ_API_KEY=your-groq-api-key
 The application provides a Gradio-based GUI for searching constraint programming models:
 
 ```bash
-python -m run_gui.py
+python run_gui.py
 ```
 
 This will launch a web interface where you can:
@@ -65,7 +65,7 @@ This will launch a web interface where you can:
 Before using the search functionality, you need to generate the vector embeddings database:
 
 ```bash
-python -m run_indexing.py
+python run_indexing.py
 ```
 
 This process will:
@@ -83,7 +83,7 @@ This process will:
 You can also use the command-line interface for direct queries:
 
 ```bash
-python -m run_inference.py
+python run_inference.py
 ```
 
 ### Configuration Options

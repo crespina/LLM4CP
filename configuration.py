@@ -7,6 +7,7 @@ import os
 import configargparse
 from dotenv import load_dotenv
 
+os.makedirs('./app/assets/env/', exist_ok=True)
 load_dotenv(dotenv_path='./app/assets/env/.env')
 
 
