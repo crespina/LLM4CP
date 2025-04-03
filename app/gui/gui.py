@@ -123,8 +123,8 @@ class GUI:
                     )
                     submit_btn = gr.Button("Search", variant="primary")
 
-                    # from app.utils.CONSTANTS import EXAMPLES
-                    # _ = gr.Examples(EXAMPLES, query_input)
+                    from app.utils.CONSTANTS import EXAMPLES
+                    _ = gr.Examples(EXAMPLES, query_input)
                     
                 with gr.Column(scale=2):
                     # Source code display
@@ -145,4 +145,4 @@ class GUI:
                     outputs=code_display
                 )
 
-        webapp.launch(share=True, inbrowser=True)
+        webapp.launch(share=False, inbrowser=True)
