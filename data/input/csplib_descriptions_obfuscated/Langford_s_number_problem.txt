@@ -1,0 +1,3 @@
+Consider two sets of numbers from 1 to 4. The goal is to arrange the eight numbers from these two sets into a single sequence such that the two 1's are placed one number apart, the two 2's are placed two numbers apart, the two 3's are placed three numbers apart, and the two 4's are placed four numbers apart.
+
+This problem can be generalized to arranging $k$ sets of numbers from 1 to $n$, so that each pair of the same number $m$ appears exactly $m$ positions apart. For example, in the case of arranging three sets of numbers from 1 to 9, the first pair of 1's should appear one number apart, the first pair of 2's should appear two numbers apart, and so on.

@@ -1,11 +1,9 @@
 import os
 import warnings
 
-from llama_index.core.response.pprint_utils import pprint_response
-
 from app.inference.inference import Inference
+from app.utils.app_utils import pprint_ranking
 from configuration import config_parser
-
 
 if __name__ == "__main__":
     warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -15,8 +13,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     agent = Inference(args=args)
-    query = input("Question: ")
+
     while True:
-        response = agent.query_llm(question=query)
-        pprint_response(response, show_source=True)
-        query = input("\nQuestion: ")
+        query = input("Question: ")
+        nodes = agent.retrieve_nodes(question=query)
+        pprint_ranking(nodes)

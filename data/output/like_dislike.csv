@@ -1,9 +1,0 @@
-ip;liked;timestamp;query;answer
-172.31.62.13;False;1732821653.436337;here is the user's question Can you answer this question ? and here is the document I have a car with a 80litre trunk. I need to fill it in efficiently with boxes I have, since I am moving places. Is there an algorithm that can help me with that? ;knapsack (0.974)|rel_sem (0.948)|flattening9 (0.945)|flattening4 (0.944)
-172.31.7.227;True;1732822166.977155;I have a car with a 80litre trunk. I need to fill it in efficiently with boxes I have, since I am moving places. Is there an algorithm that can help me with that? ;knapsack (0.971)|rel_sem (0.950)|flattening9 (0.939)|flattening8 (0.932)
-172.31.40.31;True;1732822292.102008;schedule;project_scheduling_nonoverlap (0.951)|project_scheduling (0.950)|restarta (0.949)|compatible_assignment_opt (0.945)
-172.31.7.227;True;1732822663.241326;hi I have a car with a 80litre trunk. I need to fill it in efficiently with boxes I have, since I am moving places. Is there an algorithm that can help me with that? ;knapsack (0.972)|rel_sem (0.946)|flattening9 (0.935)|flattening12 (0.932)
-172.31.40.31;True;1732822815.579909;hello;project_scheduling_nonoverlap (0.930)|square_pack (0.927)|rel_sem (0.923)|graph (0.913)
-172.31.40.31;True;1732828610.617837;How to fill a suitcase ?;
-172.31.40.31;False;1732828624.450298;How to fill a suitcase ?;
-172.31.19.200;True;1732828882.06873;How to schedule the upcoming exams ?;Timetabling Problem  This algorithm is used to schedule a set of events (exams) into a set of time slots, while taking into account constraints such as room availability, student conflicts, and exam duration. It can be applied to the exam scheduling problem by modeling the exams as events, the time slots as resources, and the constraints as rules to be satisfied. The algorithm will find a schedule that minimizes the total time required to complete all exams, while respecting the constraints.
