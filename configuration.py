@@ -42,6 +42,9 @@ def config_parser():
                         default="./data/input/merged_mzn_source_code",
                         help="path to the merged MiniZinc source code files")
 
+    # Deployment
+    parser.add_argument('--prod', action='store_true', help='Run in production mode')
+
     # API Keys
     parser.add_argument('--groq_api_key', type=str,
                         default=os.environ.get('GROQ_API_KEY'),

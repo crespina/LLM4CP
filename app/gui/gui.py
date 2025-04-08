@@ -8,6 +8,7 @@ class GUI:
 
     def __init__(self, args) -> None:
         self.args = args
+        self.is_production = args.prod
         self.agent = Inference(args=self.args)
         self.source_code_path = args.merged_mzn_source_path
         
@@ -145,4 +146,24 @@ class GUI:
                     outputs=code_display
                 )
 
-        webapp.launch(share=False, inbrowser=True)
+        # webapp.launch(share=False, inbrowser=True)
+        # Launch application with appropriate configuration
+        try:
+            if self.is_production:
+                webapp.queue(max_size=2)
+                webapp.launch(
+                    server_port=9000,
+                    max_threads=8,
+                    share=False,
+                    inbrowser=False,
+                )
+            else:
+                webapp.queue(max_size=2)  # ~3GB RAM for mother, 12GB for children
+                webapp.launch(
+                    share=False,
+                    inbrowser=True,
+                    max_threads=8
+                )
+
+        except (KeyboardInterrupt, SystemExit):
+            webapp.close()
