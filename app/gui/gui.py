@@ -152,7 +152,7 @@ class GUI:
             if self.is_production:
                 webapp.queue(max_size=2)
                 webapp.launch(
-                    server_port=9000,
+                    server_port=9001,
                     max_threads=8,
                     share=False,
                     inbrowser=False,
