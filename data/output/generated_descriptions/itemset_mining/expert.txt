@@ -1,0 +1,19 @@
+name: Market Basket Analysis
+
+description: The Market Basket Analysis problem is a classic problem in data mining and constraint programming. It involves finding a set of items that are frequently purchased together in a transactional database. The goal is to identify a set of items that covers a minimum number of transactions, with a minimum total utility or value.
+
+variables: Items ∈ 2^{1..NrI}
+
+The decision variable Items is a set of items, represented as a subset of the universe of items {1..NrI}. It represents the set of items that are frequently purchased together.
+
+constraints: 
+card(cover(Items, TDB)) ≥ Freq
+∑(i in Items)(itemprice[i]) ≥ minUtility
+
+The first constraint ensures that the set of items covers at least Freq transactions in the transactional database TDB. The cover function is a custom function that returns the set of transactions that are covered by the items.
+
+The second constraint ensures that the total utility or value of the items in the set is at least minUtility.
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function. The goal is to find a set of items that covers a minimum number of transactions with a minimum total utility or value.

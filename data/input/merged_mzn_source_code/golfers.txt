@@ -1,0 +1,244 @@
+Model 1 :
+
+
+% The social golfers problem
+% A club has a number of golfers that play rounds in groups (the number of
+% golfers is a multiple of the number of groups).  Each round, a golfer
+% plays with a group of different people, such that the same pair of golfers
+% never play together twice.
+
+include "globals.mzn";
+
+int: n_groups;                          % The number of groups.
+int: n_per_group;                       % The size of each group.
+int: n_rounds;                          % The number of rounds.
+
+int: n_golfers = n_groups * n_per_group;
+
+set of int: rounds = 1..n_rounds;
+set of int: golfers = 1..n_golfers;
+set of int: places = 1..n_golfers;
+
+array [rounds, places] of var golfers: round_place_golfer;
+array [golfers, golfers] of var 0..n_rounds: golfer_golfer_round;
+
+    % Each member of each group must be distinct.
+    %
+constraint
+    forall (r in rounds) (
+        alldifferent (p in places) (round_place_golfer[r, p])
+    );
+
+    % Break some symmetry by strictly ordering each group in each round.
+    %
+constraint
+    forall (r in rounds, p in places) (
+        if p mod n_per_group != 0
+        then round_place_golfer[r, p] < round_place_golfer[r, p + 1]
+        else true
+        endif
+    );
+
+    % Each pair can play together at most once.
+    %
+constraint
+    forall (r in rounds, g in 0..(n_groups - 1), i, j in 1..n_per_group
+            where i < j) (
+        golfer_golfer_round[
+            round_place_golfer[r, n_per_group * g + i],
+            round_place_golfer[r, n_per_group * g + j]
+        ] = r
+    );
+
+solve
+    :: int_search([round_place_golfer[r, p] | r in rounds, p in places],
+        first_fail, indomain_min, complete)
+    satisfy;
+
+output [
+    "Social golfers:\n\n", 
+    "Groups        : ", show(n_groups), "\n", 
+    "No. per group : ", show(n_per_group), "\n",
+    "No. of rounds : ", show(n_rounds), "\n"
+] ++ [
+    ( if p = 1 then "\nround " ++ show(r) ++ ":" else "" endif ) ++
+    ( if p mod n_per_group = 1 then "   " else " " endif ) ++
+    show_int(2, round_place_golfer[r, p]) | r in rounds, p in places
+];
+
+
+Model 2 : 
+
+
+include "globals.mzn";
+
+int: n_groups;                          % The number of groups.
+int: n_per_group;                       % The size of each group.
+int: n_rounds;                          % The number of rounds.
+
+int: n_golfers = n_groups * n_per_group;
+
+set of int: groups = 1..n_groups;
+set of int: group = 1..n_per_group;
+set of int: rounds = 1..n_rounds;
+set of int: golfers = 1..n_golfers;
+
+array [rounds, groups, group] of var golfers: round_group_i_golfer;
+
+    % Each member of each group must be distinct.
+    %
+constraint
+    forall (r in rounds) (
+        alldifferent (g in groups, i in group) (round_group_i_golfer[r, g, i])
+    );
+
+    % We also break some symmetry
+    % here by strictly ordering each group.
+    %
+constraint
+    forall (r in rounds, g in groups, i in group where i < n_per_group) (
+        round_group_i_golfer[r, g, i] < round_group_i_golfer[r, g, i + 1]
+    );
+
+    % Each pair can play together at most once.
+    %
+constraint
+    forall (a, b in golfers where a < b) (
+        sum (r in rounds, g in groups, i, j in group where i < j) (
+            bool2int(
+                round_group_i_golfer[r, g, i] = a
+            /\  round_group_i_golfer[r, g, j] = b
+            )
+        )
+    <=
+        1
+    );
+
+solve satisfy;
+
+output [
+    "Social golfers:\n\n", 
+    "Groups        : ", show(n_groups), "\n", 
+    "No. per group : ", show(n_per_group), "\n",
+    "No. of rounds : ", show(n_rounds), "\n"
+] ++ [
+    ( if g = 1 /\ i = 1 then "\nround " ++ show(r) ++ ":" else "" endif) ++
+    ( if i = 1 then "   " else " " endif) ++
+    show_int(2, round_group_i_golfer[r, g, i]) 
+    |  r in rounds, g in groups, i in group
+];
+
+
+Model 3 : 
+
+
+include "globals.mzn";
+
+int: n_groups;                          % The number of groups.
+int: n_per_group;                       % The size of each group.
+int: n_rounds;                          % The number of rounds.
+
+int: n_golfers = n_groups * n_per_group;
+
+set of int: groups = 1..n_groups;
+set of int: group = 1..n_per_group;
+set of int: rounds = 1..n_rounds;
+set of int: golfers = 1..n_golfers;
+
+array [rounds, groups] of var set of golfers: round_group_golfers;
+
+    % Each group has to have the right size.
+    %
+constraint
+    forall (r in rounds, g in groups) (
+        card(round_group_golfers[r, g]) = n_per_group
+    );
+
+    % Each group in each round has to be disjoint.
+    %
+constraint
+    forall (r in rounds) (
+        all_disjoint (g in groups) (round_group_golfers[r, g])
+    );
+
+    % Symmetry breaking.
+    %
+% constraint
+%     forall (r in rounds, g in groups where g < n_groups) (
+%         round_group_golfers[r, g] < round_group_golfers[r, g + 1]
+%     );
+
+    % Each pair may play together at most once.
+    %
+constraint
+    forall (a, b in golfers where a < b) (
+        sum (r in rounds, g in groups) (
+            bool2int({a, b} subset round_group_golfers[r, g])
+        )
+    <=
+        1
+    );
+
+solve satisfy;
+
+output [    ( if   g = 1
+              then "\nround " ++ show(r) ++ ":   "
+              else "   "
+              endif
+            ) ++
+            show(round_group_golfers[r, g])
+       |    r in rounds, g in groups
+       ];
+
+
+Model 4 :
+
+
+int: weeks = 4;
+int: groups = 3;
+int: groupSize = 3;
+int: golfers = groups * groupSize;
+
+set of int: Golfer = 1..golfers;
+set of int: Week = 1..weeks;
+set of int: Group = 1..groups;
+
+% Search space: The set of all possible group assignments to all 
+% players in each of the weeks
+array[Golfer, Week] of var Group: assign;
+
+% solve satisfy;
+% solve :: int_search([assign[i,j] | i in Golfer, j in Week ], "first_fail", "indomain", "complete") satisfy;
+solve :: int_search([assign[i,j] | i in Golfer, j in Week ], 
+        first_fail, indomain_min, complete) satisfy;
+
+constraint
+   % C1: Each group has exactly groupSize players
+   forall (gr in Group, w in Week)( % c1
+     sum (g in Golfer) (bool2int(assign[g,w] = gr)) = groupSize
+   )
+   /\
+   % C2: Each pair of players only meets at most once
+   forall (g1, g2 in Golfer, w1, w2 in Week  where g1 != g2 /\ w1 != w2) (
+     (bool2int(assign[g1,w1] = assign[g2,w1]) + bool2int(assign[g1,w2] = assign[g2,w2])) <= 1
+   )
+  /\
+  % SBSA: Symmetry-breaking by selective assignment
+  % On the first week, the first groupSize golfers play in group 1, the 
+  % second groupSize golfers play in group 2, etc. On the second week, 
+  % golfer 1 plays in group 1, golfer 2 plays in group 2, etc.
+  forall(g in Golfer) (
+    assign[g,1]=((g-1) div groupSize) + 1 % 
+  )
+  /\
+  forall(g in Golfer where g <= groupSize)(
+    assign[g,2]=g
+  )
+
+;
+
+output [
+  if j = 1 then "\n" else " " endif ++
+  show(assign[i,j])
+  | i in Golfer, j in Week
+] ++ ["\n"];

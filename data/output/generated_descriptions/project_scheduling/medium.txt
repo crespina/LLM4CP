@@ -1,0 +1,12 @@
+The problem is called the "Resource-Constrained Project Scheduling Problem" (RCPSP).
+
+This problem is about scheduling a set of tasks with given durations and precedence constraints, where some tasks cannot start until others are finished. The goal is to find a schedule that minimizes the total duration of the project, also known as the "makespan".
+
+The main decision variables are the start times of each task, represented by the `start` array. Each element `start[t]` represents the start time of task `t`.
+
+The key constraints are:
+
+* Precedence constraints: each task can only start after its predecessors have finished. For example, the task "interior walls" cannot start until the task "foundations" has finished.
+* Non-overlap constraints: certain tasks, such as carpentry tasks, cannot overlap with each other. For example, the tasks "interior walls" and "exterior walls" cannot be performed at the same time.
+
+The objective is to minimize the makespan, which is the maximum finish time of all tasks. In other words, the goal is to complete the project as quickly as possible.

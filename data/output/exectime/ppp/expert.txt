@@ -1,0 +1,23 @@
+name: Progressive Party Problem
+
+description: The Progressive Party Problem is a classic constraint satisfaction problem that involves scheduling a set of boats to host parties over a certain number of periods. Each boat has a limited capacity and a crew, and each party has a certain number of guests. The goal is to find a schedule that assigns each boat to host a party in each period, such that each boat has the capacity to support the visiting crews, and the number of hosts is minimized.
+
+variables: hosts ∈ ℘(Boat), sched ∈ ℘(Partition(Boat))
+
+The decision variables are `hosts`, which represents the set of boats that will host parties, and `sched`, which represents the schedule of parties assigned to each boat over the periods.
+
+constraints: 
+|parts(p)| = |hosts| ∀p ∈ sched, 
+|part ∩ hosts| = 1 ∀part ∈ p, p ∈ sched, 
+(∑b ∈ party(h,p) . crew(b)) ≤ capacity(h) ∀h ∈ hosts, p ∈ sched, 
+allDiff({(i, j) | p ∈ sched, part ∈ p, {i,j} ∈ ℘(part)})
+
+The constraints ensure that: 
+- each period has the same number of parties as the number of hosts, 
+- each party is assigned to exactly one host, 
+- the total crew of the parties assigned to a host does not exceed the host's capacity, 
+- and each pair of boats is assigned to different parties in each period.
+
+objective: minimize |hosts|
+
+The objective is to minimize the number of hosts (boats) needed to schedule all the parties.

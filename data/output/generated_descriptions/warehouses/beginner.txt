@@ -1,0 +1,18 @@
+Warehouse Allocation Problem
+
+This problem is about a company that wants to build warehouses to supply goods to stores. The company needs to decide which warehouses to build and which stores each warehouse should supply to minimize the total cost.
+
+The main variables are:
+
+* Warehouses: These are the places where the company will store goods.
+* Stores: These are the places where the company will send goods from the warehouses.
+* Capacity: This is the number of stores that each warehouse can supply.
+* Cost: This is the cost of building a warehouse and transporting goods from the warehouse to the stores.
+
+The basic restrictions or rules of the problem are:
+
+* Each warehouse can only supply a certain number of stores based on its capacity.
+* Each store must be supplied by only one warehouse.
+* The company wants to minimize the total cost, which includes the cost of building warehouses and transporting goods.
+
+The goal of the problem is to find the best way to allocate warehouses to stores to minimize the total cost.

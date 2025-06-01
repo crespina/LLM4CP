@@ -1,0 +1,28 @@
+name: Quasigroup Existence Problem
+
+description: The Quasigroup Existence Problem is a classic problem in combinatorial mathematics, which involves finding a multiplication table of size n x n, where each element is an integer from 1 to n, such that each row and column contains each element exactly once, and certain multiplication axioms hold.
+
+variables: quasiGroup[row, col], qgDiagonal[i]
+
+The decision variables are a 2D array quasiGroup, where quasiGroup[row, col] represents the element at row and column in the multiplication table, and a 1D array qgDiagonal, where qgDiagonal[i] represents the diagonal element at position i.
+
+constraints: 
+all_different([quasiGroup[row,col] | col in nDomain]) /\ 
+all_different([quasiGroup[row,col] | row in nDomain]) /\ 
+quasiGroup[i,i] = i /\ 
+quasiGroup[quasiGroup[j,i],quasiGroup[i,j]] = i /\ 
+all_different(qgDiagonal) /\ 
+quasiGroup[i,j] != quasiGroup[j,i] /\ 
+(quasiGroup[i,i]=j) -> (quasiGroup[j,j]=i) /\ 
+quasiGroup[i,n-1] + 2 >= i
+
+The constraints ensure that:
+- Each row and column contains each element exactly once.
+- The diagonal elements are equal to their indices.
+- The multiplication axiom (b*a)*b = a*(b*a) holds.
+- The diagonal elements are all different.
+- The table is anti-Abelian, i.e., quasiGroup[i,j] is not equal to quasiGroup[j,i] for i != j.
+- If (i*i)=j then (j*j) = i.
+- Symmetry-breaking constraints to reduce the search space.
+
+objective: The problem is a satisfaction problem, i.e., it does not have an objective function to minimize or maximize. The goal is to find a feasible solution that satisfies all the constraints.

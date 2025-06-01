@@ -1,0 +1,15 @@
+**The N-Queens Problem**
+
+**What is it about?**
+Imagine you have a chessboard with `n` rows and `n` columns. You want to place `n` queens on the board in such a way that no queen can attack another queen.
+
+**Main variables:**
+* `n`: the number of queens (and the size of the chessboard)
+* `queens`: an array of `n` variables, each representing the column where a queen is placed in a particular row
+
+**Basic restrictions or rules:**
+* Each queen must be placed in a different column (no two queens can be in the same column)
+* No queen can attack another queen diagonally (i.e., no two queens can be on the same diagonal)
+
+**Goal:**
+The goal is to find a way to place all `n` queens on the board such that they do not attack each other.

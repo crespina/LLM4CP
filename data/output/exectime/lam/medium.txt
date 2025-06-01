@@ -1,0 +1,13 @@
+Lam's Problem.
+
+Lam's Problem is a classic constraint programming problem that involves finding a matrix of boolean values that satisfies certain constraints. The problem is about constructing a matrix with specific properties, which makes it a challenging and interesting problem in the field of constraint programming.
+
+The main decision variables in this problem are the elements of the matrix `m`, which is a matrix indexed by `Index` and `Index`, where `Index` is a type of size `indexSize`. Each element `m[r,c]` represents a boolean value that indicates whether a certain condition is true or false.
+
+The key constraints in this problem can be described as follows:
+
+* Each row of the matrix must sum up to 11, meaning that exactly 11 elements in each row must be true.
+* Each column of the matrix must sum up to 11, meaning that exactly 11 elements in each column must be true.
+* For any two distinct rows `r1` and `r2`, there must be exactly one column `c` such that either `m[r1,c]` or `m[r2,c]` is true, but not both.
+
+The objective of this problem is to find a matrix that satisfies all these constraints. There is no explicit objective function to minimize or maximize, as the goal is to find a feasible solution that meets all the constraints.

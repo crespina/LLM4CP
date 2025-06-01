@@ -1,0 +1,16 @@
+Lam's Problem
+
+This problem is about creating a special kind of table with certain rules.
+
+The main variables are:
+
+* A table (called a matrix) with rows and columns, where each cell can be either true or false.
+* The size of the table, which is given to us.
+
+The basic restrictions or rules of the problem are:
+
+* Each row of the table must have exactly 11 true cells.
+* Each column of the table must have exactly 11 true cells.
+* For any two different rows, there must be exactly one column where one row has a true cell and the other row has a false cell.
+
+The goal of the problem is to find a table that satisfies all these rules.

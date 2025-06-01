@@ -1,0 +1,16 @@
+The Ramsey Number Problem.
+
+The Ramsey Number Problem is a classic problem in graph theory and constraint programming. It's about finding the smallest complete graph that, when its edges are colored with two colors (red and blue), does not contain a monochromatic subgraph of a certain size.
+
+The main decision variables in this problem are the colors assigned to each edge in the complete graph, represented by the `graph` function. This function takes two vertices as input and returns the color of the edge between them (either red or blue).
+
+The key constraints in this problem are:
+
+* The graph is complete, meaning every pair of vertices is connected by an edge.
+* The graph is symmetric, meaning the color of the edge between vertices i and j is the same as the color of the edge between vertices j and i.
+* There is no subgraph with k vertices where all edges are red (no red-subgraph of size k).
+* There is no subgraph with l vertices where all edges are blue (no blue-subgraph of size l).
+
+The objective of this problem is to find a coloring of the complete graph that satisfies these constraints, which means finding a counter-example to the Ramsey number problem.
+
+In simpler terms, imagine you're hosting a party and you want to invite a minimum number of guests such that either at least k guests know each other or at least l guests don't know each other. The Ramsey Number Problem is about finding the smallest number of guests you need to invite to guarantee this.

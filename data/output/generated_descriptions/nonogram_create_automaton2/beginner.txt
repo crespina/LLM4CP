@@ -1,0 +1,20 @@
+**Nonogram Problem**
+
+**What is it about?**
+The Nonogram problem is about creating a picture using a set of rules. Imagine you have a grid of squares, and you need to fill some of them with colors (let's say black and white) to create a specific image. The rules tell you how many consecutive squares of each color should be in each row and column.
+
+**Main variables:**
+
+* `x` or `A`: a 2D array that represents the grid of squares, where each square can be either 1 (white) or 2 (black).
+* `rows` and `cols`: 2D arrays that contain the rules for each row and column, respectively.
+* `row_rules` and `col_rules`: 2D arrays that contain the specific rules for each row and column.
+
+**Basic restrictions or rules:**
+
+* Each row and column must follow the rules specified in `rows` and `cols`, respectively.
+* The rules specify how many consecutive squares of each color should be in each row and column.
+
+**Goal:**
+The goal is to find a valid configuration of the grid that satisfies all the rules, creating a specific image.
+
+In simpler terms, the problem is about solving a puzzle where you need to fill a grid with black and white squares according to some rules, and the goal is to create a specific picture.

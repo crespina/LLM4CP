@@ -1,0 +1,13 @@
+DNA Word Design Problem
+
+This problem is about designing a set of special words that can be used in DNA computing on surfaces. Imagine you have a set of Lego blocks with four different shapes (A, C, G, and T) and you want to build a collection of short words using these blocks.
+
+The main variables are the words, which are like short sequences of these Lego blocks. Each word has 8 blocks, and each block can be one of the four shapes.
+
+The basic restrictions or rules of the problem are:
+
+* Each word must have exactly 4 blocks that are either C or G.
+* Any two words in the collection must be different in at least 4 positions.
+* When you reverse one word and compare it to another word, they must be different in at least 4 positions, following some specific rules about which blocks can be paired together (like A can be paired with T, and C can be paired with G).
+
+The goal of the problem is to find the largest possible collection of words that follow these rules.

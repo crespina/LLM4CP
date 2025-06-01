@@ -1,0 +1,16 @@
+**Graph Numbering Problem**
+
+This problem is about labeling the vertices of a graph with numbers from 1 to 8, such that each number is used only once.
+
+**Main Variables:**
+
+* a, b, c, d, e, f, g, h: These are the labels or numbers assigned to the vertices of the graph.
+
+**Basic Restrictions or Rules:**
+
+* Each number from 1 to 8 can only be used once.
+* The numbers assigned to adjacent vertices (connected by an edge) must differ by at least 2.
+
+**Goal:**
+
+The goal is to find an assignment of numbers to the vertices that satisfies the above rules. There is no specific objective to minimize or maximize, the goal is simply to find a valid solution.

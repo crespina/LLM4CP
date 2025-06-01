@@ -1,0 +1,21 @@
+name: Wagner-Whitin Distribution Problem
+
+description: The Wagner-Whitin Distribution Problem is a classic problem in inventory management and supply chain management. It involves finding the optimal ordering policy for a set of nodes in a distribution network, where each node has a demand for a product over a set of periods. The goal is to minimize the total cost of holding inventory and processing orders, while ensuring that demand is met at each node.
+
+variables: orders: matrix indexed by [dNodes, dPeriods] of int(0..maxStock), stock: matrix indexed by [dNodes, dAllPeriods] of int(0..maxStock)
+
+The decision variables are orders and stock. orders[i][t] represents the quantity of the product ordered at node i in period t, and stock[i][t] represents the inventory level at node i at the end of period t.
+
+constraints: 
+stock[i][0] = 0 ∀ i ∈ dNodes, 
+stock[i][t] = stock[i][t-1] + orders[i][t] - ∑(m ∈ children[i]) orders[m][t] ∀ t ∈ dPeriods, ∀ i ∈ int(numLeaves+1..numNodes), 
+stock[i][t] = stock[i][t-1] + orders[i][t] - demand[i][t] ∀ t ∈ dPeriods, ∀ i ∈ dLeaves
+
+The constraints ensure that: 
+- the initial inventory level at each node is 0, 
+- the inventory level at each non-leaf node is updated based on the orders received from its children and the orders placed by the node itself, 
+- the inventory level at each leaf node is updated based on the demand and the orders placed by the node itself.
+
+objective: minimize ∑(t ∈ dPeriods) ∑(i ∈ dNodes) (holdingCost[i] * stock[i][t] + procCost[i] * toInt(orders[i][t] > 0))
+
+The objective is to minimize the total cost, which is the sum of the holding cost and the processing cost over all nodes and periods. The holding cost is proportional to the inventory level, and the processing cost is incurred whenever an order is placed.

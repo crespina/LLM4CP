@@ -1,0 +1,18 @@
+Magic Hexagon
+
+This problem is about creating a special kind of hexagon (a six-sided shape) where each cell in the hexagon contains a number. The goal is to arrange these numbers in a way that makes the sums of each row, column, and diagonal equal to a certain "magic number".
+
+The main variables are:
+
+* d: the diameter of the hexagon (how long the longest row is)
+* o: the order of the hexagon (how long the shortest row is)
+* hexagon: a matrix of numbers that represents the hexagon
+* s: the magic number that all rows and diagonals sum to
+
+The basic restrictions or rules of the problem are:
+
+* Each number in the hexagon must be unique (no duplicates)
+* Each row, column, and diagonal must add up to the magic number s
+* The diameter d must be an odd number
+
+The goal of the problem is to find a way to arrange the numbers in the hexagon so that all the rows, columns, and diagonals sum up to the magic number s.

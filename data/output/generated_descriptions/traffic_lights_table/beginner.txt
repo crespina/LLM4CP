@@ -1,0 +1,19 @@
+**Traffic Light Problem**
+
+This problem is about controlling traffic lights at a four-way junction. Imagine you're standing at a crossroads where four roads meet, and there are traffic lights for both cars and pedestrians.
+
+**Main Variables:**
+
+* `V1` to `V4`: These represent the traffic lights for cars, which can be red, red-yellow, green, or yellow.
+* `P1` to `P4`: These represent the traffic lights for pedestrians, which can be red or green.
+
+**Basic Restrictions or Rules:**
+
+* The traffic lights for cars and pedestrians at each intersection must follow certain rules, such as:
+	+ When the car light is red, the pedestrian light must be red too.
+	+ When the car light is green, the pedestrian light must be green too.
+	+ When the car light is red-yellow, the pedestrian light must be yellow, and so on.
+
+**Goal:**
+
+The goal is to find a sequence of traffic light settings that satisfy these rules and ensure safe and efficient traffic flow.

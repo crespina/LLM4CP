@@ -1,0 +1,17 @@
+**Constrained Clustering**
+
+This problem is about grouping things together in a way that follows certain rules.
+
+**Main Variables:**
+
+* `selected`: a set of connections between things (called edges)
+* `rep`: a way to represent each group (called a cluster)
+
+**Basic Restrictions or Rules:**
+
+* If two things are connected (an edge), they must be in the same group (cluster)
+* Certain pairs of things cannot be in the same group (given by `first` and `second` arrays)
+
+**Goal:**
+
+The goal is to find the largest number of connections (edges) that can be included while following the rules, and to group the things together in a way that makes sense.

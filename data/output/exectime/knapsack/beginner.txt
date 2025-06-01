@@ -1,0 +1,17 @@
+Knapsack Problem
+
+Imagine you're going on a trip and you have a bag with a limited capacity. You have many items you want to bring, each with a weight and a value or gain. The problem is about deciding which items to pick to bring with you to maximize the total value while not exceeding the bag's capacity.
+
+The main variables are:
+
+* Items: the things you want to bring on the trip (e.g., clothes, books, etc.)
+* Picked: the set of items you choose to bring
+* Weight: how heavy each item is
+* Gain: how valuable each item is
+* Capacity: the maximum weight the bag can hold
+
+The basic restrictions or rules are:
+
+* You can't bring more items than the bag can hold (i.e., the total weight of the picked items must be less than or equal to the capacity).
+
+The goal is to maximize the total value of the items you bring (i.e., the sum of the gains of the picked items).

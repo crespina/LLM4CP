@@ -1,0 +1,21 @@
+**Warehouse Allocation Problem**
+
+The Warehouse Allocation Problem is a classic constraint programming problem that involves determining the optimal allocation of warehouses to supply stores with goods.
+
+**Decision Variables:**
+
+* `supplier`: an array of variables that represents which warehouse supplies each store.
+* `open`: an array of boolean variables that indicates whether each warehouse is constructed or not.
+* `cost`: an array of variables that represents the transportation cost from each warehouse to each store.
+* `tot`: a variable that represents the total cost (construction cost plus transportation cost).
+
+**Key Constraints:**
+
+* Each store must be supplied by exactly one warehouse.
+* The total capacity of the open warehouses must be sufficient to supply all stores.
+* The transportation cost from each warehouse to each store is determined by the cost matrix.
+* The construction cost of each warehouse is fixed and must be paid if the warehouse is open.
+
+**Objective:**
+
+The objective is to minimize the total cost, which is the sum of the construction costs of the open warehouses and the transportation costs from the warehouses to the stores.

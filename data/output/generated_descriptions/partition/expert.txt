@@ -1,0 +1,19 @@
+name: Partition Problem
+
+description: The Partition Problem is a classic problem in constraint programming that involves dividing a set of 2n numbers into two disjoint subsets, each of size n, such that the sum of the numbers in each subset is equal, and the sum of the squares of the numbers in each subset is also equal.
+
+variables: x, y (arrays of var 1..2n), sx, sy (arrays of var 1..4n^2)
+
+x and y are arrays of decision variables representing the two subsets of numbers. sx and sy are auxiliary variables used to calculate the sum of squares of the numbers in each subset.
+
+constraints: 
+x[i-1] < x[i], y[i-1] < y[i] (ordering constraints)
+x[1] < y[1] (symmetry breaking constraint)
+alldifferent(x++y) (partitioning constraint)
+sum(x) = 2n(2n+1) div 4, sum(y) = 2n(2n+1) div 4 (sum equality constraints)
+sx[i] = x[i]*x[i], sy[i] = y[i]*y[i] (definition of sum of squares)
+sum(sx) = 2n(2n+1)(4n+1) div 12, sum(sy) = 2n(2n+1)(4n+1) div 12 (sum of squares equality constraints)
+
+The constraints ensure that the two subsets are disjoint, have the same sum, and the same sum of squares. The ordering constraints and symmetry breaking constraint are used to reduce the search space.
+
+objective: satisfy (there is no objective function to minimize or maximize, the goal is to find a feasible solution)

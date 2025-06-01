@@ -1,0 +1,23 @@
+name: Golomb Ruler Problem
+
+description: The Golomb Ruler Problem is a classic problem in constraint programming that involves finding a set of distinct integers, called marks, such that the differences between all pairs of marks are also distinct. The goal is to find a Golomb ruler with the minimum length, which is the maximum mark value.
+
+variables: mark[1..m] ∈ {0, ..., n}
+
+The decision variables are an array of m integers, mark[i], representing the i-th mark on the ruler, where 0 ≤ mark[i] ≤ n. These variables determine the positions of the marks on the ruler.
+
+constraints: 
+mark[1] = 0
+mark[i] < mark[i+1] ∀ i ∈ {1, ..., m-1}
+alldifferent(differences)
+differences[1] < differences[(m*(m-1)) div 2]
+
+The constraints are:
+- The first mark is fixed at 0.
+- Each mark is strictly greater than the previous one, ensuring that the marks are in increasing order.
+- The differences between all pairs of marks are distinct, which is the core constraint of the Golomb Ruler Problem.
+- A symmetry-breaking constraint is added to ensure that the differences are in increasing order, which helps to reduce the search space.
+
+objective: minimize mark[m]
+
+The objective is to minimize the maximum mark value, which represents the length of the Golomb ruler.

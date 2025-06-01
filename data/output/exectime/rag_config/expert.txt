@@ -1,0 +1,18 @@
+name: Rack Configuration Problem
+
+description: The Rack Configuration Problem is a classic constraint programming problem that involves configuring racks to plug in electronic cards of different types. Each card type has a specific power requirement and demand, and each rack model has a limited power supply, number of connectors, and price. The goal is to determine the minimum-cost configuration of racks and rack models that can accommodate all the cards while satisfying the power and connector capacity constraints.
+
+variables: configuration[rack] = (model, counts), where configuration is a function that assigns a rack model and a set of card counts to each rack.
+
+The decision variables are the rack models and the number of cards of each type plugged into each rack.
+
+constraints: 
+1. sum([ num | (ty, num) <- counts ]) <= maxConnectors(model) (connector-capacity constraint)
+2. sum([ requiredPower(ty) * num | (ty, num) <- counts ]) <= maxPower(model) (power-capacity constraint)
+3. tyDemand <= sum([ num | (rack, (model, counts)) <- configuration, (ty2, num) <- counts, ty = ty2 ]) (demand constraint)
+
+The constraints ensure that each rack does not exceed its connector capacity, power capacity, and that all cards are plugged into some rack.
+
+objective: minimize totalCost = sum (rack, (model, counts)) in configuration . price(model)
+
+The objective is to minimize the total cost of the rack models used.

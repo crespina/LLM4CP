@@ -1,0 +1,18 @@
+name: Set Covering Problem
+
+description: The Set Covering Problem is a classic problem in computer science and operations research that involves finding a subset of elements that covers all subsets of a given set. In this problem, we have a set of elements and a collection of subsets of these elements. The goal is to select a subset of the elements such that each subset in the collection contains at most one element from the selected subset.
+
+variables: x (Model 1), x (Model 2), x[1..u] (Model 3), x[1..u] (Model 4)
+The decision variables represent the elements to be selected from the set of elements. In Models 1 and 2, x is a set of elements, while in Models 3 and 4, x is an array of variables representing the selected elements.
+
+constraints: 
+card(x intersect s[i]) <= 1 (Model 1, 2), 
+card(x) = u (Model 2), 
+x[i] < x[i+1] (Model 3), 
+x[i] != x[j] (Model 3), 
+sum(j in 1..u)(x[j] in s[i]) <= 1 (Model 3, 4), 
+x[i] >= (x[i] != 0) + x[i+1] (Model 4)
+The constraints ensure that each subset in the collection contains at most one element from the selected subset (card(x intersect s[i]) <= 1). In Model 2, the cardinality of the selected subset is fixed to u. In Model 3, the selected elements are distinct and in increasing order. In Model 4, the selected elements are also distinct, and the constraint ensures that the elements are in decreasing order.
+
+objective: maximize sum(i in x)(i) (Model 1, 2), maximize sum(x) (Model 3, 4)
+The objective is to maximize the sum of the selected elements.

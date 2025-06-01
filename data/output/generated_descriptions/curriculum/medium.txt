@@ -1,0 +1,21 @@
+The Balanced Academic Curriculum Problem.
+
+This problem is about assigning courses to periods in a curriculum while satisfying various constraints and minimizing the total load across all periods.
+
+The main decision variables are:
+
+* `course_period`: an array that assigns each course to a period
+* `x`: a 2D array that indicates whether a course is assigned to a particular period
+* `load`: an array that represents the total load for each period
+* `objective`: the overall objective value to be minimized, which represents the maximum load across all periods
+
+The key constraints are:
+
+* Each course must be assigned to a period
+* A course cannot be scheduled before its prerequisites
+* Each period has a minimum and maximum number of courses that can be assigned
+* Each period has a minimum and maximum total load (academic credits) that can be assigned
+* The total load for each period must be within the allowed bounds
+* The objective is to minimize the maximum load across all periods
+
+The problem's objective is to minimize the maximum load across all periods, while ensuring that all courses are assigned to periods and all constraints are satisfied.

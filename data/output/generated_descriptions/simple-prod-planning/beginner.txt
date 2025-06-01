@@ -1,0 +1,16 @@
+**Problem Name:** Product Production Planning
+
+**What the problem is about:** Imagine you have a factory that produces different products, like toys, clothes, or food. You have limited resources, like machines, workers, and raw materials, to make these products. You want to decide how many units of each product to produce to make the most profit possible.
+
+**Main variables:**
+
+* `produce`: how many units of each product to make
+* `used`: how much of each resource is used to make the products
+
+**Basic restrictions or rules:**
+
+* You can't use more resources than you have available
+* You need a certain amount of each resource to make one unit of each product
+* You can't make a negative amount of any product
+
+**Goal:** Maximize the total profit by deciding how many units of each product to produce, while following the rules and restrictions.

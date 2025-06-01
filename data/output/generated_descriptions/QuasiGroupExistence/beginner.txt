@@ -1,0 +1,20 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Quasigroup existence problem
+
+**What the problem is about:** Imagine you have a table with numbers from 1 to n, where n is a given number. You need to fill this table in a special way, so that each row and each column contains each number exactly once. Additionally, there are some rules about how the numbers in the table should be related to each other.
+
+**Main variables:**
+
+* `quasiGroup`: a table (or matrix) with numbers from 1 to n, where each row and column contains each number exactly once.
+* `qgDiagonal`: a list of numbers that represents the diagonal of the `quasiGroup` table.
+
+**Basic restrictions or rules:**
+
+* Each row and each column of the `quasiGroup` table should contain each number exactly once.
+* There are some specific rules about how the numbers in the table should be related to each other, such as `(b*a)*b = a*(b*a)` or `(j*i)*(i*j) = i`.
+* The diagonal of the `quasiGroup` table should also satisfy some specific rules.
+
+**Goal of the problem:** The goal is to find a `quasiGroup` table that satisfies all the rules and restrictions.
+
+Note that the problem is about finding a specific type of mathematical structure called a quasigroup, which is a set with a binary operation that satisfies certain properties. The problem is to find a quasigroup of a given order (i.e., with a given number of elements).

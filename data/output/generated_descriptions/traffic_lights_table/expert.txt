@@ -1,0 +1,12 @@
+name: Traffic Lights Problem
+
+description: The Traffic Lights Problem is a classic constraint satisfaction problem that involves finding a valid configuration of traffic lights at a four-way junction. The problem consists of eight traffic lights, four for vehicles and four for pedestrians, each with a specific domain of possible states (red, red-yellow, green, and yellow for vehicles, and red and green for pedestrians). The goal is to find an assignment of states to the traffic lights that satisfies certain constraints, ensuring safe and efficient traffic flow.
+
+variables: V = (V1, V2, V3, V4) ∈ {r, ry, g, y}⁴, P = (P1, P2, P3, P4) ∈ {r, g}⁴
+The decision variables V and P represent the states of the traffic lights for vehicles and pedestrians, respectively, at each of the four intersections.
+
+constraints: ∀i, j ∈ {1, 2, 3, 4} where j = (1+i) mod 4, (Vi, Pi, Vj, Pj) ∈ {(r, r, g, g), (ry, r, y, r), (g, g, r, r), (y, r, ry, r)}
+The constraints ensure that the traffic lights are configured in a way that allows safe and efficient traffic flow. Specifically, they enforce the rules that when a vehicle light is red, the corresponding pedestrian light is also red, and when a vehicle light is green, the corresponding pedestrian light is also green.
+
+objective: satisfy
+The objective of the problem is to find a feasible assignment of states to the traffic lights that satisfies all the constraints, without any specific optimization goal.

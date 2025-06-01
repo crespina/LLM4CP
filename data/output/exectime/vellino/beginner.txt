@@ -1,0 +1,19 @@
+Vellino's Problem
+
+This problem is about packing different materials into bins of different colors. Imagine you have five types of materials (glass, plastic, steel, wood, and copper) and three types of bins (red, green, and blue). Each bin can hold a certain amount of material, and you need to put the right amount of each material into the bins.
+
+The main variables are:
+
+* Materials: the five types of materials (glass, plastic, steel, wood, and copper)
+* Bins: the containers where the materials will be placed
+* Colour: the color of each bin (red, green, or blue)
+* Contents: the materials that are placed in each bin
+
+The basic restrictions or rules of the problem are:
+
+* Each bin can only hold a certain amount of material
+* Certain materials cannot be placed in certain colored bins (e.g., plastic cannot be placed in red bins)
+* Some materials require other materials to be present (e.g., wood requires plastic)
+* Some materials exclude other materials (e.g., glass excludes copper)
+
+The goal of the problem is to minimize the number of bins that are used to pack all the materials. In other words, we want to use as few bins as possible to pack all the materials while following the rules and restrictions.

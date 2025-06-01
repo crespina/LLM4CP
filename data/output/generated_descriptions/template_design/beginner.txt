@@ -1,0 +1,25 @@
+**Template Design Problem**
+
+This problem is about printing different variations of a product, like different flavors of a snack or different colors of a t-shirt. We need to decide how many of each variation to print and how to organize the printing process to minimize waste.
+
+**Main variables:**
+
+* `S`: The number of slots available on a printing template.
+* `t`: The number of printing templates.
+* `n`: The number of different variations of the product.
+* `d`: An array that tells us how many of each variation we need to print.
+* `p`: A 2D array that tells us how many slots on each template are allocated to each variation.
+* `R`: An array that tells us how many times each template is pressed (i.e., how many copies are made).
+* `Production`: The total number of items printed.
+* `Surplus`: The amount of waste or extra items printed.
+
+**Basic restrictions:**
+
+* Each template has `S` slots, and we need to allocate them to the different variations.
+* We need to print at least `d` items of each variation.
+* The total number of items printed (`Production`) is between `llower` and `lupper`, which are calculated based on the number of slots and the number of variations.
+* The surplus (waste) is limited by the total production.
+
+**Goal:**
+
+The goal is to minimize the total production (i.e., the number of items printed) while meeting the demands for each variation and following the rules for allocating slots on the templates.

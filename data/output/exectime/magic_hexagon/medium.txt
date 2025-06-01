@@ -1,0 +1,17 @@
+Magic Hexagon Problem.
+
+The Magic Hexagon problem is a classic constraint programming problem that involves creating a hexagonal arrangement of numbers such that each row, column, and diagonal sums up to a specific magic number.
+
+The main decision variables in this problem are:
+
+* `hexagon`: a matrix representing the hexagonal arrangement of numbers, where each element is an integer between 1 and `maxval`.
+* `s`: the magic number that all rows and diagonals sum up to.
+
+The key constraints in this problem are:
+
+* Each element in the hexagon is unique (i.e., all numbers from 1 to `maxval` are used exactly once).
+* Each row in the hexagon sums up to the magic number `s`.
+* Each right-sloping diagonal in the hexagon sums up to the magic number `s`.
+* Each left-sloping diagonal in the hexagon sums up to the magic number `s`.
+
+The objective of this problem is to find a valid hexagonal arrangement that satisfies all the constraints, without any specific optimization goal (i.e., it's a satisfaction problem rather than an optimization problem).

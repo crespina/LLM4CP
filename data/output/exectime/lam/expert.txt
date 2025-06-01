@@ -1,0 +1,17 @@
+name: Lam's Problem
+
+description: Lam's Problem is a classic constraint satisfaction problem that involves finding a binary matrix that satisfies certain constraints. The problem is to find a matrix where each row and column sums up to 11, and for any two distinct rows, there is exactly one column where both rows have a 1.
+
+variables: m: matrix indexed by [Index,Index] of bool
+The decision variable is a binary matrix m, where m[r,c] represents the value at row r and column c.
+
+constraints: 
+∀r ∈ Index: ∑c ∈ Index toInt(!m[r,c]) = 11, 
+∀c ∈ Index: ∑r ∈ Index toInt(!m[r,c]) = 11, 
+∀r1, r2 ∈ Index, r1 ≠ r2: ∑c ∈ Index toInt(!(m[r1,c] \/ m[r2,c])) = 1
+The constraints are: 
+- Each row sums up to 11.
+- Each column sums up to 11.
+- For any two distinct rows, there is exactly one column where both rows have a 1.
+
+objective: There is no objective function to minimize or maximize in this problem. The goal is to find a feasible solution that satisfies all the constraints.

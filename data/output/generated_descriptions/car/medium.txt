@@ -1,0 +1,29 @@
+**Car Sequencing Problem**
+
+The Car Sequencing Problem is a classic constraint programming problem that involves scheduling the production of cars with different options and classes.
+
+**Description**
+
+In this problem, we have a set of cars to be produced, each belonging to a specific class (e.g., sedan, SUV, etc.). Each class has a certain number of cars to be produced, and each car can have multiple options (e.g., sunroof, navigation system, etc.). The problem is to sequence the production of cars in a way that minimizes the total "cost" or "penalty" associated with the production process.
+
+**Decision Variables**
+
+The main decision variables in this problem are:
+
+* `slot`: an array of variables that assigns each car to a specific class.
+* `setup`: a 2D array of variables that indicates whether a specific option is set up for a particular car.
+
+**Key Constraints**
+
+The key constraints in this problem are:
+
+* Each class of cars must be produced in the correct quantity.
+* For each option, there is a limited window of cars within which the option can be set up (i.e., a "window size" constraint).
+* The number of cars with a specific option set up must not exceed a certain maximum limit.
+* The setup of options must be consistent with the class of car being produced.
+
+**Objective**
+
+The objective of the problem is to minimize the total "cost" or "penalty" associated with the production sequence, which is represented by the variable `z`. The cost is calculated based on the sequence of cars produced, with higher costs associated with producing cars with more options or switching between different classes of cars.
+
+In summary, the Car Sequencing Problem is a complex scheduling problem that involves optimizing the production sequence of cars with different options and classes, subject to various constraints and limitations.

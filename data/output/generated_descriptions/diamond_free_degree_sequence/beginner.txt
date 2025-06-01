@@ -1,0 +1,19 @@
+**Diamond-free Degree Sequence**
+
+**What is the problem about?**
+Imagine you have a bunch of friends, and some of them are friends with each other. You want to know how many friends each person has, and how those friendships are connected, without having any groups of four friends who are all friends with each other (this is called a "diamond").
+
+**Main variables:**
+
+* `x`: a table that shows if two friends are friends with each other (1 if they are, 0 if they're not)
+* `degrees`: a list that shows how many friends each person has
+
+**Basic restrictions or rules:**
+
+* Each person has at least one friend (no one is alone)
+* The number of friends each person has is a multiple of 3 (e.g., 3, 6, 9, etc.)
+* The total number of friendships is a multiple of 6
+* There are no groups of four friends who are all friends with each other (no "diamonds")
+
+**Goal:**
+Find all possible ways to assign friends to each person, following the rules above, and without having any "diamonds".

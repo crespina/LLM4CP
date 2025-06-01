@@ -1,0 +1,19 @@
+**K4P2 Graceful Graph**
+
+This problem is about creating a special kind of graph, which is like a network of connected points.
+
+**Main variables:**
+
+* **nodes**: These are the points in the graph, and we need to assign a number to each one.
+* **graph**: This is the connection between the points, telling us which points are connected to each other.
+* **edges**: These are the connections between the points, and we need to assign a number to each connection.
+
+**Basic restrictions or rules:**
+
+* The difference between the numbers of two connected points must be equal to the number of the connection between them.
+* All connections must have different numbers.
+* All points must have different numbers.
+
+**Goal:**
+
+The goal is to find a way to assign numbers to the points and connections so that all the rules are satisfied.

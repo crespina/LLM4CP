@@ -1,0 +1,21 @@
+name: Water Buckets Problem
+
+description: The Water Buckets Problem is a classic problem in constraint programming. It involves dividing a certain amount of water into two buckets of specific capacities using a series of pouring operations. The goal is to find the minimum number of transfers required to achieve a specific goal configuration of water in the buckets.
+
+variables: `state[steps, buckets]`, `goal_step`
+
+The decision variables are `state[steps, buckets]`, which represents the amount of water in each bucket at each time step, and `goal_step`, which represents the minimum number of steps required to reach the goal configuration.
+
+constraints: 
+`start[b] <= capacity[b]`, `goal[b] <= capacity[b]`, 
+`sum(b in buckets)(start[b]) = sum(b in buckets)(goal[b])`, 
+`state[1,b]=start[b]`, `state[goal_step,b] = goal[b]`, 
+`sum(b in buckets)(bool2int(state[step,b] != state[step+1, b])) = 2`, 
+`sum(b in buckets)(state[step,b]) = sum(b in buckets)(state[step+1,b])`, 
+`((state[step, b1] != state[step+1, b1]) /\ (state[step, b2] != state[step, b2])) -> (state[step+1,b1] = 0 \/ state[step+1,b1] = capacity[b1] \/ state[step+1,b2] = 0 \/ state[step+1,b2] = capacity[b2])`
+
+The constraints ensure that the initial and goal configurations are within the capacity of the buckets, the total amount of water is conserved, the initial and goal configurations are reached, exactly two buckets change in each step, the total amount of water is conserved in each step, and the pouring operation is valid (i.e., the source bucket becomes empty or the target bucket becomes full).
+
+objective: `minimize goal_step`
+
+The objective is to minimize the number of steps required to reach the goal configuration.

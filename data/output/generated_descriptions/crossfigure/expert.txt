@@ -1,0 +1,19 @@
+name: Crossfigure Problem
+
+description: The Crossfigure problem is a numerical puzzle where a 9x9 grid is filled with numbers such that each row, column, and some predefined regions satisfy certain numerical clues. The clues are given in the form of arithmetic operations and comparisons involving the numbers in the grid.
+
+variables: M[i,j] (i, j = 1..9), A1, A4, ..., A30, D1, D2, ..., D28
+
+The variables M[i,j] represent the numbers in the 9x9 grid. The variables A1, A4, ..., A30 and D1, D2, ..., D28 represent the numerical answers to the clues, which are placed horizontally (Across) and vertically (Down) in the grid, respectively.
+
+constraints: 
+across(M, A1, 4, 1, 1) /\ ... /\ down(M, D28, 2, 8, 8) /\ 
+A1 = 2 * A27 /\ ... /\ D28 = D21 + 27 /\ 
+M[1,5] = 0 /\ ... /\ M[9,5] = 0
+
+The constraints can be divided into three categories: 
+1. The across and down predicates, which ensure that the numbers in the grid are correctly placed to form the numerical answers to the clues.
+2. The clue constraints, which define the relationships between the numerical answers, such as arithmetic operations and comparisons.
+3. The blackbox constraints, which fix certain cells in the grid to be zero.
+
+objective: The objective of the problem is to find a feasible solution that satisfies all the constraints, i.e., to fill the grid with numbers such that all the clues are satisfied. There is no objective function to minimize or maximize.

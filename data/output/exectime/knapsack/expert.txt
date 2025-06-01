@@ -1,0 +1,12 @@
+name: 0/1 Knapsack Problem
+
+description: The 0/1 Knapsack Problem is a classic problem in combinatorial optimization. It involves finding the optimal subset of items to include in a knapsack of limited capacity, such that the total value of the selected items is maximized.
+
+variables: picked ∈ 2^items
+The decision variable picked is a set of items, where each item is either selected (included in the knapsack) or not selected.
+
+constraints: ∑(i ∈ picked) weight(i) ≤ capacity
+The constraints ensure that the total weight of the selected items does not exceed the knapsack's capacity.
+
+objective: maximize ∑(i ∈ picked) gain(i)
+The objective is to maximize the total value (gain) of the selected items.

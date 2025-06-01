@@ -1,0 +1,19 @@
+Progressive Party Problem
+
+This problem is about organizing a party where guests arrive and depart at different times, and they need to be hosted by different boats. The goal is to minimize the number of boats needed to host all the guests.
+
+The main variables are:
+
+* Boats: These are the vessels that will host the guests.
+* Hosts: These are the boats that will be used to host the guests throughout the party.
+* Sched: This is the schedule of which boats will host which guests at each time period.
+* Capacity: This is the maximum number of guests that each boat can hold.
+* Crew: This is the number of guests that arrive at each time period.
+
+The basic restrictions or rules of the problem are:
+
+* Each boat can only host a certain number of guests at a time.
+* Each guest needs to be hosted by a boat at each time period.
+* The same boats are used throughout the party.
+
+The goal of the problem is to minimize the number of boats needed to host all the guests.

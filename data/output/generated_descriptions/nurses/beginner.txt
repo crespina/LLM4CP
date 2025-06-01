@@ -1,0 +1,19 @@
+Nurse Scheduling Problem.
+
+This problem is about creating a schedule for nurses to work at a hospital. Imagine you are the manager of a hospital and you need to create a schedule for your nurses to work over a certain number of days.
+
+The main variables are:
+
+* Nurses (represented by numbers 1 to k): These are the people who will be working at the hospital.
+* Days (represented by numbers 1 to m): These are the days of the week/month that the nurses will be working.
+* Shifts (represented by numbers 1 to 3): These are the different types of shifts that the nurses can work, such as day shift, night shift, or a day off.
+
+The basic restrictions or rules of the problem are:
+
+* If a nurse works a night shift two days in a row, they must have a day off on the third day.
+* If a nurse works a night shift, they cannot work a day shift the next day.
+* There must be a certain number of nurses working the night shift each day (between a lower and upper bound).
+
+The goal of the problem is to create a schedule that satisfies all these rules and restrictions.
+
+Note that the two models are essentially the same, with the second model being a slightly different implementation of the same problem.

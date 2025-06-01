@@ -1,0 +1,14 @@
+Schur's Numbers Problem
+
+This problem is about distributing balls into boxes in a special way. Imagine you have a certain number of balls, each with a unique label from 1 to n, and you want to put them into a certain number of boxes.
+
+The main variables are:
+- n: the number of balls
+- c: the number of boxes
+- box: an array that shows which box each ball goes into
+
+The basic restrictions or rules of the problem are:
+- Each ball must go into a box
+- No box can contain three balls with labels that add up to each other (for example, balls 1, 2, and 3 cannot be in the same box because 1+2=3)
+
+The goal of the problem is to find a way to distribute the balls into the boxes that follows these rules.

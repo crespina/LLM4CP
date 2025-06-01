@@ -1,0 +1,19 @@
+The Social Golfer Problem.
+
+This problem is about arranging a group of people, with different genders and ages, into a sequence or order, subject to certain constraints.
+
+The main decision variables are:
+
+* `order`: an array of variables representing the sequence of people.
+* `gender`: an array of constants representing the gender of each person (male or female).
+* `age`: an array of constants representing the age of each person.
+
+The key constraints are:
+
+* The sequence of people must be a permutation of the original group (i.e., each person appears exactly once).
+* Males and females must alternate in the sequence.
+* The age difference between consecutive people in the sequence cannot exceed 10 years.
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function. In other words, the goal is to find a valid sequence of people that meets the given constraints.
+
+In this specific model, the problem is formulated as a satisfaction problem, where the goal is to find a solution that satisfies all the constraints, without any optimization objective.

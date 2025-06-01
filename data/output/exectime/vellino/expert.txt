@@ -1,0 +1,26 @@
+name: Vellino's Problem
+
+description: Vellino's Problem is a classic constraint satisfaction problem that involves assigning materials to bins of different colors, subject to various constraints on the capacity of the bins, the compatibility of materials with bin colors, and the co-occurrence of certain materials.
+
+variables: colour: Bin → Colour, contents: Bin → mset(Material)
+
+The decision variables are `colour` and `contents`. `colour` assigns a color (red, green, or blue) to each bin, and `contents` assigns a multiset of materials (glass, plastic, steel, wood, or copper) to each bin.
+
+constraints: 
+b ∈ defined(colour) ↔ b ∈ defined(contents) ∀b ∈ Bin
+∑b ∈ defined(contents) freq(contents(b), m) = quantity(m) ∀m ∈ Material
+|contents(b)| ≤ capacity(colour(b)) ∀b ∈ defined(colour)
+colour(b) = red → ¬(plastic ∈ contents(b)) ∧ ¬(steel ∈ contents(b)) ∀b ∈ defined(colour)
+colour(b) = blue → ¬(wood ∈ contents(b)) ∧ ¬(plastic ∈ contents(b)) ∀b ∈ defined(colour)
+colour(b) = green → ¬(steel ∈ contents(b)) ∧ ¬(glass ∈ contents(b)) ∀b ∈ defined(colour)
+colour(b) = red → freq(contents(b), wood) ≤ 1 ∀b ∈ defined(colour)
+colour(b) = green → freq(contents(b), wood) ≤ 2 ∀b ∈ defined(colour)
+wood ∈ contents(b) → plastic ∈ contents(b) ∀b ∈ defined(colour)
+glass ∈ contents(b) → ¬(copper ∈ contents(b)) ∀b ∈ defined(colour)
+copper ∈ contents(b) → ¬(plastic ∈ contents(b)) ∀b ∈ defined(colour)
+
+The constraints ensure that each bin has a color if and only if it has contents, the total amount of each material is spread across all bins, the capacity of each bin is not exceeded, and the various material-color and material-material incompatibilities are respected.
+
+objective: minimize |defined(colour)|
+
+The objective is to minimize the number of bins that have colors and materials assigned to them.

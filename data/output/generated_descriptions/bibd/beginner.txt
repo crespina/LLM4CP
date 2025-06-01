@@ -1,0 +1,20 @@
+Balanced Incomplete Block Design (BIBD)
+
+This problem is about creating a special kind of table with certain properties. Imagine you have a bunch of people, and you want to divide them into groups to play games or do activities together. You want to make sure that each person plays with the same number of other people, and each group has the same number of people. Also, you want to make sure that any two people play together in the same group a certain number of times.
+
+The main variables are:
+
+* v: the number of people
+* k: the number of people in each group
+* lambda: the number of times any two people play together in the same group
+* b: the number of groups (calculated based on v, k, and lambda)
+* r: the number of groups each person is in (calculated based on v, k, and lambda)
+* m: a table that shows which people are in which groups (this is the main thing we're trying to figure out)
+
+The basic restrictions or rules of the problem are:
+
+* Each person is in the same number of groups (r)
+* Each group has the same number of people (k)
+* Any two people play together in the same group the same number of times (lambda)
+
+The goal of the problem is to find a table (m) that satisfies all these rules.

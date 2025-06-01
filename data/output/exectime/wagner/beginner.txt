@@ -1,0 +1,17 @@
+Wagner-Whitin Distribution Problem
+
+This problem is about managing inventory and supply chain for a company that produces goods. Imagine a company that makes products and needs to store them in warehouses. The company wants to minimize the cost of storing and producing these products while making sure it has enough stock to meet customer demand.
+
+The main variables are:
+
+* `orders`: the amount of products to order from each warehouse in each time period
+* `stock`: the amount of products stored in each warehouse in each time period
+
+The basic restrictions or rules of the problem are:
+
+* The company starts with no stock in any warehouse
+* The company must fulfill customer demand for each product in each time period
+* The company can only supply products to its customers from its warehouses
+* The company wants to minimize the cost of storing and producing products
+
+The goal of the problem is to minimize the total cost of storing and producing products while meeting customer demand. The cost includes the cost of holding products in stock and the cost of producing new products to meet demand.

@@ -1,0 +1,17 @@
+The problem is called the "Rehearsal Scheduling Problem".
+
+This problem is about scheduling a rehearsal for a concert where nine pieces of music need to be rehearsed by five orchestra players. Each piece has a different duration and requires a different combination of players. The goal is to find an order in which the pieces can be rehearsed to minimize the total time that players are waiting to play, i.e., the total time when players are present but not currently playing.
+
+The main decision variables are:
+
+* `rehearsal_order`: an array of variables representing the order in which the pieces are rehearsed.
+* `waiting_time`: an array of variables representing the total waiting time for each player.
+* `p_from` and `p_to`: arrays of variables representing the first and last pieces that each player is involved in.
+
+The key constraints are:
+
+* Each piece is rehearsed exactly once (all_different constraint).
+* Each player arrives at the rehearsal immediately before the first piece they are involved in and departs immediately after the last piece they are involved in.
+* The waiting time for each player is calculated as the sum of the durations of the pieces they are not playing in, but are present for.
+
+The objective is to minimize the total waiting time for all players.

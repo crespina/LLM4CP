@@ -1,0 +1,17 @@
+name: Vessel Loading Problem
+
+description: The Vessel Loading Problem is a classic problem in constraint programming that involves loading a set of containers of different sizes and classes onto a vessel with a fixed deck width and length, subject to certain constraints. The goal is to find an arrangement of containers on the deck that maximizes the use of space while satisfying the constraints.
+
+variables: 
+Left[c], Right[c], Bottom[c], Top[c] ∈ {0, ..., deck_width} × {0, ..., deck_length}, orientation[c] ∈ {1, 2}
+
+These variables represent the position and orientation of each container c on the deck. Left[c] and Right[c] are the leftmost and rightmost points of container c, respectively, while Bottom[c] and Top[c] are the bottommost and topmost points, respectively. The orientation variable determines whether the container is placed horizontally (orientation[c] = 1) or vertically (orientation[c] = 2).
+
+constraints: 
+∀c ∈ Containers, Right[c] = Left[c] + ElemWidth[orientation[c]] ∧ Top[c] = Bottom[c] + ElemLength[orientation[c]]
+∀c, k ∈ Containers, c < k, Left[c] ≥ Right[k] + separation[class[c], class[k]] ∨ ... (three more disjuncts)
+
+The first constraint ensures that the width and length of each container are correctly calculated based on its orientation. The second constraint ensures that containers of different classes are separated by a minimum distance, specified by the separation matrix.
+
+objective: 
+There is no explicit objective function in this model. The goal is to find a feasible arrangement of containers that satisfies all the constraints.

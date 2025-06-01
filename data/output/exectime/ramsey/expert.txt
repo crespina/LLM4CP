@@ -1,0 +1,20 @@
+name: Ramsey Graph Problem
+
+description: The Ramsey Graph Problem is a classic problem in graph theory and constraint programming. It involves finding a two-coloring of a complete graph with a given number of vertices, such that there is no monochromatic subgraph of a certain size. In other words, the problem is to find a coloring of the edges of a complete graph, using two colors (red and blue), such that there is no subgraph with a certain number of vertices that is entirely red or entirely blue.
+
+variables: graph: (Vertex, Vertex) → Colour
+
+The decision variable is a function graph that assigns a color (red or blue) to each edge of the complete graph. The domain of the function is the set of all possible edges in the graph, represented as pairs of vertices.
+
+constraints: 
+1. ∀i, j ∈ Vertex . i < j → (i, j) ∈ defined(graph) ∧ graph((i, j)) = graph((j, i))
+2. ∀i ∈ Vertex . ¬((i, i) ∈ defined(graph))
+3. ∀subgraph_vertices ⊆ Vertex . |subgraph_vertices| = k → ¬(∀{i, j} ⊆ subgraph_vertices . graph((i, j)) = red)
+4. ∀subgraph_vertices ⊆ Vertex . |subgraph_vertices| = l → ¬(∀{i, j} ⊆ subgraph_vertices . graph((i, j)) = blue)
+
+The constraints ensure that:
+- The graph is complete and undirected (constraints 1 and 2).
+- There is no red subgraph of size k (constraint 3).
+- There is no blue subgraph of size l (constraint 4).
+
+objective: The objective of the problem is to find a feasible solution, i.e., a coloring of the graph that satisfies all the constraints. There is no objective function to minimize or maximize.

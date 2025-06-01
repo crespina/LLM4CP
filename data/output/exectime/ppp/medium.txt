@@ -1,0 +1,17 @@
+Progressive Party Problem.
+
+This problem is about organizing a series of parties where a set of boats with different capacities need to host crews of varying sizes over multiple periods. The goal is to minimize the number of boats required to host all the crews while ensuring that each boat has the capacity to support the visiting crews and that each crew is assigned to a unique boat in each period.
+
+The main decision variables are:
+
+* `hosts`: a set of boats that will be used to host the crews
+* `sched`: a schedule that assigns each boat to a period and divides the boats into partitions (or groups) for each period
+
+The key constraints are:
+
+* Each period must have the same number of partitions (or groups) as the number of hosts.
+* Each partition in each period must contain exactly one host.
+* The total crew size assigned to each host in each period must not exceed the host's capacity.
+* Each pair of boats must be assigned to different partitions in each period (i.e., no two boats can be in the same partition).
+
+The objective is to minimize the number of hosts (boats) required to host all the crews.

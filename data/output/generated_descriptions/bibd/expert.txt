@@ -1,0 +1,14 @@
+name: Balanced Incomplete Block Design (BIBD)
+
+description: A Balanced Incomplete Block Design (BIBD) is a combinatorial design in which a set of v elements is divided into b blocks, each of size k, such that each element occurs in r blocks, and every pair of elements occurs together in λ blocks. The goal is to find a binary matrix representing the incidence of elements in blocks, satisfying these conditions.
+
+variables: m[i, j] for i in {1, ..., v}, j in {1, ..., b} - m[i, j] represents whether element i is in block j (true) or not (false).
+
+constraints: 
+1. ∀i in {1, ..., v} (∑(j in {1, ..., b}) bool2int(m[i, j]) = r) - Each element occurs in r blocks.
+2. ∀j in {1, ..., b} (∑(i in {1, ..., v}) bool2int(m[i, j]) = k) - Each block contains k elements.
+3. ∀i, i' in {1, ..., v} where i < i' (∑(j in {1, ..., b}) bool2int(m[i, j] ∧ m[i', j]) = λ) - Every pair of elements occurs together in λ blocks.
+4. ∀i in {1, ..., v-1} (lex_lesseq([m[i, j] | j in {1, ..., b}], [m[i+1, j] | j in {1, ..., b}])) - Break row symmetry in the incidence matrix.
+5. ∀j in {1, ..., b-1} (lex_lesseq([m[i, j] | i in {1, ..., v}], [m[i, j+1] | i in {1, ..., v}])) - Break column symmetry in the incidence matrix.
+
+objective: The problem is a satisfaction problem, meaning that the goal is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

@@ -1,0 +1,11 @@
+The problem is called the Nonogram problem.
+
+The Nonogram problem is a classic constraint programming problem that involves solving a puzzle where a set of clues are given to determine the state of a grid. The grid is divided into rows and columns, and each row and column has a set of clues that specify the pattern of states in that row or column. The goal is to determine the state of each cell in the grid such that the clues are satisfied.
+
+The main decision variables in this problem are the states of each cell in the grid, which are represented by the `x` or `A` arrays in the models. These variables can take on two values, typically 0 and 1, or " " and "#", which represent the two possible states of a cell.
+
+The key constraints in this problem are the clues, which are specified by the `row_rules` and `col_rules` arrays in the models. These clues specify the pattern of states in each row and column, and the constraints ensure that the states of the cells in each row and column satisfy these patterns.
+
+The objective of the problem is to find a solution that satisfies all the clues, and there is no explicit objective function to minimize or maximize.
+
+In simpler terms, the Nonogram problem is like solving a puzzle where you have to figure out the state of each cell in a grid based on clues about the patterns of states in each row and column. The clues are like hints that help you determine the solution, and the goal is to find a solution that satisfies all the clues.

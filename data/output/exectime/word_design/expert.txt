@@ -1,0 +1,21 @@
+name: Word Design for DNA Computing on Surfaces
+
+description: This problem involves designing a set of words (sequences of DNA bases) that satisfy certain constraints, such as having a specific number of certain bases, differing from each other in at least a certain number of positions, and not being identical to their Watson-Crick complements in at least a certain number of positions. The goal is to find the largest possible set of such words.
+
+variables: words: {w | w: Index → Base}
+
+The decision variable is a set of functions, where each function represents a word of 8 DNA bases (A, C, G, or T), indexed from 1 to 8.
+
+constraints: 
+1. ∀w ∈ words. |{i | w(i) = C}| + |{i | w(i) = G}| = 4
+Each word in the set has exactly 4 bases that are either C or G.
+
+2. ∀w1, w2 ∈ words. ∑[i ∈ Index](w1(i) ≠ w2(i)) ≥ 4
+Each pair of words in the set differs in at least 4 positions.
+
+3. ∀w1, w2 ∈ words. ∑[i ∈ Index](w1(9-i), w2(i)) ∉ {(A,T), (C,G), (G,C), (T,A)} ≥ 4
+Each pair of words in the set is not identical to its Watson-Crick complement in at least 4 positions.
+
+objective: maximize |words|
+
+The objective is to maximize the size of the set of words that satisfy the constraints.

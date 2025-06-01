@@ -1,0 +1,12 @@
+name: Low Autocorrelation Binary Sequences
+
+description: The Low Autocorrelation Binary Sequences problem is a classic constraint programming problem that involves finding a binary sequence of length n with the lowest possible autocorrelation. Autocorrelation measures the similarity between a sequence and its shifted versions. In this problem, the goal is to find a sequence with minimal autocorrelation, which has applications in various fields such as signal processing, coding theory, and cryptography.
+
+variables: seq(i) ∈ {-1, 1} for i = 1 to n
+The decision variables are the elements of the binary sequence seq, where each element seq(i) can take a value of either -1 or 1.
+
+constraints: None
+There are no explicit constraints in this model, as the problem is solely defined by the objective function.
+
+objective: Minimize ∑(k=1 to n) (∑(i=1 to n-k) seq(i) * seq(i+k))^2
+The objective is to minimize the sum of the squared autocorrelations of the sequence at all possible shifts k, where k ranges from 1 to n. The autocorrelation at shift k is calculated as the sum of the products of corresponding elements in the original sequence and its k-shifted version.

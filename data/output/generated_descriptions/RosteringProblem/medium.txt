@@ -1,0 +1,21 @@
+**Nurse Rostering Problem**
+
+The Nurse Rostering Problem is a classic constraint programming problem that involves creating a schedule for nurses to work in a hospital. The goal is to assign nurses to shifts while satisfying various constraints, such as ensuring that each shift has the required number of staff, and that nurses get adequate rest days.
+
+**Decision Variables:**
+
+The main decision variables in this problem are the `plan1d`, `plan2d`, and `plan2dT` arrays, which represent the assignment of nurses to shifts. Each element in these arrays corresponds to a specific day and shift, and its value indicates the type of shift assigned (early, late, night, or rest day).
+
+**Key Constraints:**
+
+1. **Weekend constraint**: Saturday and Sunday shifts must be the same for each week.
+2. **Shift repetition constraint**: Each shift type must have a minimum and maximum number of consecutive assignments.
+3. **Rest day constraint**: At least two rest days must be assigned every two weeks.
+4. **Shift order constraint**: The order of shifts must follow a forward-rotating principle, where an early shift can only be followed by a shift with the same or higher value, or a rest shift.
+5. **Shift requirement constraint**: The number of staff required for each shift must be satisfied.
+
+**Objective:**
+
+The objective of this problem is to find a feasible schedule that satisfies all the constraints. There is no explicit objective function to minimize or maximize, as the goal is to find a valid solution that meets all the requirements.
+
+In summary, the Nurse Rostering Problem is a complex constraint programming problem that involves assigning nurses to shifts while satisfying various constraints related to shift repetition, rest days, shift order, and staff requirements.

@@ -1,0 +1,18 @@
+**The Subset Sum Problem**
+
+**What the problem is about in everyday terms:**
+Imagine you have a set of items, each with a specific weight or value. You want to select a subset of these items such that their total weight or value adds up to a specific target value.
+
+**Main variables and their meanings:**
+
+* `number`: an array of integers representing the weights or values of the items.
+* `target`: an integer representing the target value we want to reach.
+* `selected`: a set of integers representing the indices of the items we choose to include in our subset.
+
+**Basic restrictions or rules:**
+
+* We can only choose items from the given set.
+* The total weight or value of the selected items must equal the target value.
+
+**Goal of the problem:**
+Find a subset of items such that their total weight or value adds up to the target value.

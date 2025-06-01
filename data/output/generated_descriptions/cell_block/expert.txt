@@ -1,0 +1,17 @@
+name: Prisoner Allocation Problem
+
+description: The Prisoner Allocation Problem is a classic constraint satisfaction problem that involves allocating prisoners to cells in a prison. The prison has a certain number of rows and columns, and each prisoner has a specific cost associated with being placed in a particular cell. The goal is to allocate the prisoners to cells in such a way that the total cost is minimized, while also satisfying certain constraints. These constraints include ensuring that prisoners who are deemed "dangerous" are not placed in adjacent cells, and that female prisoners are placed in cells in the top half of the prison, while male prisoners are placed in cells in the bottom half.
+
+variables: r, c (arrays of variables, where r[p] and c[p] represent the row and column of prisoner p, respectively)
+
+These variables represent the decision of which cell to allocate each prisoner to.
+
+constraints: 
+alldifferent([r[p] * m + c[p] | p in PRISONER]) (each prisoner must be allocated to a unique cell)
+forall(p in PRISONER, d in danger where p != d) (manhattan(r[p],c[p],r[d],c[d]) > 1) (dangerous prisoners must not be placed in adjacent cells)
+forall(p in female)(r[p] <= (n + 1) div 2) (female prisoners must be placed in cells in the top half of the prison)
+forall(p in male)(r[p] >= n div 2 + 1) (male prisoners must be placed in cells in the bottom half of the prison)
+
+These constraints ensure that the allocation of prisoners to cells is valid and satisfies the rules of the prison.
+
+objective: minimize totalcost (the total cost of allocating prisoners to cells)

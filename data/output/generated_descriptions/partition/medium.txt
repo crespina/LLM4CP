@@ -1,0 +1,16 @@
+The problem is known as the Partition Problem.
+
+This problem is about dividing a set of 2n numbers into two groups, each of size n, such that the sums of the numbers in each group are equal, and the sums of the squares of the numbers in each group are also equal.
+
+The main decision variables are x and y, which represent the two groups of numbers. Each element of x and y is a variable that takes a value from 1 to 2n, representing the numbers in each group.
+
+The key constraints are:
+
+* Each group must contain n numbers, and all numbers from 1 to 2n must be used exactly once.
+* The sums of the numbers in each group must be equal.
+* The sums of the squares of the numbers in each group must be equal.
+* To break symmetries, the numbers in each group are ordered, and the groups themselves are also ordered.
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints.
+
+Note that the problem does not have an objective function to minimize or maximize, it is a satisfaction problem where the goal is to find a solution that meets all the constraints.

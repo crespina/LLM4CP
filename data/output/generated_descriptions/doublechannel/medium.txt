@@ -1,0 +1,22 @@
+**Ship Scheduling Problem**
+
+The Ship Scheduling Problem is a classic constraint programming problem that involves scheduling ships entering and leaving a port through multiple channels.
+
+**Decision Variables:**
+
+* `kind`: represents the type of ship movement (entering or leaving) for each ship
+* `start`: represents the start time for each ship to enter or leave the channel
+* `end`: represents the end time for each ship to enter or leave the channel
+* `channel`: represents the channel assignment for each ship
+* `next`: represents the next ship in the same channel (or a dummy ship)
+
+**Key Constraints:**
+
+* Each ship must enter and leave the channel without clashes with other ships in the same channel.
+* The start and end times of each ship are related by the length of the channel and the ship's speed.
+* The next ship in the same channel must be different from the current ship.
+* Ships must maintain a safe distance (leeway) between each other when entering or leaving the channel.
+
+**Objective:**
+
+The objective is to minimize the total absolute difference between the desired start time and the actual start time for all ships. In other words, the goal is to schedule the ships to enter and leave the channel as close as possible to their desired times.

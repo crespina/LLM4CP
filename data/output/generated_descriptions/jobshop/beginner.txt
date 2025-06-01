@@ -1,0 +1,25 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Job Shop Scheduling
+
+**What the problem is about in everyday terms:** Imagine you have a workshop with multiple machines, and you need to perform a series of tasks (or jobs) on these machines. Each task has a specific duration and requires a specific machine. The goal is to schedule these tasks in a way that minimizes the total time it takes to complete all the tasks.
+
+**Main variables and what they mean:**
+
+* `n`: The number of jobs (or tasks) to be performed.
+* `m`: The number of machines in the workshop.
+* `JOB`: A set of integers representing the jobs (1 to `n`).
+* `MACH`: A set of integers representing the machines (1 to `m`).
+* `TASK`: A set of integers representing the tasks (1 to `m`).
+* `d`: An array that stores the duration of each task.
+* `mc`: An array that stores the machine required for each task.
+* `s`: An array of variables that represents the start time of each task.
+* `makespan`: A variable that represents the total time it takes to complete all the tasks.
+
+**Basic restrictions or rules of the problem:**
+
+* Each task must be performed in a specific order (e.g., task 1 must be completed before task 2).
+* Each machine can only perform one task at a time.
+* The start time of each task must be greater than or equal to the completion time of the previous task.
+
+**Goal of the problem:** The goal is to minimize the `makespan`, which is the total time it takes to complete all the tasks.

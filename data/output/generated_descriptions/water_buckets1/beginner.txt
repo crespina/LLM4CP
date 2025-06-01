@@ -1,0 +1,24 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Water Buckets Problem
+
+**What the problem is about in everyday terms:** Imagine you have three buckets of different sizes (8, 5, and 3 pints) and you want to divide a certain amount of water between them in a specific way. You can pour water from one bucket to another, but you want to do it in the fewest number of steps possible.
+
+**Main variables and what they mean:**
+
+* `state`: an array that represents the amount of water in each bucket at each step
+* `goal_step`: the number of steps it takes to reach the desired goal
+* `buckets`: the three buckets of different sizes
+* `capacity`: the maximum amount of water each bucket can hold
+* `start` and `goal`: the initial and desired amounts of water in each bucket
+
+**Basic restrictions or rules of the problem:**
+
+* The total amount of water remains the same at each step
+* The amount of water in each bucket can only change by pouring water from one bucket to another
+* After each step, either the source bucket becomes empty or the target bucket becomes full
+* The goal is to reach the desired amounts of water in each bucket in the fewest number of steps possible
+
+**Goal of the problem:** Minimize the number of steps (`goal_step`) it takes to reach the desired goal.
+
+Note that Model 2 appears to be a different problem, but it's actually a reformulation of the same Water Buckets Problem using a different modeling approach.

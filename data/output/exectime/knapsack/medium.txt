@@ -1,0 +1,14 @@
+The 0/1 Knapsack Problem.
+
+This problem is about selecting a subset of items to include in a knapsack of limited capacity, with the goal of maximizing the total value of the selected items while not exceeding the knapsack's weight capacity.
+
+The main decision variables are the elements of the set `picked`, which represent the items that are selected to be included in the knapsack.
+
+The key constraints are:
+
+* The total weight of the selected items must not exceed the knapsack's capacity.
+* Each item is either selected (included in the knapsack) or not selected.
+
+The objective is to maximize the total gain (or value) of the selected items.
+
+In essence, the problem is about making a selection of items that provides the highest value while staying within the weight constraints of the knapsack.

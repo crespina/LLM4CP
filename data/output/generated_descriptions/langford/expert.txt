@@ -1,0 +1,18 @@
+name: Langford's Problem
+
+description: Langford's problem is a classic constraint satisfaction problem that involves arranging m copies of digits 1 to n in a sequence such that any two consecutive copies of digit k are separated by k other digits.
+
+variables: x[d,c], y[p] 
+x[d,c] represents the position of the c-th copy of digit d in the sequence, and y[p] represents the digit at position p in the sequence. 
+
+constraints: 
+alldifferent([x[d,c] | d in DIG, c in COPY]), 
+inverse([x[d,c] | d in DIG, c in COPY], y), 
+forall(d in DIG, c in 1..m-1) (x[d,c+1] = x[d,c] + d + 1), 
+alldifferent(y), 
+forall(d in DIG, c in 1..m-1, p in POS) (y[p] = m*(d-1) + c <-> y[p+d+1] = m*(d-1) + c + 1)
+
+The first constraint ensures that all positions in the sequence are distinct. The second constraint links the x and y variables. The third constraint ensures that the Langford's condition is satisfied, i.e., any two consecutive copies of digit k are separated by k other digits. The fourth constraint ensures that all digits in the sequence are distinct. The fifth constraint is an alternative way to ensure the Langford's condition.
+
+objective: satisfy
+The objective of the problem is to find a feasible solution that satisfies all the constraints.

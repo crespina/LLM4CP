@@ -1,0 +1,27 @@
+**Solitaire Battleships**
+
+Solitaire Battleships is a classic constraint programming problem that involves filling a partially filled board with ships, respecting certain constraints.
+
+**Decision Variables and Their Representation**
+
+The main decision variables in this problem are:
+
+* `board`: a 2D array representing the board, where each cell can take one of 7 possible values (water, submarine, left/right/top/bottom of a ship, or middle of a ship).
+* `fill`: a 2D array indicating which pieces on the board are part of a ship.
+* `npiece`: an array representing the number of each type of piece on the board.
+
+**Key Constraints**
+
+The key constraints in this problem are:
+
+* **Hints**: The initial board configuration must be respected, i.e., if a cell has a hint, it must be filled with the corresponding piece.
+* **Spacing**: There must be gaps between ships, and ships cannot touch each other diagonally.
+* **Ship Shape**: Each ship must have a valid shape, with left and right ends, top and bottom ends, and middle pieces.
+* **Piece Sums**: The number of each type of piece on the board must match the given sums.
+* **Row and Column Sums**: The number of filled cells in each row and column must match the given sums.
+
+**Objective**
+
+The objective of the problem is to find a valid configuration of the board that satisfies all the constraints.
+
+In essence, the problem is to fill a partially filled board with ships, respecting the given constraints, to create a valid Solitaire Battleships puzzle solution.

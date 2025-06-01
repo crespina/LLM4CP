@@ -1,0 +1,19 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Scheduling a Rehearsal
+
+**What the problem is about in everyday terms:** Imagine you are the conductor of an orchestra, and you need to schedule a rehearsal for a concert. There are 9 pieces of music to be rehearsed, and 5 musicians will be participating. Each musician is required for some pieces, but not all. You want to find the best order to rehearse the pieces so that the musicians don't have to wait too long between their performances.
+
+**Main variables and what they mean:**
+
+* `rehearsal_order`: the order in which the pieces will be rehearsed
+* `waiting_time`: the time each musician spends waiting between their performances
+* `total_waiting_time`: the total time all musicians spend waiting
+
+**Basic restrictions or rules of the problem:**
+
+* Each musician can arrive at the rehearsal just before their first piece and leave just after their last piece.
+* Each piece has a specific duration (length of time it takes to rehearse).
+* The order of the pieces must be determined so that each musician's waiting time is minimized.
+
+**Goal of the problem:** Find the order of the pieces that minimizes the total waiting time for all musicians.

@@ -1,0 +1,20 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Langford's Problem
+
+**What the problem is about in everyday terms:** Imagine you have a set of numbers from 1 to n, and you want to arrange them in a sequence in a special way. Each number should appear m times in the sequence. The rule is that if a number k appears, the next time it appears, it should be k+1 positions later in the sequence.
+
+**Main variables and what they mean:**
+
+* n: the highest number in the set (e.g., if n=4, the set is {1, 2, 3, 4})
+* m: how many times each number should appear in the sequence
+* x (or y): the sequence of numbers, where each number is a position in the sequence
+
+**Basic restrictions or rules of the problem:**
+
+* Each number from 1 to n should appear m times in the sequence.
+* If a number k appears, the next time it appears, it should be k+1 positions later in the sequence.
+
+**Goal of the problem:** The goal is to find a sequence that satisfies the rules above.
+
+Note that the different models are just different ways of representing the same problem, and the explanation above applies to all of them.

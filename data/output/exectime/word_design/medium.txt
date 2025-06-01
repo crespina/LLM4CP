@@ -1,0 +1,17 @@
+**Word Design for DNA Computing on Surfaces**
+
+This problem is about designing a set of words, where each word is a sequence of 8 DNA bases (A, C, G, and T), such that the words satisfy certain constraints.
+
+**Decision Variables:**
+The main decision variable is `words`, which is a set of functions that map each index (1 to 8) to a DNA base (A, C, G, or T). Each function represents a word.
+
+**Key Constraints:**
+
+1. **Each word has 4 symbols from {C, G}:** Each word must contain exactly 4 occurrences of either C or G.
+2. **Each pair of words differs in at least 4 positions:** Any two words in the set must have at least 4 different bases at different positions.
+3. **No two words are reverse complements:** For any two words, there must be at least 4 positions where the reverse complement of one word is not identical to the other word.
+
+**Objective:**
+The objective is to **maximize the number of words** in the set that satisfy the constraints.
+
+In essence, this problem is about finding the largest possible set of DNA words that meet certain criteria, such as having a specific number of C and G bases, being distinct from each other, and not being reverse complements of each other.

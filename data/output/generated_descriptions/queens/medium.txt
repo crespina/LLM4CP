@@ -1,0 +1,14 @@
+The problem is the N-Queens Problem.
+
+The N-Queens Problem is a classic constraint satisfaction problem where we need to place N queens on an NxN chessboard such that no queen attacks another queen. A queen can attack another queen if they are in the same row, column, or diagonal.
+
+The main decision variables in this problem are the positions of the queens on the chessboard, represented by the array `queens` of size N, where `queens[i]` represents the column number of the queen in the i-th row.
+
+The key constraints in this problem are:
+
+* Each queen must be placed in a different column (ensured by the `all_different` constraint).
+* No two queens can be in the same diagonal (ensured by the constraints `queens[i] + i != queens[j] + j` and `queens[i] - i != queens[j] - j`).
+
+The objective of this problem is to find a feasible solution that satisfies all the constraints, i.e., to find a way to place N queens on an NxN chessboard such that no queen attacks another queen.
+
+Note that there is no objective function to minimize or maximize in this problem, as the goal is simply to find a feasible solution.

@@ -1,0 +1,15 @@
+Low Autocorrelation Binary Sequences
+
+This problem is about creating a special kind of sequence of numbers that has a certain property. Imagine you have a list of numbers that can be either 1 or -1. The goal is to arrange these numbers in a specific order so that the sequence has low autocorrelation.
+
+The main variables are:
+
+* n: the length of the sequence (how many numbers are in the list)
+* seq: the sequence of numbers itself (a list of 1s and -1s)
+
+The basic restrictions or rules of the problem are:
+
+* The sequence can only contain 1s and -1s.
+* The sequence has a fixed length, which is given by the variable n.
+
+The goal of the problem is to minimize the autocorrelation of the sequence. Autocorrelation measures how similar the sequence is to itself when shifted by a certain number of positions. In this case, we want to find a sequence that has low autocorrelation, meaning it doesn't repeat itself too much when shifted.

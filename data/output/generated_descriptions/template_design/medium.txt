@@ -1,0 +1,23 @@
+**Template Design Problem**
+
+The Template Design Problem is a classic constraint programming problem that involves allocating slots on templates to produce different variations of a product.
+
+**Decision Variables:**
+
+* `p[i, j]`: The number of slots allocated to variation `i` on template `j`.
+* `R[j]`: The number of pressings (or copies) of template `j`.
+* `Production`: The total number of pressings across all templates.
+* `Surplus`: The total surplus of production, which is the difference between the total production and the total demand.
+
+**Key Constraints:**
+
+* Each template has a fixed number of slots (`S`), and the total number of slots allocated to all variations on each template must equal `S`.
+* The total production of each variation must meet or exceed the demand for that variation.
+* The total surplus of production is limited by the total demand and the production capacity.
+* Symmetry constraints are used to reduce the search space by ensuring that variations with the same demand are treated equally.
+
+**Objective:**
+
+The objective is to minimize the total production (`Production`) while meeting the demand for each variation and satisfying the constraints.
+
+In summary, the Template Design Problem involves allocating slots on templates to produce different variations of a product, while minimizing the total production and meeting the demand for each variation.

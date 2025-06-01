@@ -1,0 +1,25 @@
+Here is the explanation of the problem:
+
+**Prisoner Allocation Problem**
+
+This problem is about allocating prisoners to cells in a prison. Imagine a prison with a certain number of rows and columns of cells. Each prisoner needs to be assigned to a specific cell.
+
+**Main Variables:**
+
+* `k`: The total number of prisoners.
+* `PRISONER`: A set of prisoners, each identified by a unique number from 1 to `k`.
+* `n` and `m`: The number of rows and columns of cells in the prison, respectively.
+* `r` and `c`: Variables that represent the row and column of each prisoner's cell, respectively.
+* `danger`: A set of prisoners who are considered dangerous.
+* `female` and `male`: Sets of female and male prisoners, respectively.
+* `cost`: A table that shows the cost of assigning each prisoner to each cell.
+
+**Basic Restrictions or Rules:**
+
+* Each prisoner must be assigned to a unique cell.
+* Prisoners who are considered dangerous should not be placed next to each other.
+* Female prisoners should be placed in the top half of the prison, while male prisoners should be placed in the bottom half.
+
+**Goal:**
+
+The goal is to assign prisoners to cells in a way that minimizes the total cost of the assignments. The cost is calculated by summing up the costs of assigning each prisoner to their assigned cell.

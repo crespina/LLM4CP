@@ -1,0 +1,17 @@
+name: Magic Hexagon
+
+description: The Magic Hexagon problem is a classic constraint satisfaction problem where we need to fill a hexagonal grid of size d with integers from 1 to maxval, such that each row, right-sloping diagonal, and left-sloping diagonal sums up to a magic number s.
+
+variables: hexagon[r,i], s
+
+hexagon[r,i] represents the value at row r and column i in the hexagonal grid, and s is the magic number that all rows and diagonals sum to.
+
+constraints: 
+hexagon[r1,i1] != hexagon[r2,i2] for r1 != r2 or i1 != i2, 
+sum(hexagon[r,i]) = s for all r, 
+sum(hexagon[i + max({0,o-r}), r - max({0,o-(i + max({0,o-r}))})]) = s for all r, 
+sum(hexagon[i + max({0,r-o}), r - max({0,(i + max({0,r-o}))-o})]) = s for all r
+
+The first constraint ensures that all elements in the hexagonal grid are distinct. The second constraint ensures that the sum of each row is equal to the magic number s. The third and fourth constraints ensure that the sum of each right-sloping and left-sloping diagonal is equal to the magic number s, respectively.
+
+objective: There is no objective function to minimize or maximize in this problem. The goal is to find a feasible solution that satisfies all the constraints.

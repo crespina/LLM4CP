@@ -1,0 +1,22 @@
+Vessel Loading
+
+This problem is about loading containers onto a ship's deck. Imagine you have a bunch of boxes of different sizes and types, and you need to fit them onto a rectangular deck.
+
+The main variables are:
+
+* The width and length of the deck
+* The number of containers and their classes (types)
+* The width, length, and class of each container
+* The minimum separation required between containers of different classes
+* The position of each container on the deck (left, right, bottom, and top coordinates)
+* The orientation of each container (whether it's turned 90 degrees or not)
+
+The basic restrictions or rules of the problem are:
+
+* Each container must fit within the deck's boundaries
+* Containers cannot overlap with each other
+* Containers of different classes must be separated by a minimum distance
+
+The goal of the problem is to find a way to load all the containers onto the deck while following these rules.
+
+Note: The output section of the code is used to print a visual representation of the loaded containers, but it's not essential to understanding the problem itself.

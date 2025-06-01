@@ -1,0 +1,22 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Magic Sequence and Magic Square
+
+**What the problem is about in everyday terms:** This problem is about finding a special kind of sequence or arrangement of numbers that has certain properties. In the case of the magic sequence, it's a sequence of numbers where each number appears a certain number of times, and that number is equal to the value of the number itself. For example, if the sequence has a 6, it means the number 6 appears 6 times in the sequence. In the case of the magic square, it's an arrangement of numbers in a square grid where each row, column, and diagonal adds up to the same total.
+
+**Main variables and what they mean:**
+
+* `s` or `magic`: an array of variables that represent the magic sequence or square.
+* `n`: the length of the sequence or the size of the square.
+* `total`: the total sum of the numbers in the magic square.
+
+**Basic restrictions or rules of the problem:**
+
+* In the magic sequence, each number appears a certain number of times, and that number is equal to the value of the number itself.
+* In the magic square, each row, column, and diagonal adds up to the same total.
+* Each cell in the magic square can only contain one number.
+
+**Goal of the problem:**
+
+* Find a magic sequence or square that satisfies the rules and restrictions.
+* In some cases, the goal is to find all possible solutions or to count the number of solutions.

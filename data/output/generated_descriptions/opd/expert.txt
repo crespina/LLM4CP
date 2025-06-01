@@ -1,0 +1,17 @@
+name: Orthogonal Pairs of Designs (OPD) problem
+
+description: The OPD problem is a classical problem in combinatorial design theory, which involves finding a binary matrix of v rows and b columns such that each row sums to r, and the dot product between any pair of distinct rows is minimal. This problem has applications in the design of Collateralised Debt Obligations Squared (CDO^2) transactions.
+
+variables: m[i, j] (i in rows, j in cols), objective
+
+The decision variables are the elements of the binary matrix m, where m[i, j] represents the value of the element at row i and column j. The variable objective represents the minimum dot product between any pair of distinct rows.
+
+constraints: 
+sum (j in cols) (m[i, j]) = r (forall i in rows), 
+sum (j in cols) (m[i_a, j] * m[i_b, j]) <= objective (forall i_a, i_b in rows where i_a < i_b), 
+lex_greatereq([m[i, j] | j in cols], [m[i+1, j] | j in cols]) (forall i in rows diff {max(rows)}), 
+lex_greatereq([m[i, j] | i in rows], [m[i, j+1] | i in rows]) (forall j in cols diff {max(cols)})
+
+The constraints ensure that each row sums to r, the dot product between any pair of distinct rows is at most lambda, and the row and column symmetries are broken.
+
+objective: minimize objective

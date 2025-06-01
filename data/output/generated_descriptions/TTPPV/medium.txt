@@ -1,0 +1,23 @@
+The Traveling Tournament Problem with Predefined Venues.
+
+This problem is about scheduling a round-robin tournament where each team plays every other team exactly once, with the added constraint that the venue of each game has already been decided. The goal is to find a schedule that minimizes the total travel distance of all teams.
+
+The main decision variables are:
+
+* `opponent[i,k]`: the team that team `i` plays against in round `k`
+* `venue[i,k]`: whether team `i` plays at home (1) or away (2) in round `k`
+* `travel[i,k]`: the distance team `i` travels to play in round `k` (including the return journey after the last round)
+
+The key constraints are:
+
+* Each team plays every other team exactly once
+* A team cannot play against itself
+* The venue of each game is already decided and must be respected
+* Each team has a different opponent in each round
+* Each round has a different set of opponents
+* No team can have more than three consecutive home games or away games
+* The schedule is symmetric, so reversing the rounds would result in the same total travel distance
+
+The objective is to minimize the total travel distance of all teams, which is calculated as the sum of the distances traveled by each team in each round.
+
+In essence, this problem is about finding the most efficient schedule for a tournament, taking into account the pre-defined venues and the need to minimize travel distances.

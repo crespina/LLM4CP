@@ -1,0 +1,19 @@
+Rack Configuration Problem
+
+This problem is about plugging electronic cards into racks with connectors. Imagine you have many cards of different types, and each type needs a certain amount of power to work. You also have different types of racks with different numbers of connectors and power supplies. The goal is to find the best way to plug all the cards into the racks so that they all work and the total cost of the racks is as low as possible.
+
+The main variables are:
+
+* Racks: These are the containers that hold the electronic cards.
+* Card types: These are the different kinds of electronic cards.
+* Rack models: These are the different types of racks with different power supplies and numbers of connectors.
+* Configuration: This is the plan for which cards go into which racks and which rack models to use.
+
+The basic restrictions or rules of the problem are:
+
+* Each rack can only hold a certain number of cards, based on the number of connectors it has.
+* Each rack can only supply a certain amount of power, based on the rack model used.
+* All the cards of each type must be plugged into some rack.
+* The total cost of the racks used must be minimized.
+
+The goal of the problem is to find the configuration that minimizes the total cost of the racks while meeting all the restrictions.

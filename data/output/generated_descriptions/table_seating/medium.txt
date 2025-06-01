@@ -1,0 +1,19 @@
+The Social Golfer Problem.
+
+This problem is about assigning golfers to tables for a social golfing event. The goal is to seat golfers in a way that maximizes social interaction while respecting certain constraints.
+
+The main decision variables are:
+
+* `table`: a 2D array that represents the assignment of golfers to tables. Each element `table[t]` is a set of golfers assigned to table `t`.
+* `seat`: a 1D array that represents the assignment of golfers to tables. Each element `seat[p]` is the table number assigned to golfer `p`.
+
+The key constraints are:
+
+* Each table can have at most `S` golfers.
+* Each golfer must be assigned to exactly one table.
+* Couples (defined in the `couples` array) must not be seated at the same table.
+* Golfers in the `key` set must not be seated at the same table.
+
+The objective is to minimize the sum of table numbers assigned to couples. In other words, the goal is to seat couples at tables with the lowest possible numbers, while respecting the constraints.
+
+The problem is a classic example of a constraint satisfaction problem, and the Minizinc models provided use a combination of set variables, array variables, and constraints to model the problem. The `not_same_table` predicate is used to ensure that couples and golfers in the `key` set are not seated at the same table. The `global_cardinality_low_up` constraint is used to ensure that each table has at most `S` golfers.

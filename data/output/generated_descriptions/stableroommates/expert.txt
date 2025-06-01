@@ -1,0 +1,18 @@
+name: Stable Roommates Problem
+
+description: The Stable Roommates Problem is a classic problem in constraint programming that involves finding a stable matching between a set of agents, where each agent has a preference order over the other agents. The goal is to find a matching such that there is no pair of agents who prefer each other to their current match.
+
+variables: a[i] (i in AGENT)
+
+The decision variables a[i] represent the ranking of agent i in the stable matching.
+
+constraints:
+- a[i] <= npref[i] + 1 (i in AGENT)
+- a[i] > rank[i,j] -> a[j] < rank[j,i] (i in AGENT, p in 1..npref[i], j = pref[i,p])
+- a[i] = rank[i,j] -> a[j] = rank[j,i] (i in AGENT, p in 1..npref[i], j = pref[i,p])
+
+The constraints ensure that each agent is matched with one of their top npref[i] preferences, and that the matching is stable. The first constraint ensures that each agent is matched with a rank no higher than their number of preferences plus one. The second and third constraints ensure that if agent i prefers agent j to their current match, then agent j must prefer their current match to agent i, and vice versa.
+
+objective: satisfy
+
+The objective of the problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function.

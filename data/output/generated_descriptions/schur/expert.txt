@@ -1,0 +1,12 @@
+name: Schur's Numbers Problem
+
+description: The Schur's Numbers Problem is a classic problem in constraint programming that involves placing n balls labeled 1 to n into c boxes such that no box contains a triple of balls {x, y, z} where x + y = z.
+
+variables: box = (box[1], ..., box[n]) ∈ {1, ..., c}^n
+The decision variables are the box assignments for each ball, where box[i] represents the box that ball i is placed in.
+
+constraints: ∀i ∈ {1, ..., n-1}, ∀j ∈ {i+1, ..., n-i} : box[i] ≠ box[j] ∨ box[i] ≠ box[i+j] ∨ box[j] ≠ box[i+j]
+The constraints ensure that for any two balls i and j, if ball i is in box k, then ball j cannot be in box k, and ball i+j cannot be in box k.
+
+objective: satisfy
+The objective is to find a feasible solution that satisfies all the constraints, i.e., to determine if it is possible to place the balls in the boxes according to the given rules.

@@ -1,0 +1,16 @@
+name: Graph Labeling Problem
+
+description: This problem is a variant of the graph labeling problem, where we have a graph with 8 vertices and we need to assign a unique label from 1 to 8 to each vertex such that adjacent vertices have labels that differ by at least 2.
+
+variables: a, b, c, d, e, f, g, h ∈ {1, ..., 8}
+These variables represent the labels assigned to each vertex of the graph.
+
+constraints: 
+a ≠ b, a ≠ c, ..., g ≠ h (28 constraints)
+These constraints ensure that each label is used exactly once, i.e., no two vertices have the same label.
+
+|a - b| ≥ 2, |a - c| ≥ 2, ..., |g - h| ≥ 2 (16 constraints)
+These constraints ensure that adjacent vertices have labels that differ by at least 2.
+
+objective: satisfy
+The objective of this problem is to find a feasible assignment of labels to the vertices that satisfies all the constraints, i.e., a solution that meets the conditions of unique labeling and adjacent vertices differing by at least 2.

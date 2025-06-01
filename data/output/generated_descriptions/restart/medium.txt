@@ -1,0 +1,15 @@
+The Social Golfer Problem.
+
+This problem is about scheduling a group of golfers into pairs to play golf over a series of weeks, subject to certain constraints.
+
+The main decision variables are an array of 10 variables, x, where each x[i] represents the golfing partner of golfer i.
+
+The key constraints are:
+
+* Each golfer must have a different partner each week (i.e., no golfer can play with the same partner more than once).
+* Golfers 2-10 can only play with partners 1-9 (i.e., golfer 1 is the most popular golfer and can play with anyone, while the others have limited options).
+* Golfer 1 must play with a partner 9 or higher (i.e., golfer 1 is very popular and can only play with the top-ranked golfers).
+
+The objective of the problem is to find a schedule that satisfies these constraints.
+
+Note that the three models are equivalent and represent the same problem. The differences between them are in the way the constraints are formulated and the search strategy used to solve the problem.

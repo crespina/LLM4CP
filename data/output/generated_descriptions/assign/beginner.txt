@@ -1,0 +1,21 @@
+**The Assignment Problem**
+
+**What is it about?**
+Imagine you have a group of workers and a list of tasks that need to be done. Each worker can do one task, and each task can be done by one worker. The problem is to assign each worker to a task in a way that maximizes the total profit or benefit.
+
+**Main variables:**
+
+* `WORK` (or `DOM`): a set of workers
+* `TASK` (or `COD`): a set of tasks
+* `x` (or `task` or `worker`): a variable that represents the assignment of a worker to a task
+* `profit`: a table that shows the profit or benefit of assigning a worker to a task
+* `obj`: the total profit or benefit of the assignment
+
+**Basic restrictions or rules:**
+
+* Each worker can do only one task.
+* Each task can be done by only one worker.
+* The assignment must be done in a way that maximizes the total profit or benefit.
+
+**Goal:**
+The goal is to find an assignment of workers to tasks that maximizes the total profit or benefit.

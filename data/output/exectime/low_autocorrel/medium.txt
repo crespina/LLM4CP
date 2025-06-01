@@ -1,0 +1,14 @@
+Low Autocorrelation Binary Sequences Problem.
+
+This problem is about finding a binary sequence of length `n` with the lowest possible autocorrelation. In other words, we want to find a sequence of `+1` and `-1` values where the correlation between the sequence and its shifted versions is minimized.
+
+The main decision variable is `seq`, a function that assigns a value of `+1` or `-1` to each position in the sequence.
+
+The key constraints are:
+
+* The sequence must have a length of `n`.
+* Each element in the sequence must be either `+1` or `-1`.
+
+The objective is to minimize the sum of the squared autocorrelations of the sequence. Autocorrelation is a measure of how similar a sequence is to its shifted versions. In this problem, we calculate the autocorrelation by multiplying corresponding elements of the sequence and its shifted versions, summing these products, and then squaring the result. The goal is to find a sequence that has the lowest possible sum of these squared autocorrelations.
+
+In essence, this problem is about finding a binary sequence that is as dissimilar as possible to its own shifted versions, which has applications in various fields such as signal processing, coding theory, and cryptography.

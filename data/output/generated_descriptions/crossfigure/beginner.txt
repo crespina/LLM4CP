@@ -1,0 +1,19 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Crossfigure problem
+
+**What the problem is about in everyday terms:** Imagine you have a grid of numbers, like a crossword puzzle, but instead of words, you have numerical clues to fill in. The clues are given in the form of mathematical equations, and you need to figure out the correct numbers to put in each box to satisfy all the equations.
+
+**What the main variables are and what they mean:**
+
+* `M` is a 9x9 grid of numbers, where each number is between 0 and 9.
+* `A1`, `A4`, ..., `A30` are variables that represent the answers to the "across" clues.
+* `D1`, `D2`, ..., `D28` are variables that represent the answers to the "down" clues.
+
+**What the basic restrictions or rules of the problem are:**
+
+* Each number in the grid `M` must be between 0 and 9.
+* The numbers in the grid must satisfy the mathematical equations given in the clues.
+* Some numbers in the grid are fixed to be 0 (these are the "black boxes").
+
+**What the goal of the problem is:** The goal is to find a solution that satisfies all the mathematical equations and fills in the entire grid `M` with numbers between 0 and 9.

@@ -1,0 +1,28 @@
+**The Problem:**
+
+The problem is known as the "Triple-Free Set" or "Triple-Free Family" problem.
+
+**Description:**
+
+The Triple-Free Set problem is a classic constraint programming problem that involves finding a collection of sets, each containing a certain number of elements, such that no three sets have any elements in common.
+
+**Decision Variables:**
+
+The main decision variables in this problem are:
+
+* `s[i]`: a set of elements, where `i` represents the index of the set.
+* `x[i, j]`: an element in the `i`-th set, where `j` represents the index of the element within the set.
+
+**Key Constraints:**
+
+The key constraints in this problem can be described as follows:
+
+* No three sets have any elements in common. This is ensured by the constraint that the intersection of any three sets is empty.
+* Each set contains a certain number of elements, and these elements are distinct and in increasing order.
+* Each element in a set is also an element in the overall universe of elements.
+
+**Objective:**
+
+The objective of this problem is to find a feasible solution that satisfies all the constraints, rather than optimizing a specific objective function. In other words, the goal is to find a collection of sets that meet the specified conditions, rather than minimizing or maximizing a particular value.
+
+In summary, the Triple-Free Set problem is a classic constraint programming problem that involves finding a collection of sets with certain properties, such as distinct elements and no triple intersections, and the objective is to find a feasible solution that satisfies all the constraints.

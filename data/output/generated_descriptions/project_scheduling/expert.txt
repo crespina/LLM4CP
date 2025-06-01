@@ -1,0 +1,15 @@
+name: Resource-Constrained Project Scheduling Problem (RCPSP)
+
+description: The Resource-Constrained Project Scheduling Problem (RCPSP) is a classic problem in operations research and project management. It involves scheduling a set of tasks with given durations and precedence relationships, subject to resource constraints, to minimize the total project duration (makespan).
+
+variables: `start[t]` for `t in TASK`, where `start[t]` represents the start time of task `t`.
+
+The decision variables `start[t]` represent the start time of each task, which determines the schedule of the project.
+
+constraints: 
+`start[pre[i,1]] + duration[pre[i,1]] <= start[pre[i,2]]` for `i in PREC`, 
+`nonoverlap(start[t1],duration[t1],start[t2],duration[t2])` for `t1, t2 in CARPENTRY` where `t1 < t2`.
+
+The first constraint enforces the precedence relationships between tasks, ensuring that a task cannot start before its predecessors have finished. The second constraint ensures that tasks that require the same resource (in this case, carpentry) do not overlap in time.
+
+objective: Minimize `makespan = max(t in TASK)(start[t] + duration[t])`, which represents the total project duration.

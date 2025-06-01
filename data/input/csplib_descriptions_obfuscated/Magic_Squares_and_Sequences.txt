@@ -1,0 +1,5 @@
+An order \( n \) matrix is a square grid of size \( n \times n \) containing the numbers from 1 to \( n^2 \), with the property that each row, column, and main diagonal sums to the same value. The problem involves both constructing such matrices and determining how many distinct configurations of a given size exist. Several variations of this problem are of interest, such as requiring certain values to be placed in specific cells (similar to quasigroup completion) and asking whether the matrix can be completed. 
+
+One variant is the heterosquare, where each row, column, and diagonal sums to a different value. Another variation is the anti-magic square, where the sums of the rows, columns, and diagonals form a sequence of consecutive integers.
+
+Additionally, a sequence is considered "magic" if it contains integers between 0 and \( n-1 \), such that each number \( i \) appears exactly \( x_i \) times, where \( x_i \) is specified for each \( i \). For example, the sequence \( 6, 2, 1, 0, 0, 0, 1, 0, 0, 0 \) is a magic sequence since \( 0 \) appears 6 times, \( 1 \) appears twice, and so on.

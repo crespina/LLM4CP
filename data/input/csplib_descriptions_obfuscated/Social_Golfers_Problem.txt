@@ -1,0 +1,6 @@
+The coordinator of a local tennis club has come to you with the following problem. In their club, there are 32 social tennismen, each of whom play tennis once a week, and always in groups of 4. They would like you to come up with a schedule of play for these tennismen, to last as many weeks as possible, such that no tennisman plays in the same group as any other tennisman on more than one occasion.
+Possible variants of the above problem include: finding a 10-week schedule with "maximum socialisation"; that is, as few repeated pairs as possible (this has the same solutions as the original problem if it is possible to have no repeated pairs), and finding a schedule of minimum length such that each tennisman plays with every other tennisman at least once ("full socialisation").
+
+The problem can easily be generalized to that of scheduling $m$ groups of $n$ tennismen over $p$ weeks, such that no tennisman plays in the same group as any other tennisman twice (i.e. maximum socialisation is achieved).
+
+It is a generalisation of the problem of constructing a round-robin tournament schedule, where the number of players in a "game" is more than two. The optimal solution for 32 tennismen is not yet known.

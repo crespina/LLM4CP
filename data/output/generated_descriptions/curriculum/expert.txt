@@ -1,0 +1,33 @@
+name: Balanced Academic Curriculum Problem
+
+description: The Balanced Academic Curriculum Problem is a classic constraint programming problem that involves assigning courses to periods in a curriculum while satisfying various constraints. Each course has a certain load (number of credits) and prerequisites, and students have limits on the number of credits and courses they can take in a period. The goal is to assign courses to periods such that the total load in each period is minimized.
+
+variables: $course_period[c] \in \{1, ..., n_periods\} \forall c \in courses, x[p, c] \in \{0, 1\} \forall p \in periods, c \in courses, load[p] \in [load_per_period_lb, load_per_period_ub] \forall p \in periods, objective \in [load_per_period_lb, load_per_period_ub]$
+
+The decision variables are: 
+- $course_period[c]$ represents the period to which course $c$ is assigned.
+- $x[p, c]$ is a binary variable indicating whether course $c$ is assigned to period $p$.
+- $load[p]$ represents the total load (number of credits) in period $p$.
+- $objective$ is the minimum total load across all periods.
+
+constraints: 
+$course_period[c] = p \Leftrightarrow x[p, c] = 1 \forall p \in periods, c \in courses$
+$\sum_{i \in courses} x[p, i] \geq courses_per_period_lb \forall p \in periods$
+$\sum_{i \in courses} x[p, i] \leq courses_per_period_ub \forall p \in periods$
+$load[p] = \sum_{c \in courses} x[p, c] * course_load[c] \forall p \in periods$
+$load[p] \geq load_per_period_lb \forall p \in periods$
+$load[p] \leq objective \forall p \in periods$
+$course_period[b] < course_period[a] \forall a, b \in courses : prerequisite(a, b)$
+$l \geq (n_periods - p) * load_per_period_lb \forall p \in 0..n_periods-1$
+$l \leq (n_periods - p) * objective \forall p \in 0..n_periods-1$
+
+The constraints are:
+- Each course is assigned to exactly one period.
+- The number of courses in each period is within the bounds.
+- The total load in each period is calculated correctly.
+- The total load in each period is within the bounds.
+- The load in each period is less than or equal to the objective.
+- Courses are assigned to periods respecting their prerequisites.
+- Redundant linear constraints to help the solver.
+
+objective: Minimize $objective$, which represents the minimum total load across all periods.

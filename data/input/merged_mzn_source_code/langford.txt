@@ -1,0 +1,149 @@
+Model 1 : 
+
+
+% Langfords problem (m,n) m copies of digits 1..n
+% where any two consecutive copies of digit k
+% are separated by k other digits
+int: n;
+set of int: DIG = 1..n;
+int: m;
+set of int: COPY = 1..m;
+int: l = m*n;
+set of int: POS = 1..l;
+array[DIG,COPY] of var POS: x;
+
+include "alldifferent.mzn";
+constraint alldifferent([x[d,c] | d in DIG, c in COPY]);
+
+constraint forall(d in DIG, c in 1..m-1)
+                 (x[d,c+1] = x[d,c] + d + 1);
+
+solve satisfy;
+
+output [show(x),"\n"]
+       ++ [ if fix(x[d,c]) = p then show(d) ++ " " else "" endif
+          | p in POS, d in DIG, c in COPY ]
+       ;
+
+
+
+Model 2 : 
+
+
+% Langford's number problem in MiniZinc.
+%
+% Arrange 2 sets of positive integers 1..k to a sequence,
+% such that, following the first occurence of an integer i,
+% each subsequent occurrence of i, appears i+1 indices later
+% than the last.
+% For example, for k=4, a solution would be 41312432
+
+include "globals.mzn";
+
+int: k;
+set of int: positionDomain = 1..2*k;
+
+array[positionDomain] of var positionDomain: position;
+% better presentation:
+array[positionDomain] of var 1..k: solution;
+
+solve :: int_search(position, first_fail, indomain_min, complete) satisfy;
+
+constraint
+  forall(i in 1..k) (
+     position[i+k] = position[i] + i+1 /\
+     % hakank: added this
+     solution[position[i]] = i /\ 
+     solution[position[k+i]] = i
+  )
+  /\   
+  all_different(position)
+  /\ % symmetry breaking
+  solution[1] < solution[2*k]
+;
+
+
+output [
+  show(solution), "\n"
+
+];
+
+%
+% data
+%
+k = 4;
+% k = 7;
+% k = 8;
+% k = 10;
+% k = 20;
+
+
+
+Model 3 : 
+
+
+% Langfords problem (m,n) m copies of digits 1..n
+% where any two consecutive copies of digit k
+% are separated by k other digits
+int: n;
+set of int: DIG = 1..n;
+int: m;
+set of int: COPY = 1..m;
+int: l = m*n;
+set of int: POS = 1..l;
+array[DIG,COPY] of var POS: x;
+
+
+set of int: DIGCOPY = 1..l;
+array[POS] of var DIGCOPY: y;
+
+include "inverse.mzn";
+constraint inverse([x[d,c] | d in DIG, c in COPY], y);
+
+%include "alldifferent.mzn";
+%constraint alldifferent([x[d,c] | d in DIG, c in COPY]);
+
+constraint forall(d in DIG, c in 1..m-1)
+      (x[d,c+1] = x[d,c] + d + 1);
+
+%constraint forall(d in DIG, c in 1..m-1, p in POS)
+%                 (y[p] = m*(d-1) + c <-> y[p+d+1] = m*(d-1) + c + 1);
+
+solve 
+      %:: int_search(y, input_order, indomain_min, complete) 
+      %:: int_search([x[d,c] | d in DIG, c in COPY], input_order, indomain_min, complete) 
+      satisfy;
+
+output [show(x),"\n"]
+       ++ [ show((y[p] - 1) div m + 1) ++ " "
+          | p in POS ]
+       ;
+
+
+Model 4 :
+
+
+% Langfords problem (m,n) m copies of digits 1..n
+% where any two consecutive copies of digit k
+% are separated by k other digits
+int: n;
+set of int: DIG = 1..n;
+int: m;
+set of int: COPY = 1..m;
+int: l = m*n;
+set of int: POS = 1..l;
+
+set of int: DIGCOPY = 1..l;
+array[POS] of var DIGCOPY: y;
+
+include "alldifferent.mzn";
+constraint alldifferent(y);
+
+constraint forall(d in DIG, c in 1..m-1, p in POS)
+                 (y[p] = m*(d-1) + c <-> y[p+d+1] = m*(d-1) + c + 1);
+
+solve satisfy;
+
+output [ show((y[p] - 1) div m + 1) ++ " "
+          | p in POS ]
+       ;

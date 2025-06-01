@@ -1,0 +1,18 @@
+**Problem Name:** Square Packing Problem
+
+**What the problem is about:** Imagine you have a set of squares of different sizes, and you want to pack them into a rectangle (a box with a length and a width) in a way that they don't overlap with each other. You want to find the smallest rectangle that can fit all the squares.
+
+**Main variables:**
+
+* `n`: The number of squares.
+* `height` and `width`: The length and width of the rectangle.
+* `x` and `y`: The coordinates (positions) of each square in the rectangle.
+* `area`: The total area of the rectangle.
+
+**Basic restrictions or rules:**
+
+* Each square must fit inside the rectangle.
+* No two squares can overlap with each other.
+* The squares must be packed in a way that they don't stick out of the rectangle.
+
+**Goal of the problem:** Find the smallest rectangle (with the smallest area) that can fit all the squares without any overlaps.

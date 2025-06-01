@@ -1,0 +1,29 @@
+Here is the explanation of the problem:
+
+**Name of the problem:** Carpet Cutting Problem
+
+**What the problem is about in everyday terms:** Imagine you have a roll of carpet and you need to cut it to fit different rooms in a house. Each room has a specific shape and size, and you want to use the minimum amount of carpet possible to cover all the rooms.
+
+**Main variables and what they mean:**
+
+* `n`: The number of rooms in the house.
+* `m`: The number of different rectangle shapes that can be used to cut the carpet.
+* `ROOM`: A set of integers representing the rooms in the house.
+* `ROFF`: A set of integers representing the different rectangle shapes.
+* `d`: An array of integers representing the definitions of the rectangle shapes (x-offset, y-offset, x-size, y-size).
+* `shape`: An array of sets of integers representing the shapes that can be used for each room.
+* `h`: The height of the roll of carpet.
+* `maxl`: The maximum length of the roll of carpet.
+* `x` and `y`: Arrays of variables representing the x and y coordinates of the top-left corner of each room.
+* `rot`: An array of variables representing the rotation of each room (0, 90, 180, or 270 degrees).
+* `l`: A variable representing the length of carpet used.
+
+**Basic restrictions or rules of the problem:**
+
+* Each room must be covered by a single piece of carpet.
+* The carpet must be cut from the roll in a way that minimizes waste.
+* The shapes of the rooms and the carpet pieces must fit together without overlapping.
+
+**Goal of the problem:** The goal is to find the minimum length of carpet needed to cover all the rooms.
+
+In summary, the Carpet Cutting Problem is about finding the most efficient way to cut a roll of carpet to fit different rooms in a house, using the minimum amount of carpet possible.

@@ -1,0 +1,19 @@
+**The Ramsey Graph Problem**
+
+**What is the problem about?**
+Imagine you're hosting a party and you want to invite a certain number of guests. You want to make sure that either a certain number of guests know each other, or a certain number of guests don't know each other. The problem is to find the smallest number of guests you need to invite to guarantee this.
+
+**Main variables:**
+
+* `k` and `l`: These are the numbers of guests that need to know each other or not know each other, respectively.
+* `num_vertices`: This is the total number of guests at the party.
+* `graph`: This represents the connections between guests, where each connection is either "red" (they know each other) or "blue" (they don't know each other).
+
+**Basic restrictions or rules:**
+
+* Every guest is connected to every other guest (it's a "complete graph").
+* If two guests are connected, the connection is either red or blue.
+* The connections are symmetric, meaning if guest A is connected to guest B, then guest B is also connected to guest A.
+
+**Goal:**
+The goal is to find a way to color the connections between guests (red or blue) so that there is no group of `k` guests who all know each other (a "red subgraph") and no group of `l` guests who all don't know each other (a "blue subgraph").
